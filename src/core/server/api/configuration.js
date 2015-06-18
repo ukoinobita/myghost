@@ -18,7 +18,8 @@ function getValidKeys() {
             blogUrl: config.url.replace(/\/$/, ''),
             blogTitle: config.theme.title,
             routeKeywords: JSON.stringify(config.routeKeywords),
-            storage: (config.storage && config.storage.provider) || 'local-file-store'
+            storage: (config.storage && config.storage.provider) || 'local-file-store',
+            disqus_shortname:disqus_shortname
         };
 
     return validKeys;
