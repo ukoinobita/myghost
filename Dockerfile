@@ -23,7 +23,7 @@ WORKDIR $GHOST_SOURCE
 
 ENV GHOST_VERSION 0.6.3
 
-ADD src/* ./
+ADD src/* /usr/src/ghost/
 
 RUN buildDeps=' \
 		gcc \
