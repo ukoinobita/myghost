@@ -30,6 +30,10 @@ config = {
             // Port to be passed to node's `net.Server#listen()`, for iisnode set this to `process.env.PORT`
             port: '2368'
         },
+       
+        privacy: {
+            useGoogleFonts: false
+        },
         
 //        fileStorage: false
         storage: {
@@ -37,8 +41,8 @@ config = {
             bucketname: process.env.QINIU_BUCKETNAME,
             ACCESS_KEY: process.env.QINIU_AK,
             SECRET_KEY: process.env.QINIU_SK,
-            root: '/',
-            prefix: process.env.QINIU_PREFIX
+            root: '/image/',
+            prefix: process.env.QINNIU_PREFIX
         }
     },
 

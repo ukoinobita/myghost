@@ -25,7 +25,52 @@ config = {
             host: '127.0.0.1',
             // Port to be passed to node's `net.Server#listen()`, for iisnode set this to `process.env.PORT`
             port: '2368'
+        },
+
+        //Storage.Now,we can support `qiniu`,`upyun`, `aliyun oss`, `aliyun ace-storage` and `local-file-store`
+        storage: {
+            provider: 'local-file-store'
         }
+
+        // or
+        // 参考文档： http://www.ghostchina.com/qiniu-cdn-for-ghost/
+        /*storage: {
+            provider: 'qiniu',
+            bucketname: 'your-bucket-name',
+            ACCESS_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+            SECRET_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+            root: '/image/',
+            prefix: 'http://your-bucket-name.qiniudn.com'
+        }*/
+
+        // or
+        // 参考文档： http://www.ghostchina.com/upyun-cdn-for-ghost/ 
+        /*storage: {
+            provider: 'upyun',
+            bucketname: 'your-bucket-name',
+            username: 'your user name',
+            password: 'your password',
+            root: '/image/',
+            prefix: 'http://your-bucket-name.b0.upaiyun.com'
+        }*/
+
+        // or
+        // 参考文档： http://www.ghostchina.com/aliyun-oss-for-ghost/ 
+        /*storage: {
+            provider: 'oss',
+            bucketname: 'your-bucket-name',
+            ACCESS_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+            SECRET_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+            root: '/image/',
+            prefix: 'http://your-bucket-name.oss-cn-hangzhou.aliyuncs.com'
+        }*/
+
+        // or
+        // 参考文档： http://www.ghostchina.com/install-ghost-on-aliyun-ace/ 
+        /*storage: {
+            provider: 'ace-storage',
+            bucketname: 'your-bucket-name'
+        }*/
     },
 
     // ### Development **(default)**

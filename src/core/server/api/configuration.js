@@ -17,7 +17,8 @@ function getValidKeys() {
             mail: _.isObject(config.mail) ? config.mail.transport : '',
             blogUrl: config.url.replace(/\/$/, ''),
             blogTitle: config.theme.title,
-            routeKeywords: JSON.stringify(config.routeKeywords)
+            routeKeywords: JSON.stringify(config.routeKeywords),
+            storage: (config.storage && config.storage.provider) || 'local-file-store'
         };
 
     return validKeys;
