@@ -26,7 +26,7 @@ config = {
 
         server: {
             // Host to be passed to node's `net.Server#listen()`
-            host: '0.0.0.0',
+            host: '127.0.0.1',
             // Port to be passed to node's `net.Server#listen()`, for iisnode set this to `process.env.PORT`
             port: '2368'
         },
@@ -36,14 +36,14 @@ config = {
         },
         
 //        fileStorage: false
-        storage: {
-            provider: 'qiniu',
-            bucketname: process.env.QINIU_BUCKETNAME,
-            ACCESS_KEY: process.env.QINIU_AK,
-            SECRET_KEY: process.env.QINIU_SK,
-            root: '/images/',
-            prefix: process.env.QINNIU_PREFIX
-        }
+//        storage: {
+//            provider: 'qiniu',
+//            bucketname: process.env.QINIU_BUCKETNAME,
+//            ACCESS_KEY: process.env.QINIU_AK,
+//            SECRET_KEY: process.env.QINIU_SK,
+//            root: '/images/',
+//            prefix: process.env.QINNIU_PREFIX
+//        }
     },
 
     // ### Development **(default)**

@@ -314,7 +314,7 @@ frontendControllers = {
             // Sanitize params we're going to use to lookup the post.
             postLookup = _.pick(params, 'slug', 'id');
             // Add author, tag and fields
-            postLookup.include = 'author,tags,fields,next,previous';
+            postLookup.include = 'author,tags,fields';
 
             // Query database to find post
             return api.posts.read(postLookup);

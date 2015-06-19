@@ -62,9 +62,6 @@
                 "notContains": "/ghost/"
             }
         },
-        "content_foot": {
-            "defaultValue" : ""
-        },
         "ghost_head": {
             "defaultValue" : ""
         },
