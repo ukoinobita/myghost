@@ -17,7 +17,6 @@ coreHelpers.asset  = require('./asset');
 coreHelpers.author  = require('./author');
 coreHelpers.body_class  = require('./body_class');
 coreHelpers.content  = require('./content');
-coreHelpers.content_foot = require('./content_foot');
 coreHelpers.date  = require('./date');
 coreHelpers.encode  = require('./encode');
 coreHelpers.excerpt  = require('./excerpt');
@@ -39,6 +38,7 @@ coreHelpers.tags = require('./tags');
 coreHelpers.title = require('./title');
 coreHelpers.url = require('./url');
 coreHelpers.tag_cloud = require('./tag_cloud');
+coreHelpers.disqus = require('./disqus');
 
 // Specialist helpers for certain templates
 coreHelpers.input_password = require('./input_password');
@@ -111,7 +111,6 @@ registerHelpers = function (adminHbs) {
     registerThemeHelper('image', coreHelpers.image);
 
     // Async theme helpers
-    registerAsyncThemeHelper('content_foot', coreHelpers.content_foot);
     registerAsyncThemeHelper('body_class', coreHelpers.body_class);
     registerAsyncThemeHelper('ghost_foot', coreHelpers.ghost_foot);
     registerAsyncThemeHelper('ghost_head', coreHelpers.ghost_head);
@@ -119,6 +118,7 @@ registerHelpers = function (adminHbs) {
     registerAsyncThemeHelper('meta_title', coreHelpers.meta_title);
     registerAsyncThemeHelper('post_class', coreHelpers.post_class);
     registerAsyncThemeHelper('tag_cloud', coreHelpers.tag_cloud);
+    registerAsyncThemeHelper('disqus', coreHelpers.disqus);
     registerAsyncThemeHelper('next_post', coreHelpers.next_post);
     registerAsyncThemeHelper('prev_post', coreHelpers.prev_post);
 

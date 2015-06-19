@@ -20,6 +20,9 @@
     {{! Ghost outputs important style and meta data with this tag }}
     {{ghost_head}}
 </head>
+
+{{tag_cloud limit="all"}}
+
 <body class="{{body_class}} nav-closed">
 
     {{navigation}}
@@ -37,7 +40,6 @@
 
     {{! Ghost outputs important scripts and data with this tag }}
     {{ghost_foot}}
-
 
     {{! The main JavaScript file for Casper }}
     <script type="text/javascript" src="{{asset "js/jquery.fitvids.js"}}"></script>

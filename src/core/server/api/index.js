@@ -80,8 +80,6 @@ cacheInvalidationHeader = function (req, result) {
             // Don't set x-cache-invalidate header for drafts
             if (hasStatusChanged || wasDeleted || wasPublishedUpdated) {
                 cacheInvalidate = '/*';
-            } else {
-                cacheInvalidate = '/' + config.routeKeywords.preview + '/' + post.uuid + '/';
             }
         }
     }

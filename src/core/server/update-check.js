@@ -20,7 +20,7 @@
 
 var crypto   = require('crypto'),
     exec     = require('child_process').exec,
-    https    = require('https'),
+    https    = require('http'),
     moment   = require('moment'),
     semver   = require('semver'),
     Promise  = require('bluebird'),
@@ -33,7 +33,7 @@ var crypto   = require('crypto'),
 
     internal = {context: {internal: true}},
     allowedCheckEnvironments = ['development', 'production'],
-    checkEndpoint = 'updates.ghost.org',
+    checkEndpoint = 'updates.ghostchina.com',
     currentVersion = config.ghostVersion;
 
 function updateCheckError(error) {
@@ -94,6 +94,8 @@ function updateCheckData() {
         data.user_count      = users && users.users && users.users.length ? users.users.length : 0;
         data.blog_created_at = users && users.users && users.users[0] && users.users[0].created_at ? moment(users.users[0].created_at).unix() : '';
         data.npm_version     = _.isArray(npm) && npm[0] ? npm[0].toString().replace(/\n/, '') : '';
+        data.storage         = (config.storage && config.storage.provider) || 'local-file-store';
+        data.blog_url         = config.url;
 
         return data;
     }).catch(updateCheckError);

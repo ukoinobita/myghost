@@ -36,14 +36,15 @@ config = {
         },
         
 //        fileStorage: false
-//        storage: {
-//            provider: 'qiniu',
-//            bucketname: process.env.QINIU_BUCKETNAME,
-//            ACCESS_KEY: process.env.QINIU_AK,
-//            SECRET_KEY: process.env.QINIU_SK,
-//            root: '/images/',
-//            prefix: process.env.QINNIU_PREFIX
-//        }
+        storage: {
+            provider: 'qiniu',
+            bucketname: process.env.QINIU_BUCKETNAME,
+            ACCESS_KEY: process.env.QINIU_AK,
+            SECRET_KEY: process.env.QINIU_SK,
+            root: '/images/',
+            prefix: process.env.QINNIU_PREFIX
+        },
+        disqus:process.env.DISQUS_SHORTNAME
     },
 
     // ### Development **(default)**

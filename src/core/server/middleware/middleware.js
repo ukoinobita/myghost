@@ -5,6 +5,7 @@
 var _           = require('lodash'),
     fs          = require('fs'),
     express     = require('express'),
+    busboy      = require('./ghost-busboy'),
     config      = require('../config'),
     crypto      = require('crypto'),
     path        = require('path'),
@@ -15,9 +16,6 @@ var _           = require('lodash'),
     session     = require('cookie-session'),
     url         = require('url'),
     utils       = require('../utils'),
-
-    busboy       = require('./ghost-busboy'),
-    cacheControl = require('./cache-control'),
 
     middleware,
     blogApp,
@@ -126,7 +124,7 @@ middleware = {
                     if (!user) {
                         var msg = {
                             type: 'error',
-                            message: 'Please Sign In',
+                            message: '请登录',
                             status: 'passive'
                         };
                         res.status(401);
@@ -140,6 +138,28 @@ middleware = {
             )(req, res, next);
         }
         next();
+    },
+
+    // ### CacheControl Middleware
+    // provide sensible cache control headers
+    cacheControl: function (options) {
+        /*jslint unparam:true*/
+        var profiles = {
+                public: 'public, max-age=0',
+                private: 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0'
+            },
+            output;
+
+        if (_.isString(options) && profiles.hasOwnProperty(options)) {
+            output = profiles[options];
+        }
+
+        return function cacheControlHeaders(req, res, next) {
+            if (output) {
+                res.set({'Cache-Control': output});
+            }
+            next();
+        };
     },
 
     // ### whenEnabled Middleware
@@ -181,7 +201,7 @@ middleware = {
             remoteAddress = req.connection.remoteAddress,
             deniedRateLimit = '',
             ipCount = '',
-            message = 'Too many attempts.',
+            message = '尝试次数太多了！',
             rateSigninPeriod = config.rateSigninPeriod || 3600,
             rateSigninAttempts = config.rateSigninAttempts || 10;
 
@@ -190,7 +210,7 @@ middleware = {
         } else if (req.body.grant_type === 'refresh_token') {
             return next();
         } else {
-            return next(new errors.BadRequestError('No username.'));
+            return next(new errors.BadRequestError('请输入用户名。'));
         }
 
         // filter entries that are older than rateSigninPeriod
@@ -207,7 +227,7 @@ middleware = {
                 'Only ' + rateSigninAttempts + ' tries per IP address every ' + rateSigninPeriod + ' seconds.',
                 'Too many login attempts.'
             );
-            message += rateSigninPeriod === 3600 ? ' Please wait 1 hour.' : ' Please try again later';
+            message += rateSigninPeriod === 3600 ? ' 请等待 1 小时。' : ' 请稍后再试';
             return next(new errors.UnauthorizedError(message));
         }
         next();
@@ -269,7 +289,7 @@ middleware = {
         }
 
         if (deniedEmailRateLimit || deniedRateLimit) {
-            message += rateForgottenPeriod === 3600 ? ' Please wait 1 hour.' : ' Please try again later';
+            message += rateForgottenPeriod === 3600 ? ' 请等待 1 小时。' : ' 请稍后再试';
             return next(new errors.UnauthorizedError(message));
         }
 
@@ -408,7 +428,7 @@ middleware = {
             rateProtectedPeriod = config.rateProtectedPeriod || 3600,
             rateProtectedAttempts = config.rateProtectedAttempts || 10,
             ipCount = '',
-            message = 'Too many attempts.',
+            message = '尝试次数太多了！',
             deniedRateLimit = '',
             password = req.body.password;
 
@@ -416,7 +436,7 @@ middleware = {
             protectedSecurity.push({ip: remoteAddress, time: currentTime});
         } else {
             res.error = {
-                message: 'No password entered'
+                message: '请输入密码'
             };
             return next();
         }
@@ -434,7 +454,7 @@ middleware = {
                 'Only ' + rateProtectedAttempts + ' tries per IP address every ' + rateProtectedPeriod + ' seconds.',
                 'Too many login attempts.'
             );
-            message += rateProtectedPeriod === 3600 ? ' Please wait 1 hour.' : ' Please try again later';
+            message += rateProtectedPeriod === 3600 ? ' 请等待 1 小时。' : ' 请稍后再试';
             res.error = {
                 message: message
             };
@@ -464,15 +484,14 @@ middleware = {
                 return res.redirect(config.urlFor({relativeUrl: decodeURIComponent(forward)}));
             } else {
                 res.error = {
-                    message: 'Wrong password'
+                    message: '密码错误'
                 };
                 return next();
             }
         });
     },
 
-    busboy: busboy,
-    cacheControl: cacheControl
+    busboy: busboy
 };
 
 module.exports = middleware;

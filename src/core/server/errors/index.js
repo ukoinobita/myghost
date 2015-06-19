@@ -1,6 +1,6 @@
 /*jslint regexp: true */
 var _                          = require('lodash'),
-    chalk                      = require('chalk'),
+    colors                     = require('colors'),
     path                       = require('path'),
     Promise                    = require('bluebird'),
     hbs                        = require('express-hbs'),
@@ -19,6 +19,9 @@ var _                          = require('lodash'),
 
     // Paths for views
     userErrorTemplateExists   = false;
+
+// This is not useful but required for jshint
+colors.setTheme({silly: 'rainbow'});
 
 // Shim right now to deal with circular dependencies.
 // @TODO(hswolff): remove circular dependency and lazy require.
@@ -60,7 +63,9 @@ errors = {
         if ((process.env.NODE_ENV === 'development' ||
             process.env.NODE_ENV === 'staging' ||
             process.env.NODE_ENV === 'production')) {
-            console.info(chalk.cyan(component + ':', info));
+            var msg = [component.cyan + ':'.cyan, info.cyan];
+
+            console.info.apply(console, msg);
         }
     },
 
@@ -69,14 +74,14 @@ errors = {
             process.env.NODE_ENV === 'staging' ||
             process.env.NODE_ENV === 'production')) {
             warn = warn || 'no message supplied';
-            var msgs = [chalk.yellow('\nWarning:', warn), '\n'];
+            var msgs = ['\nWarning:'.yellow, warn.yellow, '\n'];
 
             if (context) {
-                msgs.push(chalk.white(context), '\n');
+                msgs.push(context.white, '\n');
             }
 
             if (help) {
-                msgs.push(chalk.green(help));
+                msgs.push(help.green);
             }
 
             // add a new line
@@ -121,14 +126,14 @@ errors = {
         if ((process.env.NODE_ENV === 'development' ||
             process.env.NODE_ENV === 'staging' ||
             process.env.NODE_ENV === 'production')) {
-            msgs = [chalk.red('\nERROR:', err), '\n'];
+            msgs = ['\nERROR:'.red, err.red, '\n'];
 
             if (context) {
-                msgs.push(chalk.white(context), '\n');
+                msgs.push(context.white, '\n');
             }
 
             if (help) {
-                msgs.push(chalk.green(help));
+                msgs.push(help.green);
             }
 
             // add a new line
@@ -279,7 +284,7 @@ errors = {
     },
 
     error404: function (req, res, next) {
-        var message = res.isAdmin && req.user ? 'No Ghost Found' : 'Page Not Found';
+        var message = res.isAdmin && req.user ? 'No Ghost Found' : '页面未找到';
 
         // do not cache 404 error
         res.set({'Cache-Control': 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0'});
