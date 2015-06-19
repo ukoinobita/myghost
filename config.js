@@ -43,9 +43,7 @@ config = {
             SECRET_KEY: process.env.QINIU_SK,
             root: '/images/',
             prefix: process.env.QINNIU_PREFIX
-        },
-        disqus_shortname:process.env.DISQUS_SHORTNAME
-        
+        }
     },
 
     // ### Development **(default)**

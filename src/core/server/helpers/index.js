@@ -38,6 +38,7 @@ coreHelpers.next_post = require('./prev_next');
 coreHelpers.tags = require('./tags');
 coreHelpers.title = require('./title');
 coreHelpers.url = require('./url');
+coreHelpers.tag_cloud = require('./tag_cloud');
 
 // Specialist helpers for certain templates
 coreHelpers.input_password = require('./input_password');
@@ -117,6 +118,7 @@ registerHelpers = function (adminHbs) {
     registerAsyncThemeHelper('meta_description', coreHelpers.meta_description);
     registerAsyncThemeHelper('meta_title', coreHelpers.meta_title);
     registerAsyncThemeHelper('post_class', coreHelpers.post_class);
+    registerAsyncThemeHelper('tag_cloud', coreHelpers.tag_cloud);
     registerAsyncThemeHelper('next_post', coreHelpers.next_post);
     registerAsyncThemeHelper('prev_post', coreHelpers.prev_post);
 
