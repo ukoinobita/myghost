@@ -6480,6 +6480,7 @@ define('ghost/models/setting', ['exports', 'ember-data', 'ghost/mixins/validatio
         permalinks: DS['default'].attr("string"),
         activeTheme: DS['default'].attr("string"),
         availableThemes: DS['default'].attr(),
+        content_foot: DS['default'].attr("string"),
         ghost_head: DS['default'].attr("string"),
         ghost_foot: DS['default'].attr("string"),
         labs: DS['default'].attr("string"),
@@ -16979,6 +16980,42 @@ define('ghost/templates/settings/code-injection', ['exports'], function (exports
         var el5 = dom.createTextNode("\n                Ghost allows you to inject code into the top and bottom of your theme files without editing them. This allows for quick modifications to insert useful things like tracking codes and meta tags.\n            ");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
+        
+  
+        var el4 = dom.createTextNode("\n\n            ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4,"class","form-group");
+        var el5 = dom.createTextNode("\n                ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("label");
+        dom.setAttribute(el5,"for","content-foot");
+        var el6 = dom.createTextNode("Content Footer");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n                ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("p");
+        var el6 = dom.createTextNode("Code here will be injected into the ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createElement("code");
+        var el7 = dom.createTextNode("{{content_foot}}");
+        dom.appendChild(el6, el7);
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode(" tag under every article of your blog");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n                ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n            ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        
+        
+        
+        
         var el4 = dom.createTextNode("\n\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("div");
@@ -17072,16 +17109,18 @@ define('ghost/templates/settings/code-injection', ['exports'], function (exports
         } else {
           fragment = this.build(dom);
         }
-        var element0 = dom.childAt(fragment, [0]);
+         var element0 = dom.childAt(fragment, [0]);
         var element1 = dom.childAt(element0, [5, 1]);
-        var element2 = dom.childAt(fragment, [2, 1, 1]);
+        var element2 = dom.childAt(fragment, [2, 1 , 1]);
         var morph0 = dom.createMorphAt(element0,1,1);
         var morph1 = dom.createMorphAt(dom.childAt(element2, [3]),5,5);
         var morph2 = dom.createMorphAt(dom.childAt(element2, [5]),5,5);
+        var morph3 = dom.createMorphAt(dom.childAt(element2, [7]),5,5);
         block(env, morph0, context, "link-to", ["settings"], {"class": "btn btn-default btn-back"}, child0, null);
         element(env, element1, context, "action", ["save"], {});
-        inline(env, morph1, context, "gh-cm-editor", [], {"id": "ghost-head", "name": "codeInjection[ghost_head]", "class": "settings-code-editor", "type": "text", "value": get(env, context, "model.ghost_head")});
-        inline(env, morph2, context, "gh-cm-editor", [], {"id": "ghost-foot", "name": "codeInjection[ghost_foot]", "class": "settings-code-editor", "type": "text", "value": get(env, context, "model.ghost_foot")});
+        inline(env, morph1, context, "gh-cm-editor", [], {"id": "content-foot", "name": "codeInjection[content_foot]", "class": "settings-code-editor", "type": "text", "value": get(env, context, "model.content_foot")});
+        inline(env, morph2, context, "gh-cm-editor", [], {"id": "ghost-head", "name": "codeInjection[ghost_head]", "class": "settings-code-editor", "type": "text", "value": get(env, context, "model.ghost_head")});
+        inline(env, morph3, context, "gh-cm-editor", [], {"id": "ghost-foot", "name": "codeInjection[ghost_foot]", "class": "settings-code-editor", "type": "text", "value": get(env, context, "model.ghost_foot")});
         return fragment;
       }
     };

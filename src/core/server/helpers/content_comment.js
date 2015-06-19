@@ -8,7 +8,7 @@ var _               = require('lodash'),
 
     content_comment;
 
-content_comment = function (options) {
+content_comment = function () {
     
    return template.execute('content_comment',  {disqus_shortname:config.disqus_shortname});
 };
