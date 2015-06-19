@@ -166,6 +166,8 @@ ConfigManager.prototype.set = function (config) {
         storagePath = path.join(contentPath, 'storage');
     }
 
+    this._config.disqus = this._config.disqus ||{};
+
     _.merge(this._config, {
         database: {
             knex: knexInstance

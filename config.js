@@ -42,7 +42,7 @@ config = {
             ACCESS_KEY: process.env.QINIU_AK,
             SECRET_KEY: process.env.QINIU_SK,
             root: '/images/',
-            prefix: process.env.QINNIU_PREFIX
+            prefix: process.env.QINIU_PREFIX
         },
         disqus:process.env.DISQUS_SHORTNAME
     },
