@@ -19,7 +19,7 @@ function getValidKeys() {
             blogTitle: config.theme.title,
             routeKeywords: JSON.stringify(config.routeKeywords),
             storage: (config.storage && config.storage.provider) || 'local-file-store',
-            disqus_shortname:disqus_shortname
+            disqus_shortname:config.disqus_shortname
         };
 
     return validKeys;
