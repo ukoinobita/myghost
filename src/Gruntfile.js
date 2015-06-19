@@ -39,16 +39,6 @@ var _              = require('lodash'),
     }()),
 
 
-    fullGlob = (function () {
-        var packagejson = JSON.parse(fs.readFileSync('package.json', {encoding: 'utf8'}));
-        var pkgs = _.keys(packagejson.dependencies);
-        pkgs = pkgs.concat(_.keys(packagejson.optionalDependencies));
-        
-        return pkgs.map(function (package) {
-            return 'node_modules/' + package + '/**';
-        }).concat(['!node_modules/aliyun-sdk/tools/**', '!node_modules/**/test/**']); //remove unsued files
-    }()),
-
 
     // ## Grunt configuration
 
@@ -343,30 +333,6 @@ var _              = require('lodash'),
                         return 'node ' + mochaPath  + ' --timeout=15000 --ui=bdd --reporter=spec core/test/' + test;
                     }
                 },
-
-                'sqlite-bindings': {
-                    command: [
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=linux --target=0.10.38',
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=ia32 --target_platform=linux --target=0.10.38',
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=win32 --target=0.10.38',
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=ia32 --target_platform=win32 --target=0.10.38',
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=darwin --target=0.10.38',
-
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=linux',
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=ia32 --target_platform=linux',
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=win32',
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=ia32 --target_platform=win32',
-                        'node_modules/.bin/node-pre-gyp.cmd install --runtime=node --target_arch=x64 --target_platform=darwin'
-                        ].join('&&').replace(/\//g, '\\'),
-                    options: {
-                        stdout: true,
-                        stdin: false,
-                        stderr: true,
-                        execOptions: {
-                            cwd: 'node_modules/sqlite3/'
-                        }
-                    }
-                },
                 
                 shrinkwrap: {
                     command: 'npm shrinkwrap'
@@ -410,9 +376,6 @@ var _              = require('lodash'),
                 },
                 dependencies: {
                     src: ['node_modules/**', 'core/client/bower_components/**', 'core/client/node_modules/**']
-                },
-                all: {
-                    src: ['.build/**', '.tmp/**', '.dist/**']
                 }
             },
 
