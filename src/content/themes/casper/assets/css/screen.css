@@ -1924,7 +1924,7 @@ body:not(.post-template) .post-title {
         text-align: center;
     }
 
-    .post-footer .author {
+    .post-footer post-footer {
         margin: 0 0 2rem 0;
         padding: 0 0 1.6rem 0;
         border-bottom: #EBF2F6 1px dashed;

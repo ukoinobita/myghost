@@ -7,13 +7,20 @@
             Apr 2014
             </dt>-->
             {{#foreach posts}}
-            <dd class="{{#if @odd}}pos-left{{else}}pos-right{{/if}} clearfix">
+            <dd class="pos-right clearfix">
                 <div class="circ circ-{{#if @odd}}odd{{/if}}">
                 </div>
                 <div class="time">
                     <span data-toggle="tooltip" data-original-title="{{date format='YYYY-MM-DD'}} at {{date format='HH:mm'}}" title="">
                         {{date timeago=true}}
                     </span>
+                    
+                    <h4 class="events-heading">
+                       {{#foreach tags}}
+                        <a href="{{url}}"><span class="label tag-{{name}} {{#if @odd}}label-primary{{else}}label-default{{/if}}"><i class="glyphicon glyphicon-tag"></i> {{name}}</span></a>
+                        &nbsp;
+                       {{/foreach}}
+                   </h4>
                 </div>
                 <div class="events">
                     <div class="pull-left">
@@ -23,14 +30,9 @@
                         <h3 class="events-heading">
                             <a href="{{url}}">{{{title}}}</a>
                         </h3>
-                        <h4 class="events-heading">
-                            {{#foreach tags}}
-                                <a href="{{url}}"><span class="label tag-{{name}} {{#if @odd}}label-primary{{else}}label-default{{/if}}"><i class="glyphicon glyphicon-tag"></i> {{name}}</span></a>
-                                &nbsp;
-                            {{/foreach}}
-                        </h4>
+                       
                         <p>
-                            {{excerpt characters="200"}}&hellip;
+                            {{excerpt characters="400"}}&hellip;
                         </p>
                     </div>
                 </div>
