@@ -15,7 +15,7 @@ input_password = function () {
         type: 'password',
         name: 'password',
         className: 'private-login-password',
-        extras: 'autofocus="autofocus" placeholder="请输入密码"'
+        extras: 'autofocus="autofocus"'
     });
 
     return new hbs.handlebars.SafeString(output);

@@ -29,16 +29,11 @@ models = {
                     return;
                 }
 
-                var re = /^.*\.js$/ig;
+                // Require the file.
+                var file = require(path);
 
-                if(re.test(path)) {
-                    // Require the file.
-                    var file = require(path);
-
-                    // Cache its `export` object onto this object.
-                    _.extend(self, file);
-                }
-  
+                // Cache its `export` object onto this object.
+                _.extend(self, file);
             });
 
             return;

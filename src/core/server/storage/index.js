@@ -3,7 +3,6 @@ var errors  = require('../errors'),
     storage = {};
 
 function getStorage(storageChoice) {
-    
     storageChoice = (config.storage && config.storage.provider) || 'local-file-store';
 
     if (storage[storageChoice]) {

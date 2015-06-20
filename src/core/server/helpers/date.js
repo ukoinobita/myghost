@@ -25,8 +25,6 @@ date = function (context, options) {
         timeago = options.hash.timeago,
         date;
 
-    moment.locale(this.language);
-    
     if (timeago) {
         date = moment(context).fromNow();
     } else {

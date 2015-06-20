@@ -238,7 +238,7 @@ define('ghost/assets/lib/uploader', ['exports', 'ghost/utils/ghost-paths'], func
 
     UploadUi = function ($dropzone, settings) {
         var $url = "<div class=\"js-url\"><input class=\"url js-upload-url\" type=\"url\" placeholder=\"http://\"/></div>",
-            $cancel = "<a class=\"image-cancel js-cancel\" title=\"删除\"><span class=\"hidden\">删除</span></a>",
+            $cancel = "<a class=\"image-cancel js-cancel\" title=\"Delete\"><span class=\"hidden\">Delete</span></a>",
             $progress = $("<div />", {
             "class": "js-upload-progress progress progress-success active",
             role: "progressbar",
@@ -330,11 +330,11 @@ define('ghost/assets/lib/uploader', ['exports', 'ghost/utils/ghost-paths'], func
                         $dropzone.trigger("uploadfailure", [data.result]);
                         $dropzone.find(".js-upload-progress-bar").addClass("fail");
                         if (data.jqXHR.status === 413) {
-                            $dropzone.find("div.js-fail").text("上传的图片超出了服务器端允许的大小。");
+                            $dropzone.find("div.js-fail").text("The image you uploaded was larger than the maximum file size your server allows.");
                         } else if (data.jqXHR.status === 415) {
-                            $dropzone.find("div.js-fail").text("上传的图片类型不被支持。请检查是否是 .PNG、.JPG、.GIF、.SVG 格式。");
+                            $dropzone.find("div.js-fail").text("The image type you uploaded is not supported. Please use .PNG, .JPG, .GIF, .SVG.");
                         } else {
-                            $dropzone.find("div.js-fail").text("发生故障了 :(");
+                            $dropzone.find("div.js-fail").text("Something went wrong :(");
                         }
                         $dropzone.find("div.js-fail, button.js-fail").fadeIn(1500);
                         $dropzone.find("button.js-fail").on("click", function () {
@@ -353,19 +353,19 @@ define('ghost/assets/lib/uploader', ['exports', 'ghost/utils/ghost-paths'], func
 
             buildExtras: function buildExtras() {
                 if (!$dropzone.find("span.media")[0]) {
-                    $dropzone.prepend("<span class=\"media\"><span class=\"hidden\">上传图片</span></span>");
+                    $dropzone.prepend("<span class=\"media\"><span class=\"hidden\">Image Upload</span></span>");
                 }
                 if (!$dropzone.find("div.description")[0]) {
-                    $dropzone.append("<div class=\"description\">添加图片</div>");
+                    $dropzone.append("<div class=\"description\">Add image</div>");
                 }
                 if (!$dropzone.find("div.js-fail")[0]) {
-                    $dropzone.append("<div class=\"js-fail failed\" style=\"display: none\">发生故障了：(</div>");
+                    $dropzone.append("<div class=\"js-fail failed\" style=\"display: none\">Something went wrong :(</div>");
                 }
                 if (!$dropzone.find("button.js-fail")[0]) {
-                    $dropzone.append("<button class=\"js-fail btn btn-green\" style=\"display: none\">重试</button>");
+                    $dropzone.append("<button class=\"js-fail btn btn-green\" style=\"display: none\">Try Again</button>");
                 }
                 if (!$dropzone.find("a.image-url")[0]) {
-                    $dropzone.append("<a class=\"image-url\" title=\"添加图片地址（URL）\"><span class=\"hidden\">URL</span></a>");
+                    $dropzone.append("<a class=\"image-url\" title=\"Add image from URL\"><span class=\"hidden\">URL</span></a>");
                 }
                 // if (!$dropzone.find('a.image-webcam')[0]) {
                 //     $dropzone.append('<a class="image-webcam" title="Add image from webcam"><span class="hidden">Webcam</span></a>');
@@ -414,7 +414,7 @@ define('ghost/assets/lib/uploader', ['exports', 'ghost/utils/ghost-paths'], func
                 $dropzone.find("div.description").before($url);
 
                 if (settings.editor) {
-                    $dropzone.find("div.js-url").append("<button class=\"btn btn-blue js-button-accept\">保存</button>");
+                    $dropzone.find("div.js-url").append("<button class=\"btn btn-blue js-button-accept\">Save</button>");
                 }
 
                 $dropzone.find(".js-button-accept").on("click", function () {
@@ -432,7 +432,7 @@ define('ghost/assets/lib/uploader', ['exports', 'ghost/utils/ghost-paths'], func
 
                 // Only show the toggle icon if there is a dropzone mode to go back to
                 if (settings.fileStorage !== false) {
-                    $dropzone.append("<a class=\"image-upload\" title=\"添加图片\"><span class=\"hidden\">上传</span></a>");
+                    $dropzone.append("<a class=\"image-upload\" title=\"Add image\"><span class=\"hidden\">Upload</span></a>");
                 }
 
                 $dropzone.find("a.image-upload").on("click", function () {
@@ -1450,11 +1450,11 @@ define('ghost/components/gh-upload-modal', ['exports', 'ember', 'ghost/component
                     return true;
                 },
                 buttonClass: "btn btn-default",
-                text: "取消" // The reject button text
+                text: "Cancel" // The reject button text
             },
             accept: {
                 buttonClass: "btn btn-blue right",
-                text: "保存", // The accept button texttext: 'Save'
+                text: "Save", // The accept button text: 'Save'
                 func: function func() {
                     var imageType = "model." + this.get("imageType"),
                         value;
@@ -1594,7 +1594,7 @@ define('ghost/controllers/application', ['exports', 'ember'], function (exports,
         userImageAlt: Ember['default'].computed("session.user.name", function () {
             var name = this.get("session.user.name");
 
-            return name ? name + "的头像" : "头像";
+            return name ? name + "'s profile picture" : "Profile picture";
         }),
 
         actions: {
@@ -1651,10 +1651,10 @@ define('ghost/controllers/error', ['exports', 'ember'], function (exports, Ember
         }),
         message: Ember['default'].computed("content.statusText", function () {
             if (this.get("code") === 404) {
-                return "未找到 Ghost 系统";
+                return "No Ghost Found";
             }
 
-            return this.get("content.statusText") !== "error" ? this.get("content.statusText") : "服务器内部错误";
+            return this.get("content.statusText") !== "error" ? this.get("content.statusText") : "Internal Server Error";
         }),
         stack: false
     });
@@ -1728,12 +1728,12 @@ define('ghost/controllers/forgotten', ['exports', 'ember', 'ghost/utils/ajax', '
                         }
                     }).then(function () {
                         self.toggleProperty("submitting");
-                        self.notifications.showSuccess("请查看邮箱中的邮件。", { delayed: delay });
+                        self.notifications.showSuccess("Please check your email for instructions.", { delayed: delay });
                         self.set("email", "");
                         self.transitionToRoute("signin");
                     })["catch"](function (resp) {
                         self.toggleProperty("submitting");
-                        self.notifications.showAPIError(resp, { defaultErrorText: "重置密码出现故障，请重试。" });
+                        self.notifications.showAPIError(resp, { defaultErrorText: "There was a problem with the reset, please try again." });
                     });
                 })["catch"](function (errors) {
                     self.toggleProperty("submitting");
@@ -1771,7 +1771,7 @@ define('ghost/controllers/modals/delete-all', ['exports', 'ember'], function (ex
                 ic.ajax.request(this.get("ghostPaths.url").api("db"), {
                     type: "DELETE"
                 }).then(function () {
-                    self.notifications.showSuccess("所有内容都已经从数据库中删掉了。");
+                    self.notifications.showSuccess("All content deleted from database.");
                     self.store.unloadAll("post");
                     self.store.unloadAll("tag");
                 })["catch"](function (response) {
@@ -1786,11 +1786,11 @@ define('ghost/controllers/modals/delete-all', ['exports', 'ember'], function (ex
 
         confirm: {
             accept: {
-                text: "删除",
+                text: "Delete",
                 buttonClass: "btn btn-red"
             },
             reject: {
-                text: "取消",
+                text: "Cancel",
                 buttonClass: "btn btn-default btn-minor"
             }
         }
@@ -1815,9 +1815,9 @@ define('ghost/controllers/modals/delete-post', ['exports', 'ember'], function (e
                 model.destroyRecord().then(function () {
                     self.get("dropdown").closeDropdowns();
                     self.transitionToRoute("posts.index");
-                    self.notifications.showSuccess("博文已删除。", { delayed: true });
+                    self.notifications.showSuccess("Your post has been deleted.", { delayed: true });
                 }, function () {
-                    self.notifications.showError("删除博文失败，请重试。");
+                    self.notifications.showError("Your post could not be deleted. Please try again.");
                 });
             },
 
@@ -1828,11 +1828,11 @@ define('ghost/controllers/modals/delete-post', ['exports', 'ember'], function (e
 
         confirm: {
             accept: {
-                text: "删除",
+                text: "Delete",
                 buttonClass: "btn btn-red"
             },
             reject: {
-                text: "取消",
+                text: "Cancel",
                 buttonClass: "btn btn-default btn-minor"
             }
         }
@@ -1859,7 +1859,7 @@ define('ghost/controllers/modals/delete-tag', ['exports', 'ember'], function (ex
                 this.send("closeSettingsMenu");
 
                 tag.destroyRecord().then(function () {
-                    self.notifications.showSuccess("已删除 " + name);
+                    self.notifications.showSuccess("Deleted " + name);
                 })["catch"](function (error) {
                     self.notifications.showAPIError(error);
                 });
@@ -1872,11 +1872,11 @@ define('ghost/controllers/modals/delete-tag', ['exports', 'ember'], function (ex
 
         confirm: {
             accept: {
-                text: "删除",
+                text: "Delete",
                 buttonClass: "btn btn-red"
             },
             reject: {
-                text: "取消",
+                text: "Cancel",
                 buttonClass: "btn btn-default btn-minor"
             }
         }
@@ -1918,9 +1918,9 @@ define('ghost/controllers/modals/delete-user', ['exports', 'ember'], function (e
                 user.destroyRecord().then(function () {
                     self.store.unloadAll("post");
                     self.transitionToRoute("settings.users");
-                    self.notifications.showSuccess("用户已被删除。", { delayed: true });
+                    self.notifications.showSuccess("The user has been deleted.", { delayed: true });
                 }, function () {
-                    self.notifications.showError("删除用户失败，请重试。");
+                    self.notifications.showError("The user could not be deleted. Please try again.");
                 });
             },
 
@@ -1966,7 +1966,7 @@ define('ghost/controllers/modals/invite-new-user', ['exports', 'ember'], functio
 
         confirm: {
             accept: {
-                text: "立即发送邀请"
+                text: "send invitation now"
             },
             reject: {
                 buttonClass: "hidden"
@@ -1994,9 +1994,9 @@ define('ghost/controllers/modals/invite-new-user', ['exports', 'ember'], functio
 
                     if (invitedUser) {
                         if (invitedUser.get("status") === "invited" || invitedUser.get("status") === "invited-pending") {
-                            self.notifications.showWarn("已经邀请了此邮箱的持有人。");
+                            self.notifications.showWarn("A user with that email address was already invited.");
                         } else {
-                            self.notifications.showWarn("此邮箱已存在。");
+                            self.notifications.showWarn("A user with that email address already exists.");
                         }
                     } else {
                         newUser = self.store.createRecord("user", {
@@ -2006,12 +2006,12 @@ define('ghost/controllers/modals/invite-new-user', ['exports', 'ember'], functio
                         });
 
                         newUser.save().then(function () {
-                            var notificationText = "邀请已发送！ (" + email + ")";
+                            var notificationText = "Invitation sent! (" + email + ")";
 
                             // If sending the invitation email fails, the API will still return a status of 201
                             // but the user's status in the response object will be 'invited-pending'.
                             if (newUser.get("status") === "invited-pending") {
-                                self.notifications.showWarn("邀请邮件未能发送！请重新发送。");
+                                self.notifications.showWarn("Invitation email was not sent.  Please try resending.");
                             } else {
                                 self.notifications.showSuccess(notificationText);
                             }
@@ -2053,7 +2053,8 @@ define('ghost/controllers/modals/leave-editor', ['exports', 'ember'], function (
                 }
 
                 if (!transition || !editorController) {
-                    this.notifications.showError("抱歉，系统故障。请将此问题提交至 Ghost 开发团队。");
+                    this.notifications.showError("Sorry, there was an error in the application. Please let the Ghost team know what happened.");
+
                     return true;
                 }
 
@@ -2082,11 +2083,11 @@ define('ghost/controllers/modals/leave-editor', ['exports', 'ember'], function (
 
         confirm: {
             accept: {
-                text: "离开此页",
+                text: "Leave",
                 buttonClass: "btn btn-red"
             },
             reject: {
-                text: "留在此页",
+                text: "Stay",
                 buttonClass: "btn btn-default btn-minor"
             }
         }
@@ -2119,7 +2120,7 @@ define('ghost/controllers/modals/signin', ['exports', 'ember', 'ghost/mixins/val
 
                 this._super(this.getProperties("identification", "password")).then(function () {
                     self.send("closeModal");
-                    self.notifications.showSuccess("登录成功。");
+                    self.notifications.showSuccess("Login successful.");
                     self.set("password", "");
                 })["catch"](function () {})["finally"](function () {
                     appController.set("skipAuthSuccessHandler", undefined);
@@ -2184,7 +2185,7 @@ define('ghost/controllers/modals/transfer-owner', ['exports', 'ember'], function
                         });
                     }
 
-                    self.notifications.showSuccess("博客所有权已成功移交给 " + user.get("name"));
+                    self.notifications.showSuccess("Ownership successfully transferred to " + user.get("name"));
                 })["catch"](function (error) {
                     self.notifications.showAPIError(error);
                 });
@@ -2197,11 +2198,11 @@ define('ghost/controllers/modals/transfer-owner', ['exports', 'ember'], function
 
         confirm: {
             accept: {
-                text: "是的 - 我确定",
+                text: "Yep - I'm sure",
                 buttonClass: "btn btn-red"
             },
             reject: {
-                text: "取消",
+                text: "Cancel",
                 buttonClass: "btn btn-default btn-minor"
             }
         }
@@ -2221,7 +2222,7 @@ define('ghost/controllers/modals/upload', ['exports', 'ember'], function (export
                 var self = this;
 
                 this.get("model").save().then(function (model) {
-                    self.notifications.showSuccess("已保存");
+                    self.notifications.showSuccess("Saved");
                     return model;
                 })["catch"](function (err) {
                     self.notifications.showErrors(err);
@@ -2567,10 +2568,10 @@ define('ghost/controllers/post-settings-menu', ['exports', 'ember', 'ghost/utils
 
                 // Validate new Published date
                 if (!newPublishedAt.isValid()) {
-                    errMessage = "发布日期必须遵循以下日期格式：" + "YYYY-MM-DD @ HH:mm （例如：2013-09-27 @ 15:00）";
+                    errMessage = "Published Date must be a valid date with format: " + "DD MMM YY @ HH:mm (e.g. 6 Dec 14 @ 15:00)";
                 }
                 if (newPublishedAt.diff(new Date(), "h") > 0) {
-                    errMessage = "发布日期不能是未来时间。";
+                    errMessage = "Published Date cannot currently be in the future.";
                 }
 
                 // If errors, notify and exit.
@@ -3268,7 +3269,7 @@ define('ghost/controllers/settings/code-injection', ['exports', 'ember'], functi
 
                 return this.get("model").save().then(function (model) {
                     self.notifications.closePassive();
-                    self.notifications.showSuccess("已成功保存设置。");
+                    self.notifications.showSuccess("Settings successfully saved.");
 
                     return model;
                 })["catch"](function (errors) {
@@ -3335,7 +3336,7 @@ define('ghost/controllers/settings/general', ['exports', 'ember', 'ghost/utils/r
                 var self = this;
 
                 return this.get("model").save().then(function (model) {
-                    self.notifications.showSuccess("已成功保存设置。");
+                    self.notifications.showSuccess("Settings successfully saved.");
 
                     return model;
                 })["catch"](function (errors) {
@@ -3363,7 +3364,7 @@ define('ghost/controllers/settings/labs', ['exports', 'ember'], function (export
     var LabsController = Ember['default'].Controller.extend(Ember['default'].Evented, {
         needs: ["feature"],
 
-        uploadButtonText: "导入",
+        uploadButtonText: "Import",
         importErrors: "",
         labsJSON: Ember['default'].computed("model.labs", function () {
             return JSON.parse(this.get("model.labs") || {});
@@ -3389,7 +3390,7 @@ define('ghost/controllers/settings/labs', ['exports', 'ember'], function (export
                 var self = this,
                     formData = new FormData();
 
-                this.set("uploadButtonText", "导入中");
+                this.set("uploadButtonText", "Importing");
                 this.set("importErrors", "");
                 this.notifications.closePassive();
 
@@ -3410,15 +3411,15 @@ define('ghost/controllers/settings/labs', ['exports', 'ember'], function (export
                     self.store.unloadAll("role");
                     self.store.unloadAll("setting");
                     self.store.unloadAll("notification");
-                    self.notifications.showSuccess("导入成功。");
+                    self.notifications.showSuccess("Import successful.");
                 })["catch"](function (response) {
                     if (response && response.jqXHR && response.jqXHR.responseJSON && response.jqXHR.responseJSON.errors) {
                         self.set("importErrors", response.jqXHR.responseJSON.errors);
                     }
 
-                    self.notifications.showError("导入失败");
+                    self.notifications.showError("Import Failed");
                 })["finally"](function () {
-                    self.set("uploadButtonText", "导入");
+                    self.set("uploadButtonText", "Import");
                     self.trigger("reset");
                 });
             },
@@ -3440,7 +3441,7 @@ define('ghost/controllers/settings/labs', ['exports', 'ember'], function (export
                 ic.ajax.request(this.get("ghostPaths.url").api("mail", "test"), {
                     type: "POST"
                 }).then(function () {
-                    self.notifications.showSuccess("请检查邮箱中是否有测试邮件。");
+                    self.notifications.showSuccess("Check your email for the test message.");
                 })["catch"](function (error) {
                     if (typeof error.jqXHR !== "undefined") {
                         self.notifications.showAPIError(error);
@@ -3559,7 +3560,7 @@ define('ghost/controllers/settings/navigation', ['exports', 'ember'], function (
                     blogUrl = this.get("config").blogUrl,
                     blogUrlRegex = new RegExp("^" + blogUrl + "(.*)", "i"),
                     navItems = this.get("navigationItems"),
-                    message = "某个导航项的标题为空，" + "<br /> 请为其添加标题或将其删除才能保存。",
+                    message = "One of your navigation items has an empty label. " + "<br /> Please enter a new label or delete the item before saving.",
                     match;
 
                 // Don't save if there's a blank label.
@@ -3608,7 +3609,7 @@ define('ghost/controllers/settings/navigation', ['exports', 'ember'], function (
                 this.notifications.closePassive();
 
                 this.get("model").save().then(function () {
-                    self.notifications.showSuccess("导航项已保存。");
+                    self.notifications.showSuccess("Navigation items saved.");
                 })["catch"](function (err) {
                     self.notifications.showErrors(err);
                 });
@@ -3786,8 +3787,6 @@ define('ghost/controllers/settings/users/user', ['exports', 'ember', 'ghost/mode
 
     'use strict';
 
-    moment.locale("zh-cn");
-
     var SettingsUserController = Ember['default'].Controller.extend({
 
         user: Ember['default'].computed.alias("model"),
@@ -3821,13 +3820,13 @@ define('ghost/controllers/settings/users/user', ['exports', 'ember', 'ghost/mode
         last_login: Ember['default'].computed("user.last_login", function () {
             var lastLogin = this.get("user.last_login");
 
-            return lastLogin ? moment(lastLogin.toDate()).fromNow() : "（从未登陆过）";
+            return lastLogin ? lastLogin.fromNow() : "(Never)";
         }),
 
         created_at: Ember['default'].computed("user.created_at", function () {
             var createdAt = this.get("user.created_at");
 
-            return createdAt ? moment(createdAt.toDate()).fromNow() : "";
+            return createdAt ? createdAt.fromNow() : "";
         }),
 
         // Lazy load the slug generator for slugPlaceholder
@@ -3852,7 +3851,7 @@ define('ghost/controllers/settings/users/user', ['exports', 'ember', 'ghost/mode
                 model.reload().then(function () {
                     if (model.get("invited")) {
                         model.destroyRecord().then(function () {
-                            var notificationText = "已取消邀请。 (" + email + ")";
+                            var notificationText = "Invitation revoked. (" + email + ")";
                             self.notifications.showSuccess(notificationText, false);
                         })["catch"](function (error) {
                             self.notifications.showAPIError(error);
@@ -3860,7 +3859,7 @@ define('ghost/controllers/settings/users/user', ['exports', 'ember', 'ghost/mode
                     } else {
                         // if the user is no longer marked as "invited", then show a warning and reload the route
                         self.get("target").send("reload");
-                        self.notifications.showError("此用户已经接受邀请。", { delayed: 500 });
+                        self.notifications.showError("This user has already accepted the invitation.", { delayed: 500 });
                     }
                 });
             },
@@ -3869,11 +3868,11 @@ define('ghost/controllers/settings/users/user', ['exports', 'ember', 'ghost/mode
                 var self = this;
 
                 this.get("model").resendInvite().then(function (result) {
-                    var notificationText = "邀请已发送！ (" + self.get("email") + ")";
+                    var notificationText = "Invitation resent! (" + self.get("email") + ")";
                     // If sending the invitation email fails, the API will still return a status of 201
                     // but the user's status in the response object will be 'invited-pending'.
                     if (result.users[0].status === "invited-pending") {
-                        self.notifications.showWarn("邀请邮件未成功发送！请重新发送。");
+                        self.notifications.showWarn("Invitation email was not sent.  Please try resending.");
                     } else {
                         self.get("model").set("status", result.users[0].status);
                         self.notifications.showSuccess(notificationText);
@@ -3901,7 +3900,7 @@ define('ghost/controllers/settings/users/user', ['exports', 'ember', 'ghost/mode
                 }).then(function (model) {
                     var currentPath, newPath;
 
-                    self.notifications.showSuccess("设置信息已成功保存。");
+                    self.notifications.showSuccess("Settings successfully saved.");
 
                     // If the user's slug has changed, change the URL and replace
                     // the history so refresh and back button still work
@@ -3936,7 +3935,7 @@ define('ghost/controllers/settings/users/user', ['exports', 'ember', 'ghost/mode
                             ne2Password: ""
                         });
 
-                        self.notifications.showSuccess("密码已更新。");
+                        self.notifications.showSuccess("Password updated.");
 
                         return model;
                     })["catch"](function (errors) {
@@ -4241,12 +4240,12 @@ define('ghost/helpers/gh-count-words', ['exports', 'ember', 'ghost/utils/word-co
         markdown = arr[0] || "";
 
         if (/^\s*$/.test(markdown)) {
-            return "0 个字";
+            return "0 words";
         }
 
         count = counter['default'](markdown);
 
-        return count + (count === 1 ? " 个字" : " 个字");
+        return count + (count === 1 ? " word" : " words");
     });
 
     exports['default'] = countWords;
@@ -4323,10 +4322,7 @@ define('ghost/helpers/gh-format-timeago', ['exports', 'ember'], function (export
 
         var timeago = arr[0];
 
-        moment.locale("zh-cn");
-        timeago = moment(timeago.toDate()).fromNow();
-
-        return timeago;
+        return moment(timeago).fromNow();
         // stefanpenner says cool for small number of timeagos.
         // For large numbers moment sucks => single Ember.Object based clock better
         // https://github.com/manuelmitasch/ghost-admin-ember-demo/commit/fba3ab0a59238290c85d4fa0d7c6ed1be2a8a82e#commitcomment-5396524
@@ -5184,7 +5180,7 @@ define('ghost/mixins/editor-base-controller', ['exports', 'ember', 'ghost/models
         }),
 
         postOrPage: Ember['default'].computed("model.page", function () {
-            return this.get("model.page") ? "独立页面" : "博文";
+            return this.get("model.page") ? "Page" : "Post";
         }),
 
         // compares previousTagNames to tagNames
@@ -5284,7 +5280,7 @@ define('ghost/mixins/editor-base-controller', ['exports', 'ember', 'ghost/models
 
         // used on window.onbeforeunload
         unloadDirtyMessage: function unloadDirtyMessage() {
-            return "==============================\n\n" + "嘿，老兄！好像你还在编辑博文吧，" + "而且博文内容也还没有保存哦！" + "\n\n建议保存先！\n\n" + "==============================";
+            return "==============================\n\n" + "Hey there! It looks like you're in the middle of writing" + " something and you haven't saved all of your content." + "\n\nSave before you go!\n\n" + "==============================";
         },
 
         // TODO: This has to be moved to the I18n localization file.
@@ -5293,12 +5289,12 @@ define('ghost/mixins/editor-base-controller', ['exports', 'ember', 'ghost/models
             errors: {
                 post: {
                     published: {
-                        published: "更新失败。",
-                        draft: "保存失败。"
+                        published: "Update failed.",
+                        draft: "Saving failed."
                     },
                     draft: {
-                        published: "发布失败。",
-                        draft: "保存失败。"
+                        published: "Publish failed.",
+                        draft: "Saving failed."
                     }
 
                 }
@@ -5307,12 +5303,12 @@ define('ghost/mixins/editor-base-controller', ['exports', 'ember', 'ghost/models
             success: {
                 post: {
                     published: {
-                        published: "已更新。",
-                        draft: "已保存。"
+                        published: "Updated.",
+                        draft: "Saved."
                     },
                     draft: {
-                        published: "已发布！",
-                        draft: "已保存。"
+                        published: "Published!",
+                        draft: "Saved."
                     }
                 }
             }
@@ -5324,14 +5320,14 @@ define('ghost/mixins/editor-base-controller', ['exports', 'ember', 'ghost/models
                 type = this.get("postOrPage");
 
             if (status === "published") {
-                message += "&nbsp;<a href=\"" + path + "\">查看 " + type + "</a>";
+                message += "&nbsp;<a href=\"" + path + "\">View " + type + "</a>";
             }
             this.notifications.showSuccess(message.htmlSafe(), { delayed: delay });
         },
 
         showErrorNotification: function showErrorNotification(prevStatus, status, errors, delay) {
             var message = this.messageMap.errors.post[prevStatus][status],
-                error = errors && errors[0] && errors[0].message || "未知错误";
+                error = errors && errors[0] && errors[0].message || "Unknown Error";
 
             message += "<br />" + error;
 
@@ -6386,7 +6382,7 @@ define('ghost/models/post', ['exports', 'ember', 'ember-data', 'ghost/mixins/val
         featured: DS['default'].attr("boolean", { defaultValue: false }),
         page: DS['default'].attr("boolean", { defaultValue: false }),
         status: DS['default'].attr("string", { defaultValue: "draft" }),
-        language: DS['default'].attr("string", { defaultValue: "zh_CN" }),
+        language: DS['default'].attr("string", { defaultValue: "en_US" }),
         meta_title: DS['default'].attr("string"),
         meta_description: DS['default'].attr("string"),
         author: DS['default'].belongsTo("user", { async: true }),
@@ -6573,7 +6569,7 @@ define('ghost/models/user', ['exports', 'ember', 'ember-data', 'ghost/mixins/val
         location: DS['default'].attr("string"),
         accessibility: DS['default'].attr("string"),
         status: DS['default'].attr("string"),
-        language: DS['default'].attr("string", { defaultValue: "zh_CN" }),
+        language: DS['default'].attr("string", { defaultValue: "en_US" }),
         meta_title: DS['default'].attr("string"),
         meta_description: DS['default'].attr("string"),
         last_login: DS['default'].attr("moment-date"),
@@ -6636,11 +6632,11 @@ define('ghost/models/user', ['exports', 'ember', 'ember-data', 'ghost/mixins/val
             var validationErrors = [];
 
             if (!validator.equals(this.get("newPassword"), this.get("ne2Password"))) {
-                validationErrors.push({ message: "两次输入的新密码不匹配。" });
+                validationErrors.push({ message: "Your new passwords do not match" });
             }
 
             if (!validator.isLength(this.get("newPassword"), 8)) {
-                validationErrors.push({ message: "密码太短。至少输入8个字符。" });
+                validationErrors.push({ message: "Your password is not long enough. It must be at least 8 characters long." });
             }
 
             return validationErrors;
@@ -6933,7 +6929,7 @@ define('ghost/routes/editor/edit', ['exports', 'ghost/routes/authenticated', 'gh
     'use strict';
 
     var EditorEditRoute = AuthenticatedRoute['default'].extend(base['default'], {
-        titleToken: "编辑器",
+        titleToken: "Editor",
 
         model: function model(params) {
             var self = this,
@@ -7007,7 +7003,7 @@ define('ghost/routes/editor/new', ['exports', 'ghost/routes/authenticated', 'gho
     'use strict';
 
     var EditorNewRoute = AuthenticatedRoute['default'].extend(base['default'], {
-        titleToken: "编辑器",
+        titleToken: "Editor",
 
         model: function model() {
             var self = this;
@@ -7060,7 +7056,7 @@ define('ghost/routes/forgotten', ['exports', 'ember', 'ghost/mixins/style-body',
     'use strict';
 
     var ForgottenRoute = Ember['default'].Route.extend(styleBody['default'], loadingIndicator['default'], {
-        titleToken: "找回密码",
+        titleToken: "Forgotten Password",
 
         classNames: ["ghost-forgotten"]
     });
@@ -7111,7 +7107,7 @@ define('ghost/routes/posts', ['exports', 'ember', 'ghost/routes/authenticated', 
     };
 
     PostsRoute = AuthenticatedRoute['default'].extend(ShortcutsRoute['default'], styleBody['default'], loadingIndicator['default'], PaginationRouteMixin['default'], {
-        titleToken: "博文列表",
+        titleToken: "Content",
 
         classNames: ["manage"],
 
@@ -7367,7 +7363,7 @@ define('ghost/routes/settings', ['exports', 'ghost/routes/authenticated', 'ghost
     'use strict';
 
     var SettingsRoute = AuthenticatedRoute['default'].extend(styleBody['default'], loadingIndicator['default'], {
-        titleToken: "博客设置",
+        titleToken: "Settings",
 
         classNames: ["settings"]
     });
@@ -7380,7 +7376,7 @@ define('ghost/routes/settings/about', ['exports', 'ghost/routes/authenticated', 
     'use strict';
 
     var SettingsAboutRoute = AuthenticatedRoute['default'].extend(styleBody['default'], loadingIndicator['default'], {
-        titleToken: "关于我们",
+        titleToken: "About",
 
         classNames: ["settings-view-about"],
 
@@ -7464,7 +7460,7 @@ define('ghost/routes/settings/general', ['exports', 'ghost/routes/authenticated'
     'use strict';
 
     var SettingsGeneralRoute = AuthenticatedRoute['default'].extend(styleBody['default'], loadingIndicator['default'], CurrentUserSettings['default'], {
-        titleToken: "全局设置",
+        titleToken: "General",
 
         classNames: ["settings-view-general"],
 
@@ -7493,7 +7489,7 @@ define('ghost/routes/settings/index', ['exports', 'ghost/routes/mobile-index-rou
     'use strict';
 
     var SettingsIndexRoute = MobileIndexRoute['default'].extend(SimpleAuth.AuthenticatedRouteMixin, CurrentUserSettings['default'], {
-        titleToken: "博客设置",
+        titleToken: "Settings",
 
         // Redirect users without permission to view settings,
         // and show the settings.general route unless the user
@@ -7520,7 +7516,7 @@ define('ghost/routes/settings/labs', ['exports', 'ghost/routes/authenticated', '
     'use strict';
 
     var LabsRoute = AuthenticatedRoute['default'].extend(styleBody['default'], loadingIndicator['default'], CurrentUserSettings['default'], {
-        titleToken: "实验室",
+        titleToken: "Labs",
 
         classNames: ["settings"],
         beforeModel: function beforeModel() {
@@ -7590,7 +7586,7 @@ define('ghost/routes/settings/tags', ['exports', 'ghost/routes/authenticated', '
             }
         },
 
-        titleToken: "标签管理",
+        titleToken: "Tags",
 
         beforeModel: function beforeModel() {
             return this.get("session.user").then(this.transitionAuthor());
@@ -7648,7 +7644,7 @@ define('ghost/routes/settings/users/index', ['exports', 'ghost/routes/authentica
     };
 
     UsersIndexRoute = AuthenticatedRoute['default'].extend(styleBody['default'], CurrentUserSettings['default'], PaginationRouteMixin['default'], {
-        titleToken: "用户管理",
+        titleToken: "Users",
 
         classNames: ["settings-view-users"],
 
@@ -7696,7 +7692,7 @@ define('ghost/routes/settings/users/user', ['exports', 'ghost/routes/authenticat
     'use strict';
 
     var SettingsUserRoute = AuthenticatedRoute['default'].extend(styleBody['default'], CurrentUserSettings['default'], {
-        titleToken: "用户管理",
+        titleToken: "User",
 
         classNames: ["settings-view-user"],
 
@@ -7757,7 +7753,7 @@ define('ghost/routes/setup', ['exports', 'ember', 'ghost/mixins/style-body', 'gh
     'use strict';
 
     var SetupRoute = Ember['default'].Route.extend(styleBody['default'], loadingIndicator['default'], {
-        titleToken: "设置",
+        titleToken: "Setup",
 
         classNames: ["ghost-setup"],
 
@@ -7794,7 +7790,7 @@ define('ghost/routes/signin', ['exports', 'ember', 'ghost/mixins/style-body', 'g
     'use strict';
 
     var SigninRoute = Ember['default'].Route.extend(styleBody['default'], loadingIndicator['default'], {
-        titleToken: "登录",
+        titleToken: "Sign In",
 
         classNames: ["ghost-login"],
 
@@ -7831,7 +7827,7 @@ define('ghost/routes/signout', ['exports', 'ember', 'ghost/routes/authenticated'
     'use strict';
 
     var SignoutRoute = AuthenticatedRoute['default'].extend(styleBody['default'], loadingIndicator['default'], {
-        titleToken: "退出",
+        titleToken: "Sign Out",
 
         classNames: ["ghost-signout"],
 
@@ -7857,7 +7853,7 @@ define('ghost/routes/signup', ['exports', 'ember', 'ghost/mixins/style-body', 'g
         classNames: ["ghost-signup"],
         beforeModel: function beforeModel() {
             if (this.get("session").isAuthenticated) {
-                this.notifications.showWarn("你应该先退出登录然后再注册新用户。", { delayed: true });
+                this.notifications.showWarn("You need to sign out to register as a new user.", { delayed: true });
                 this.transitionTo(SimpleAuth.Configuration.routeAfterAuthentication);
             }
         },
@@ -7901,7 +7897,7 @@ define('ghost/routes/signup', ['exports', 'ember', 'ghost/mixins/style-body', 'g
                     }
                 }).then(function (response) {
                     if (response && response.invitation && response.invitation[0].valid === false) {
-                        self.notifications.showError("邀请不存在或已经失效。", { delayed: true });
+                        self.notifications.showError("The invitation does not exist or is no longer valid.", { delayed: true });
 
                         return resolve(self.transitionTo("signin"));
                     }
@@ -8208,12 +8204,12 @@ define('ghost/templates/-contributors', ['exports'], function (exports) {
         var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("a");
-        dom.setAttribute(el2,"href","https://github.com/acburdine");
-        dom.setAttribute(el2,"title","acburdine");
+        dom.setAttribute(el2,"href","https://github.com/cobbspur");
+        dom.setAttribute(el2,"title","cobbspur");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("img");
-        dom.setAttribute(el3,"alt","acburdine");
+        dom.setAttribute(el3,"alt","cobbspur");
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
@@ -8227,12 +8223,12 @@ define('ghost/templates/-contributors', ['exports'], function (exports) {
         var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("a");
-        dom.setAttribute(el2,"href","https://github.com/cobbspur");
-        dom.setAttribute(el2,"title","cobbspur");
+        dom.setAttribute(el2,"href","https://github.com/acburdine");
+        dom.setAttribute(el2,"title","acburdine");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("img");
-        dom.setAttribute(el3,"alt","cobbspur");
+        dom.setAttribute(el3,"alt","acburdine");
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
@@ -8341,12 +8337,12 @@ define('ghost/templates/-contributors', ['exports'], function (exports) {
         var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("a");
-        dom.setAttribute(el2,"href","https://github.com/pborreli");
-        dom.setAttribute(el2,"title","pborreli");
+        dom.setAttribute(el2,"href","https://github.com/harryhope");
+        dom.setAttribute(el2,"title","harryhope");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("img");
-        dom.setAttribute(el3,"alt","pborreli");
+        dom.setAttribute(el3,"alt","harryhope");
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
@@ -8360,12 +8356,12 @@ define('ghost/templates/-contributors', ['exports'], function (exports) {
         var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("a");
-        dom.setAttribute(el2,"href","https://github.com/harryhope");
-        dom.setAttribute(el2,"title","harryhope");
+        dom.setAttribute(el2,"href","https://github.com/pborreli");
+        dom.setAttribute(el2,"title","pborreli");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("img");
-        dom.setAttribute(el3,"alt","harryhope");
+        dom.setAttribute(el3,"alt","pborreli");
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
@@ -8428,15 +8424,15 @@ define('ghost/templates/-contributors', ['exports'], function (exports) {
         attribute(env, attrMorph2, element2, "src", concat(env, [subexpr(env, context, "gh-path", ["admin", "/img/contributors"], {}), "/PaulAdamDavis"]));
         attribute(env, attrMorph3, element3, "src", concat(env, [subexpr(env, context, "gh-path", ["admin", "/img/contributors"], {}), "/novaugust"]));
         attribute(env, attrMorph4, element4, "src", concat(env, [subexpr(env, context, "gh-path", ["admin", "/img/contributors"], {}), "/JohnONolan"]));
-        attribute(env, attrMorph5, element5, "src", concat(env, [subexpr(env, context, "gh-path", ["admin", "/img/contributors"], {}), "/acburdine"]));
-        attribute(env, attrMorph6, element6, "src", concat(env, [subexpr(env, context, "gh-path", ["admin", "/img/contributors"], {}), "/cobbspur"]));
+        attribute(env, attrMorph5, element5, "src", concat(env, [subexpr(env, context, "gh-path", ["admin", "/img/contributors"], {}), "/cobbspur"]));
+        attribute(env, attrMorph6, element6, "src", concat(env, [subexpr(env, context, "gh-path", ["admin", "/img/contributors"], {}), "/acburdine"]));
         attribute(env, attrMorph7, element7, "src", concat(env, [subexpr(env, context, "gh-path", ["admin", "/img/contributors"], {}), "/felixrieseberg"]));
         attribute(env, attrMorph8, element8, "src", concat(env, [subexpr(env, context, "gh-path", ["admin", "/img/contributors"], {}), "/sebgie"]));
         attribute(env, attrMorph9, element9, "src", concat(env, [subexpr(env, context, "gh-path", ["admin", "/img/contributors"], {}), "/rwjblue"]));
         attribute(env, attrMorph10, element10, "src", concat(env, [subexpr(env, context, "gh-path", ["admin", "/img/contributors"], {}), "/halfdan"]));
         attribute(env, attrMorph11, element11, "src", concat(env, [subexpr(env, context, "gh-path", ["admin", "/img/contributors"], {}), "/dbalders"]));
-        attribute(env, attrMorph12, element12, "src", concat(env, [subexpr(env, context, "gh-path", ["admin", "/img/contributors"], {}), "/pborreli"]));
-        attribute(env, attrMorph13, element13, "src", concat(env, [subexpr(env, context, "gh-path", ["admin", "/img/contributors"], {}), "/harryhope"]));
+        attribute(env, attrMorph12, element12, "src", concat(env, [subexpr(env, context, "gh-path", ["admin", "/img/contributors"], {}), "/harryhope"]));
+        attribute(env, attrMorph13, element13, "src", concat(env, [subexpr(env, context, "gh-path", ["admin", "/img/contributors"], {}), "/pborreli"]));
         return fragment;
       }
     };
@@ -8604,7 +8600,7 @@ define('ghost/templates/-navbar', ['exports'], function (exports) {
           var el2 = dom.createElement("i");
           dom.setAttribute(el2,"class","icon-content");
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode(" 博文列表");
+          var el2 = dom.createTextNode(" Content");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
@@ -8650,7 +8646,7 @@ define('ghost/templates/-navbar', ['exports'], function (exports) {
           var el2 = dom.createElement("i");
           dom.setAttribute(el2,"class","icon-add");
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode(" 新建博文");
+          var el2 = dom.createTextNode(" New Post");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
@@ -8697,7 +8693,7 @@ define('ghost/templates/-navbar', ['exports'], function (exports) {
             var el2 = dom.createElement("i");
             dom.setAttribute(el2,"class","icon-settings2");
             dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode(" 博客设置");
+            var el2 = dom.createTextNode(" Settings");
             dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
             var el1 = dom.createTextNode("\n");
@@ -8803,7 +8799,7 @@ define('ghost/templates/-navbar', ['exports'], function (exports) {
           var el2 = dom.createTextNode("\n                ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("small");
-          var el3 = dom.createTextNode("个人资料与设置");
+          var el3 = dom.createTextNode("Profile & Settings");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n            ");
@@ -8860,7 +8856,7 @@ define('ghost/templates/-navbar', ['exports'], function (exports) {
             var el1 = dom.createElement("i");
             dom.setAttribute(el1,"class","icon-user");
             dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode(" 我的资料");
+            var el1 = dom.createTextNode(" Your Profile");
             dom.appendChild(el0, el1);
             return el0;
           },
@@ -8899,7 +8895,7 @@ define('ghost/templates/-navbar', ['exports'], function (exports) {
             var el1 = dom.createElement("i");
             dom.setAttribute(el1,"class","icon-power");
             dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode(" 退出登录");
+            var el1 = dom.createTextNode(" Sign Out");
             dom.appendChild(el0, el1);
             return el0;
           },
@@ -9013,7 +9009,7 @@ define('ghost/templates/-navbar', ['exports'], function (exports) {
           dom.setAttribute(el2,"class","icon-question");
           var el3 = dom.createElement("span");
           dom.setAttribute(el3,"class","hidden");
-          var el4 = dom.createTextNode("帮助");
+          var el4 = dom.createTextNode("Help");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
@@ -9074,7 +9070,7 @@ define('ghost/templates/-navbar', ['exports'], function (exports) {
           var el4 = dom.createElement("i");
           dom.setAttribute(el4,"class","icon-support");
           dom.appendChild(el3, el4);
-          var el4 = dom.createTextNode(" 支持中心");
+          var el4 = dom.createTextNode(" Support Center");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
@@ -9106,34 +9102,15 @@ define('ghost/templates/-navbar', ['exports'], function (exports) {
           var el2 = dom.createElement("li");
           dom.setAttribute(el2,"role","presentation");
           var el3 = dom.createElement("a");
-          dom.setAttribute(el3,"class","dropdown-item help-menu-weibo");
-          dom.setAttribute(el3,"role","menuitem");
-          dom.setAttribute(el3,"tabindex","-1");
-          dom.setAttribute(el3,"href","http://weibo.com/ghostchinacom");
-          dom.setAttribute(el3,"target","_blank");
-          var el4 = dom.createTextNode("微博 @Ghost中国");
-          dom.appendChild(el3, el4);
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n                ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("li");
-          dom.setAttribute(el2,"class","divider");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n                ");
-          dom.appendChild(el1, el2);
-          var el2 = dom.createElement("li");
-          dom.setAttribute(el2,"role","presentation");
-          var el3 = dom.createElement("a");
           dom.setAttribute(el3,"class","dropdown-item help-menu-how-to");
           dom.setAttribute(el3,"role","menuitem");
           dom.setAttribute(el3,"tabindex","-1");
-          dom.setAttribute(el3,"href","http://www.ghostchina.com/how-to-use-ghost/");
+          dom.setAttribute(el3,"href","http://support.ghost.org/how-to-use-ghost/");
           dom.setAttribute(el3,"target","_blank");
           var el4 = dom.createElement("i");
           dom.setAttribute(el4,"class","icon-book");
           dom.appendChild(el3, el4);
-          var el4 = dom.createTextNode(" 如何使用 Ghost 博客系统");
+          var el4 = dom.createTextNode(" How to Use Ghost");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
@@ -9149,7 +9126,7 @@ define('ghost/templates/-navbar', ['exports'], function (exports) {
           var el4 = dom.createElement("i");
           dom.setAttribute(el4,"class","icon-markdown");
           dom.appendChild(el3, el4);
-          var el4 = dom.createTextNode(" Markdown 帮助手册");
+          var el4 = dom.createTextNode(" Markdown Help");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
@@ -9171,7 +9148,7 @@ define('ghost/templates/-navbar', ['exports'], function (exports) {
           var el4 = dom.createElement("i");
           dom.setAttribute(el4,"class","icon-list");
           dom.appendChild(el3, el4);
-          var el4 = dom.createTextNode(" 心愿列表");
+          var el4 = dom.createTextNode(" Wishlist");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
@@ -9202,7 +9179,7 @@ define('ghost/templates/-navbar', ['exports'], function (exports) {
           } else {
             fragment = this.build(dom);
           }
-          var element0 = dom.childAt(fragment, [1, 13, 0]);
+          var element0 = dom.childAt(fragment, [1, 9, 0]);
           element(env, element0, context, "action", ["openModal", "markdown"], {});
           return fragment;
         }
@@ -9223,7 +9200,7 @@ define('ghost/templates/-navbar', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("a");
         dom.setAttribute(el2,"class","nav-item ghost-logo");
-        dom.setAttribute(el2,"title","访问博客首页");
+        dom.setAttribute(el2,"title","Visit blog");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
@@ -9234,7 +9211,7 @@ define('ghost/templates/-navbar', ['exports'], function (exports) {
         var el4 = dom.createTextNode(" ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("span");
-        var el5 = dom.createTextNode("访问博客首页");
+        var el5 = dom.createTextNode("Visit blog");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode(" ");
@@ -9295,7 +9272,7 @@ define('ghost/templates/-navbar', ['exports'], function (exports) {
       },
       render: function render(context, env, contextualElement) {
         var dom = env.dom;
-        var hooks = env.hooks, subexpr = hooks.subexpr, concat = hooks.concat, attribute = hooks.attribute, block = hooks.block, get = hooks.get;
+        var hooks = env.hooks, get = hooks.get, concat = hooks.concat, attribute = hooks.attribute, block = hooks.block;
         dom.detectNamespace(contextualElement);
         var fragment;
         if (env.useFragmentCache && dom.canClone) {
@@ -9325,7 +9302,7 @@ define('ghost/templates/-navbar', ['exports'], function (exports) {
         var morph4 = dom.createMorphAt(element6,2,2);
         var morph5 = dom.createMorphAt(element7,1,1);
         var morph6 = dom.createMorphAt(element7,2,2);
-        attribute(env, attrMorph0, element5, "href", concat(env, [subexpr(env, context, "gh-path", ["blog"], {})]));
+        attribute(env, attrMorph0, element5, "href", concat(env, [get(env, context, "config.blogUrl"), "/"]));
         block(env, morph0, context, "link-to", ["posts"], {"classNames": "nav-item nav-content js-nav-item"}, child0, null);
         block(env, morph1, context, "link-to", ["editor.new"], {"classNames": "nav-item nav-new js-nav-item"}, child1, null);
         block(env, morph2, context, "unless", [get(env, context, "session.user.isAuthor")], {}, child2, null);
@@ -9375,7 +9352,7 @@ define('ghost/templates/-publish-bar', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("span");
         dom.setAttribute(el5,"class","sr-only");
-        var el6 = dom.createTextNode("博文设置菜单");
+        var el6 = dom.createTextNode("Post settings menu");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -9448,7 +9425,7 @@ define('ghost/templates/-user-actions-menu', ['exports'], function (exports) {
           var el0 = dom.createDocumentFragment();
           var el1 = dom.createElement("li");
           var el2 = dom.createElement("button");
-          var el3 = dom.createTextNode("设置为博客所有人");
+          var el3 = dom.createTextNode("Make Owner");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
@@ -9494,7 +9471,7 @@ define('ghost/templates/-user-actions-menu', ['exports'], function (exports) {
           var el1 = dom.createElement("li");
           var el2 = dom.createElement("button");
           dom.setAttribute(el2,"class","delete");
-          var el3 = dom.createTextNode("删除用户");
+          var el3 = dom.createTextNode("Delete User");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
@@ -10034,10 +10011,10 @@ define('ghost/templates/components/gh-modal-dialog', ['exports'], function (expo
           var el1 = dom.createElement("a");
           dom.setAttribute(el1,"class","close");
           dom.setAttribute(el1,"href","");
-          dom.setAttribute(el1,"title","关闭");
+          dom.setAttribute(el1,"title","Close");
           var el2 = dom.createElement("span");
           dom.setAttribute(el2,"class","hidden");
-          var el3 = dom.createTextNode("关闭");
+          var el3 = dom.createTextNode("Close");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
@@ -10269,7 +10246,7 @@ define('ghost/templates/components/gh-navitem', ['exports'], function (exports) 
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("span");
           dom.setAttribute(el2,"class","sr-only");
-          var el3 = dom.createTextNode("重新排序");
+          var el3 = dom.createTextNode("Reorder");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n    ");
@@ -10320,7 +10297,7 @@ define('ghost/templates/components/gh-navitem', ['exports'], function (exports) 
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("span");
           dom.setAttribute(el2,"class","sr-only");
-          var el3 = dom.createTextNode("添加");
+          var el3 = dom.createTextNode("Add");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n        ");
@@ -10374,7 +10351,7 @@ define('ghost/templates/components/gh-navitem', ['exports'], function (exports) 
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("span");
           dom.setAttribute(el2,"class","sr-only");
-          var el3 = dom.createTextNode("删除");
+          var el3 = dom.createTextNode("Delete");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n        ");
@@ -10487,7 +10464,7 @@ define('ghost/templates/components/gh-navitem', ['exports'], function (exports) 
         var morph3 = dom.createMorphAt(dom.childAt(fragment, [3]),1,1);
         dom.insertBoundary(fragment, 0);
         block(env, morph0, context, "unless", [get(env, context, "navItem.last")], {}, child0, null);
-        inline(env, morph1, context, "gh-trim-focus-input", [], {"focus": get(env, context, "navItem.last"), "placeholder": "标题", "value": get(env, context, "navItem.label")});
+        inline(env, morph1, context, "gh-trim-focus-input", [], {"focus": get(env, context, "navItem.last"), "placeholder": "Label", "value": get(env, context, "navItem.label")});
         inline(env, morph2, context, "gh-navitem-url-input", [], {"baseUrl": get(env, context, "baseUrl"), "url": get(env, context, "navItem.url"), "last": get(env, context, "navItem.last"), "change": "updateUrl"});
         block(env, morph3, context, "if", [get(env, context, "navItem.last")], {}, child1, child2);
         return fragment;
@@ -10527,7 +10504,7 @@ define('ghost/templates/components/gh-notification', ['exports'], function (expo
         dom.setAttribute(el2,"class","close");
         var el3 = dom.createElement("span");
         dom.setAttribute(el3,"class","hidden");
-        var el4 = dom.createTextNode("关闭");
+        var el4 = dom.createTextNode("Close");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
@@ -10782,7 +10759,7 @@ define('ghost/templates/components/gh-uploader', ['exports'], function (exports)
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("span");
         dom.setAttribute(el2,"class","hidden");
-        var el3 = dom.createTextNode("上传图片");
+        var el3 = dom.createTextNode("Image Upload");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -11133,7 +11110,7 @@ define('ghost/templates/editor/edit', ['exports'], function (exports) {
         dom.setAttribute(el2,"class","menu-button js-menu-button");
         var el3 = dom.createElement("span");
         dom.setAttribute(el3,"class","sr-only");
-        var el4 = dom.createTextNode("菜单");
+        var el4 = dom.createTextNode("Menu");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
@@ -11141,7 +11118,7 @@ define('ghost/templates/editor/edit', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("h2");
         dom.setAttribute(el2,"class","page-title");
-        var el3 = dom.createTextNode("编辑器");
+        var el3 = dom.createTextNode("Editor");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -11188,7 +11165,7 @@ define('ghost/templates/editor/edit', ['exports'], function (exports) {
         dom.setAttribute(el4,"href","");
         var el5 = dom.createElement("span");
         dom.setAttribute(el5,"class","hidden");
-        var el6 = dom.createTextNode("Markdown 是什么？");
+        var el6 = dom.createTextNode("What is Markdown?");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
@@ -11220,7 +11197,7 @@ define('ghost/templates/editor/edit', ['exports'], function (exports) {
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("small");
-        var el5 = dom.createTextNode("预览 ");
+        var el5 = dom.createTextNode("Preview ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("span");
         dom.setAttribute(el5,"class","entry-word-count js-entry-word-count");
@@ -11291,7 +11268,7 @@ define('ghost/templates/editor/edit', ['exports'], function (exports) {
         var morph3 = dom.createMorphAt(dom.childAt(element5, [3]),1,1);
         var morph4 = dom.createMorphAt(element1,7,7);
         element(env, element0, context, "action", ["toggleGlobalMobileNav"], {});
-        inline(env, morph0, context, "gh-trim-focus-input", [], {"type": "text", "id": "entry-title", "placeholder": "博文标题", "value": get(env, context, "model.titleScratch"), "tabindex": "1", "focus": get(env, context, "shouldFocusTitle")});
+        inline(env, morph0, context, "gh-trim-focus-input", [], {"type": "text", "id": "entry-title", "placeholder": "Your Post Title", "value": get(env, context, "model.titleScratch"), "tabindex": "1", "focus": get(env, context, "shouldFocusTitle")});
         attribute(env, attrMorph0, element2, "class", concat(env, ["entry-markdown js-entry-markdown ", subexpr(env, context, "unless", [get(env, context, "isPreview"), "active"], {})]));
         element(env, element3, context, "action", ["togglePreview", false], {});
         element(env, element4, context, "action", ["openModal", "markdown"], {});
@@ -11539,7 +11516,7 @@ define('ghost/templates/error', ['exports'], function (exports) {
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("a");
         dom.setAttribute(el4,"class","error-link");
-        var el5 = dom.createTextNode("返回首页 →");
+        var el5 = dom.createTextNode("Go to the front page →");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n         ");
@@ -11638,7 +11615,7 @@ define('ghost/templates/forgotten', ['exports'], function (exports) {
         var el3 = dom.createElement("button");
         dom.setAttribute(el3,"class","btn btn-blue");
         dom.setAttribute(el3,"type","submit");
-        var el4 = dom.createTextNode("发送新密码");
+        var el4 = dom.createTextNode("Send new password");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -11675,7 +11652,7 @@ define('ghost/templates/forgotten', ['exports'], function (exports) {
         var element1 = dom.childAt(element0, [3]);
         var morph0 = dom.createMorphAt(dom.childAt(element0, [1]),1,1);
         var attrMorph0 = dom.createAttrMorph(element1, 'disabled');
-        inline(env, morph0, context, "gh-trim-focus-input", [], {"value": get(env, context, "email"), "class": "email", "type": "email", "placeholder": "邮箱地址", "name": "email", "autofocus": "autofocus", "autocapitalize": "off", "autocorrect": "off"});
+        inline(env, morph0, context, "gh-trim-focus-input", [], {"value": get(env, context, "email"), "class": "email", "type": "email", "placeholder": "Email Address", "name": "email", "autofocus": "autofocus", "autocapitalize": "off", "autocorrect": "off"});
         attribute(env, attrMorph0, element1, "disabled", get(env, context, "submitting"));
         element(env, element1, context, "action", ["submit"], {});
         return fragment;
@@ -11767,7 +11744,7 @@ define('ghost/templates/modals/copy-html', ['exports'], function (exports) {
         var morph0 = dom.createMorphAt(fragment,0,0,contextualElement);
         dom.insertBoundary(fragment, null);
         dom.insertBoundary(fragment, 0);
-        block(env, morph0, context, "gh-modal-dialog", [], {"action": "closeModal", "showClose": true, "type": "action", "title": "生成的 HTML 文档", "confirm": get(env, context, "confirm"), "class": "copy-html"}, child0, null);
+        block(env, morph0, context, "gh-modal-dialog", [], {"action": "closeModal", "showClose": true, "type": "action", "title": "Generated HTML", "confirm": get(env, context, "confirm"), "class": "copy-html"}, child0, null);
         return fragment;
       }
     };
@@ -11791,11 +11768,11 @@ define('ghost/templates/modals/delete-all', ['exports'], function (exports) {
           var el1 = dom.createTextNode("\n    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("p");
-          var el2 = dom.createTextNode("此操作不可逆！没有备份、不能恢复、没有后悔药。 ");
+          var el2 = dom.createTextNode("This is permanent! No backups, no restores, no magic undo button. ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("br");
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode(" 这是最后警告！小心！");
+          var el2 = dom.createTextNode(" We warned you, ok?");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n\n");
@@ -11860,7 +11837,7 @@ define('ghost/templates/modals/delete-all', ['exports'], function (exports) {
         var morph0 = dom.createMorphAt(fragment,0,0,contextualElement);
         dom.insertBoundary(fragment, null);
         dom.insertBoundary(fragment, 0);
-        block(env, morph0, context, "gh-modal-dialog", [], {"action": "closeModal", "type": "action", "style": "wide", "title": "是否真的要删除所有博文内容？", "confirm": get(env, context, "confirm")}, child0, null);
+        block(env, morph0, context, "gh-modal-dialog", [], {"action": "closeModal", "type": "action", "style": "wide", "title": "Would you really like to delete all content from your blog?", "confirm": get(env, context, "confirm")}, child0, null);
         return fragment;
       }
     };
@@ -11884,21 +11861,21 @@ define('ghost/templates/modals/delete-post', ['exports'], function (exports) {
           var el1 = dom.createTextNode("\n    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("p");
-          var el2 = dom.createTextNode("即将删除 \"");
+          var el2 = dom.createTextNode("You're about to delete \"");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("strong");
           var el3 = dom.createComment("");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\"。");
+          var el2 = dom.createTextNode("\".");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("br");
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("此操作不可逆！没有备份、不能恢复、没有后悔药。 ");
+          var el2 = dom.createTextNode("This is permanent! No backups, no restores, no magic undo button. ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("br");
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode(" 这是最后警告！小心！");
+          var el2 = dom.createTextNode(" We warned you, ok?");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n\n");
@@ -11966,7 +11943,7 @@ define('ghost/templates/modals/delete-post', ['exports'], function (exports) {
         var morph0 = dom.createMorphAt(fragment,0,0,contextualElement);
         dom.insertBoundary(fragment, null);
         dom.insertBoundary(fragment, 0);
-        block(env, morph0, context, "gh-modal-dialog", [], {"action": "closeModal", "showClose": true, "type": "action", "style": "wide", "title": "确认要删除此博文吗？", "confirm": get(env, context, "confirm")}, child0, null);
+        block(env, morph0, context, "gh-modal-dialog", [], {"action": "closeModal", "showClose": true, "type": "action", "style": "wide", "title": "Are you sure you want to delete this post?", "confirm": get(env, context, "confirm")}, child0, null);
         return fragment;
       }
     };
@@ -11991,31 +11968,31 @@ define('ghost/templates/modals/delete-tag', ['exports'], function (exports) {
             var el1 = dom.createTextNode("        ");
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("strong");
-            var el2 = dom.createTextNode("警告：");
+            var el2 = dom.createTextNode("WARNING:");
             dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
             var el1 = dom.createTextNode(" ");
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("span");
             dom.setAttribute(el1,"class","red");
-            var el2 = dom.createTextNode("共有 ");
+            var el2 = dom.createTextNode("This tag is attached to ");
             dom.appendChild(el1, el2);
             var el2 = dom.createComment("");
             dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode(" 篇 ");
+            var el2 = dom.createTextNode(" ");
             dom.appendChild(el1, el2);
             var el2 = dom.createComment("");
             dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode(" 被标记为此标签。");
+            var el2 = dom.createTextNode(".");
             dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode(" 你将要删除的标签是 \"");
+            var el1 = dom.createTextNode(" You're about to delete \"");
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("strong");
             var el2 = dom.createComment("");
             dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\"。此删除操作不可逆！没有备份、不可恢复。确定要删除吗？\n");
+            var el1 = dom.createTextNode("\". This is permanent! No backups, no restores, no magic undo button. We warned you, ok?\n");
             dom.appendChild(el0, el1);
             return el0;
           },
@@ -12062,16 +12039,16 @@ define('ghost/templates/modals/delete-tag', ['exports'], function (exports) {
             var el1 = dom.createTextNode("        ");
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("strong");
-            var el2 = dom.createTextNode("警告：");
+            var el2 = dom.createTextNode("WARNING:");
             dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode(" 你将要删除的标签是 \"");
+            var el1 = dom.createTextNode(" You're about to delete \"");
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("strong");
             var el2 = dom.createComment("");
             dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\"。此删除操作不可逆！没有备份、不可恢复。确定要删除吗？\n");
+            var el1 = dom.createTextNode("\". This is permanent! No backups, no restores, no magic undo button. We warned you, ok?\n");
             dom.appendChild(el0, el1);
             return el0;
           },
@@ -12177,7 +12154,7 @@ define('ghost/templates/modals/delete-tag', ['exports'], function (exports) {
         var morph0 = dom.createMorphAt(fragment,0,0,contextualElement);
         dom.insertBoundary(fragment, null);
         dom.insertBoundary(fragment, 0);
-        block(env, morph0, context, "gh-modal-dialog", [], {"action": "closeModal", "showClose": true, "type": "action", "style": "wide", "title": "是否确定删除此标签？", "confirm": get(env, context, "confirm")}, child0, null);
+        block(env, morph0, context, "gh-modal-dialog", [], {"action": "closeModal", "showClose": true, "type": "action", "style": "wide", "title": "Are you sure you want to delete this tag?", "confirm": get(env, context, "confirm")}, child0, null);
         return fragment;
       }
     };
@@ -12203,25 +12180,25 @@ define('ghost/templates/modals/delete-user', ['exports'], function (exports) {
               var el1 = dom.createTextNode("            ");
               dom.appendChild(el0, el1);
               var el1 = dom.createElement("strong");
-              var el2 = dom.createTextNode("警告：");
+              var el2 = dom.createTextNode("WARNING:");
               dom.appendChild(el1, el2);
               dom.appendChild(el0, el1);
               var el1 = dom.createTextNode(" ");
               dom.appendChild(el0, el1);
               var el1 = dom.createElement("span");
               dom.setAttribute(el1,"class","red");
-              var el2 = dom.createTextNode("T此用户是 ");
+              var el2 = dom.createTextNode("This user is the author of ");
               dom.appendChild(el1, el2);
               var el2 = dom.createComment("");
               dom.appendChild(el1, el2);
-              var el2 = dom.createTextNode(" 篇 ");
+              var el2 = dom.createTextNode(" ");
               dom.appendChild(el1, el2);
               var el2 = dom.createComment("");
               dom.appendChild(el1, el2);
-              var el2 = dom.createTextNode(" 的作者。");
+              var el2 = dom.createTextNode(".");
               dom.appendChild(el1, el2);
               dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode(" 所有和此用户相关联的数据都将被删除。没有备份数据可以恢复！\n");
+              var el1 = dom.createTextNode(" All posts and user data will be deleted. There is no way to recover this.\n");
               dom.appendChild(el0, el1);
               return el0;
             },
@@ -12266,10 +12243,10 @@ define('ghost/templates/modals/delete-user', ['exports'], function (exports) {
               var el1 = dom.createTextNode("            ");
               dom.appendChild(el0, el1);
               var el1 = dom.createElement("strong");
-              var el2 = dom.createTextNode("警告：");
+              var el2 = dom.createTextNode("WARNING:");
               dom.appendChild(el1, el2);
               dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode(" 所有和此用户相关联的数据都将被删除。没有备份数据可以恢复！\n");
+              var el1 = dom.createTextNode(" All user data will be deleted. There is no way to recover this.\n");
               dom.appendChild(el0, el1);
               return el0;
             },
@@ -12413,7 +12390,7 @@ define('ghost/templates/modals/delete-user', ['exports'], function (exports) {
         var morph0 = dom.createMorphAt(fragment,0,0,contextualElement);
         dom.insertBoundary(fragment, null);
         dom.insertBoundary(fragment, 0);
-        block(env, morph0, context, "gh-modal-dialog", [], {"action": "closeModal", "showClose": true, "type": "action", "style": "wide", "title": "是否真的要删除此用户？", "confirm": get(env, context, "confirm")}, child0, null);
+        block(env, morph0, context, "gh-modal-dialog", [], {"action": "closeModal", "showClose": true, "type": "action", "style": "wide", "title": "Are you sure you want to delete this user?", "confirm": get(env, context, "confirm")}, child0, null);
         return fragment;
       }
     };
@@ -12445,7 +12422,7 @@ define('ghost/templates/modals/invite-new-user', ['exports'], function (exports)
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("label");
           dom.setAttribute(el3,"for","new-user-email");
-          var el4 = dom.createTextNode("邮箱");
+          var el4 = dom.createTextNode("Email Address");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
           var el3 = dom.createTextNode("\n                ");
@@ -12463,7 +12440,7 @@ define('ghost/templates/modals/invite-new-user', ['exports'], function (exports)
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("label");
           dom.setAttribute(el3,"for","new-user-role");
-          var el4 = dom.createTextNode("角色/权限");
+          var el4 = dom.createTextNode("Role");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
           var el3 = dom.createTextNode("\n                ");
@@ -12503,7 +12480,7 @@ define('ghost/templates/modals/invite-new-user', ['exports'], function (exports)
           var element0 = dom.childAt(fragment, [1]);
           var morph0 = dom.createMorphAt(dom.childAt(element0, [1]),3,3);
           var morph1 = dom.createMorphAt(dom.childAt(element0, [3]),3,3);
-          inline(env, morph0, context, "input", [], {"action": "confirmAccept", "class": "email", "id": "new-user-email", "type": "email", "placeholder": "被邀请用户的邮箱", "name": "email", "autofocus": "autofocus", "autocapitalize": "off", "autocorrect": "off", "value": get(env, context, "email")});
+          inline(env, morph0, context, "input", [], {"action": "confirmAccept", "class": "email", "id": "new-user-email", "type": "email", "placeholder": "Email Address", "name": "email", "autofocus": "autofocus", "autocapitalize": "off", "autocorrect": "off", "value": get(env, context, "email")});
           inline(env, morph1, context, "gh-role-selector", [], {"initialValue": get(env, context, "authorRole"), "onChange": "setRole", "selectId": "new-user-role"});
           return fragment;
         }
@@ -12544,7 +12521,7 @@ define('ghost/templates/modals/invite-new-user', ['exports'], function (exports)
         var morph0 = dom.createMorphAt(fragment,0,0,contextualElement);
         dom.insertBoundary(fragment, null);
         dom.insertBoundary(fragment, 0);
-        block(env, morph0, context, "gh-modal-dialog", [], {"action": "closeModal", "showClose": true, "type": "action", "title": "邀请新用户", "confirm": get(env, context, "confirm"), "class": "invite-new-user"}, child0, null);
+        block(env, morph0, context, "gh-modal-dialog", [], {"action": "closeModal", "showClose": true, "type": "action", "title": "Invite a New User", "confirm": get(env, context, "confirm"), "class": "invite-new-user"}, child0, null);
         return fragment;
       }
     };
@@ -12568,7 +12545,13 @@ define('ghost/templates/modals/leave-editor', ['exports'], function (exports) {
           var el1 = dom.createTextNode("\n    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("p");
-          var el2 = dom.createTextNode("嘿，同学！好像你的博文还在创作中啊，而且没有保存，是否保存个先？");
+          var el2 = dom.createTextNode("Hey there! It looks like you're in the middle of writing something and you haven't saved all of your\n    content.");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("p");
+          var el2 = dom.createTextNode("Save before you go!");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n\n");
@@ -12633,7 +12616,7 @@ define('ghost/templates/modals/leave-editor', ['exports'], function (exports) {
         var morph0 = dom.createMorphAt(fragment,0,0,contextualElement);
         dom.insertBoundary(fragment, null);
         dom.insertBoundary(fragment, 0);
-        block(env, morph0, context, "gh-modal-dialog", [], {"action": "closeModal", "showClose": true, "type": "action", "style": "wide", "title": "你确定要离开当前页面吗？", "confirm": get(env, context, "confirm")}, child0, null);
+        block(env, morph0, context, "gh-modal-dialog", [], {"action": "closeModal", "showClose": true, "type": "action", "style": "wide", "title": "Are you sure you want to leave this page?", "confirm": get(env, context, "confirm")}, child0, null);
         return fragment;
       }
     };
@@ -12671,7 +12654,7 @@ define('ghost/templates/modals/markdown', ['exports'], function (exports) {
           var el5 = dom.createTextNode("\n                ");
           dom.appendChild(el4, el5);
           var el5 = dom.createElement("th");
-          var el6 = dom.createTextNode("效果");
+          var el6 = dom.createTextNode("Result");
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
           var el5 = dom.createTextNode("\n                ");
@@ -12683,7 +12666,7 @@ define('ghost/templates/modals/markdown', ['exports'], function (exports) {
           var el5 = dom.createTextNode("\n                ");
           dom.appendChild(el4, el5);
           var el5 = dom.createElement("th");
-          var el6 = dom.createTextNode("快捷键");
+          var el6 = dom.createTextNode("Shortcut");
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
           var el5 = dom.createTextNode("\n            ");
@@ -12702,7 +12685,7 @@ define('ghost/templates/modals/markdown', ['exports'], function (exports) {
           dom.appendChild(el4, el5);
           var el5 = dom.createElement("td");
           var el6 = dom.createElement("strong");
-          var el7 = dom.createTextNode("粗体字");
+          var el7 = dom.createTextNode("Bold");
           dom.appendChild(el6, el7);
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
@@ -12728,7 +12711,7 @@ define('ghost/templates/modals/markdown', ['exports'], function (exports) {
           dom.appendChild(el4, el5);
           var el5 = dom.createElement("td");
           var el6 = dom.createElement("em");
-          var el7 = dom.createTextNode("斜体字");
+          var el7 = dom.createTextNode("Emphasize");
           dom.appendChild(el6, el7);
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
@@ -12754,7 +12737,7 @@ define('ghost/templates/modals/markdown', ['exports'], function (exports) {
           dom.appendChild(el4, el5);
           var el5 = dom.createElement("td");
           var el6 = dom.createElement("del");
-          var el7 = dom.createTextNode("删除线");
+          var el7 = dom.createTextNode("Strike-through");
           dom.appendChild(el6, el7);
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
@@ -12781,7 +12764,7 @@ define('ghost/templates/modals/markdown', ['exports'], function (exports) {
           var el5 = dom.createElement("td");
           var el6 = dom.createElement("a");
           dom.setAttribute(el6,"href","#");
-          var el7 = dom.createTextNode("链接");
+          var el7 = dom.createTextNode("Link");
           dom.appendChild(el6, el7);
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
@@ -12807,7 +12790,7 @@ define('ghost/templates/modals/markdown', ['exports'], function (exports) {
           dom.appendChild(el4, el5);
           var el5 = dom.createElement("td");
           var el6 = dom.createElement("code");
-          var el7 = dom.createTextNode("行内代码");
+          var el7 = dom.createTextNode("Inline Code");
           dom.appendChild(el6, el7);
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
@@ -12832,7 +12815,7 @@ define('ghost/templates/modals/markdown', ['exports'], function (exports) {
           var el5 = dom.createTextNode("\n                ");
           dom.appendChild(el4, el5);
           var el5 = dom.createElement("td");
-          var el6 = dom.createTextNode("图片");
+          var el6 = dom.createTextNode("Image");
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
           var el5 = dom.createTextNode("\n                ");
@@ -12856,7 +12839,7 @@ define('ghost/templates/modals/markdown', ['exports'], function (exports) {
           var el5 = dom.createTextNode("\n                ");
           dom.appendChild(el4, el5);
           var el5 = dom.createElement("td");
-          var el6 = dom.createTextNode("列表");
+          var el6 = dom.createTextNode("List");
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
           var el5 = dom.createTextNode("\n                ");
@@ -12880,7 +12863,7 @@ define('ghost/templates/modals/markdown', ['exports'], function (exports) {
           var el5 = dom.createTextNode("\n                ");
           dom.appendChild(el4, el5);
           var el5 = dom.createElement("td");
-          var el6 = dom.createTextNode("引用");
+          var el6 = dom.createTextNode("Blockquote");
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
           var el5 = dom.createTextNode("\n                ");
@@ -12905,7 +12888,7 @@ define('ghost/templates/modals/markdown', ['exports'], function (exports) {
           dom.appendChild(el4, el5);
           var el5 = dom.createElement("td");
           var el6 = dom.createElement("mark");
-          var el7 = dom.createTextNode("语法高亮");
+          var el7 = dom.createTextNode("Highlight");
           dom.appendChild(el6, el7);
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
@@ -12928,7 +12911,7 @@ define('ghost/templates/modals/markdown', ['exports'], function (exports) {
           var el5 = dom.createTextNode("\n                ");
           dom.appendChild(el4, el5);
           var el5 = dom.createElement("td");
-          var el6 = dom.createTextNode("一级标题");
+          var el6 = dom.createTextNode("H1");
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
           var el5 = dom.createTextNode("\n                ");
@@ -12950,7 +12933,7 @@ define('ghost/templates/modals/markdown', ['exports'], function (exports) {
           var el5 = dom.createTextNode("\n                ");
           dom.appendChild(el4, el5);
           var el5 = dom.createElement("td");
-          var el6 = dom.createTextNode("二级标题");
+          var el6 = dom.createTextNode("H2");
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
           var el5 = dom.createTextNode("\n                ");
@@ -12974,7 +12957,7 @@ define('ghost/templates/modals/markdown', ['exports'], function (exports) {
           var el5 = dom.createTextNode("\n                ");
           dom.appendChild(el4, el5);
           var el5 = dom.createElement("td");
-          var el6 = dom.createTextNode("三级标题");
+          var el6 = dom.createTextNode("H3");
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
           var el5 = dom.createTextNode("\n                ");
@@ -12998,15 +12981,15 @@ define('ghost/templates/modals/markdown', ['exports'], function (exports) {
           var el3 = dom.createTextNode("\n        ");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n        获得更多Markdown标签使用帮助，请访问 ");
+          var el2 = dom.createTextNode("\n        For further Markdown syntax reference: ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("a");
-          dom.setAttribute(el2,"href","http://www..ghostchina.com/markdown-guide/");
+          dom.setAttribute(el2,"href","http://support.ghost.org/markdown-guide/");
           dom.setAttribute(el2,"target","_blank");
-          var el3 = dom.createTextNode("Markdown 语法指南");
+          var el3 = dom.createTextNode("Markdown Documentation");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("。\n    ");
+          var el2 = dom.createTextNode("\n    ");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
@@ -13071,7 +13054,7 @@ define('ghost/templates/modals/markdown', ['exports'], function (exports) {
         var morph0 = dom.createMorphAt(fragment,0,0,contextualElement);
         dom.insertBoundary(fragment, null);
         dom.insertBoundary(fragment, 0);
-        block(env, morph0, context, "gh-modal-dialog", [], {"action": "closeModal", "showClose": true, "style": "wide", "title": "Markdown 手册"}, child0, null);
+        block(env, morph0, context, "gh-modal-dialog", [], {"action": "closeModal", "showClose": true, "style": "wide", "title": "Markdown Help"}, child0, null);
         return fragment;
       }
     };
@@ -13115,7 +13098,7 @@ define('ghost/templates/modals/signin', ['exports'], function (exports) {
           var el2 = dom.createElement("button");
           dom.setAttribute(el2,"class","btn btn-blue");
           dom.setAttribute(el2,"type","submit");
-          var el3 = dom.createTextNode("登录");
+          var el3 = dom.createTextNode("Log in");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n       ");
@@ -13150,7 +13133,7 @@ define('ghost/templates/modals/signin', ['exports'], function (exports) {
           var morph0 = dom.createMorphAt(dom.childAt(element0, [1]),1,1);
           var attrMorph0 = dom.createAttrMorph(element1, 'disabled');
           element(env, element0, context, "action", ["validateAndAuthenticate"], {"on": "submit"});
-          inline(env, morph0, context, "input", [], {"class": "password", "type": "password", "placeholder": "密码", "name": "password", "value": get(env, context, "password")});
+          inline(env, morph0, context, "input", [], {"class": "password", "type": "password", "placeholder": "Password", "name": "password", "value": get(env, context, "password")});
           attribute(env, attrMorph0, element1, "disabled", get(env, context, "submitting"));
           element(env, element1, context, "action", ["validateAndAuthenticate"], {});
           return fragment;
@@ -13216,7 +13199,7 @@ define('ghost/templates/modals/transfer-owner', ['exports'], function (exports) 
           var el1 = dom.createTextNode("\n    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("p");
-          var el2 = dom.createTextNode("你确定要将此博客的所有权转给其他人吗？此操作是不可逆的。");
+          var el2 = dom.createTextNode("Are you sure you want to transfer the ownership of this blog? You will not be able to undo this action.");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n\n");
@@ -13281,7 +13264,7 @@ define('ghost/templates/modals/transfer-owner', ['exports'], function (exports) 
         var morph0 = dom.createMorphAt(fragment,0,0,contextualElement);
         dom.insertBoundary(fragment, null);
         dom.insertBoundary(fragment, 0);
-        block(env, morph0, context, "gh-modal-dialog", [], {"action": "closeModal", "showClose": true, "type": "action", "style": "wide", "title": "转移博客所有权", "confirm": get(env, context, "confirm")}, child0, null);
+        block(env, morph0, context, "gh-modal-dialog", [], {"action": "closeModal", "showClose": true, "type": "action", "style": "wide", "title": "Transfer Ownership", "confirm": get(env, context, "confirm")}, child0, null);
         return fragment;
       }
     };
@@ -13420,7 +13403,7 @@ define('ghost/templates/post-settings-menu', ['exports'], function (exports) {
             var el1 = dom.createElement("a");
             dom.setAttribute(el1,"class","post-view-link");
             dom.setAttribute(el1,"target","_blank");
-            var el2 = dom.createTextNode("\n                    查看博文 ");
+            var el2 = dom.createTextNode("\n                    View post ");
             dom.appendChild(el1, el2);
             var el2 = dom.createElement("i");
             dom.setAttribute(el2,"class","icon-external");
@@ -13473,7 +13456,7 @@ define('ghost/templates/post-settings-menu', ['exports'], function (exports) {
             var el1 = dom.createElement("a");
             dom.setAttribute(el1,"class","post-view-link");
             dom.setAttribute(el1,"target","_blank");
-            var el2 = dom.createTextNode("\n                    预览 ");
+            var el2 = dom.createTextNode("\n                    Preview ");
             dom.appendChild(el1, el2);
             var el2 = dom.createElement("i");
             dom.setAttribute(el2,"class","icon-external");
@@ -13529,7 +13512,7 @@ define('ghost/templates/post-settings-menu', ['exports'], function (exports) {
             dom.appendChild(el1, el2);
             var el2 = dom.createElement("label");
             dom.setAttribute(el2,"for","author-list");
-            var el3 = dom.createTextNode("作者");
+            var el3 = dom.createTextNode("Author");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode("\n                ");
@@ -13600,13 +13583,13 @@ define('ghost/templates/post-settings-menu', ['exports'], function (exports) {
             var el2 = dom.createTextNode("\n                        ");
             dom.appendChild(el1, el2);
             var el2 = dom.createElement("b");
-            var el3 = dom.createTextNode("搜索引擎优化");
+            var el3 = dom.createTextNode("Meta Data");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode("\n                        ");
             dom.appendChild(el1, el2);
             var el2 = dom.createElement("span");
-            var el3 = dom.createTextNode("优化在搜索引擎中的呈现效果，提高访问量。");
+            var el3 = dom.createTextNode("Extra content for SEO and social media.");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode("\n                    ");
@@ -13659,14 +13642,14 @@ define('ghost/templates/post-settings-menu', ['exports'], function (exports) {
               dom.setAttribute(el2,"class","back icon-chevron-left settings-menu-header-action");
               var el3 = dom.createElement("span");
               dom.setAttribute(el3,"class","hidden");
-              var el4 = dom.createTextNode("返回");
+              var el4 = dom.createTextNode("Back");
               dom.appendChild(el3, el4);
               dom.appendChild(el2, el3);
               dom.appendChild(el1, el2);
               var el2 = dom.createTextNode("\n            ");
               dom.appendChild(el1, el2);
               var el2 = dom.createElement("h4");
-              var el3 = dom.createTextNode("搜索引擎优化");
+              var el3 = dom.createTextNode("Meta Data");
               dom.appendChild(el2, el3);
               dom.appendChild(el1, el2);
               var el2 = dom.createTextNode("\n        ");
@@ -13687,7 +13670,7 @@ define('ghost/templates/post-settings-menu', ['exports'], function (exports) {
               dom.appendChild(el3, el4);
               var el4 = dom.createElement("label");
               dom.setAttribute(el4,"for","meta-title");
-              var el5 = dom.createTextNode("优化标题");
+              var el5 = dom.createTextNode("Meta Title");
               dom.appendChild(el4, el5);
               dom.appendChild(el3, el4);
               var el4 = dom.createTextNode("\n                ");
@@ -13697,17 +13680,15 @@ define('ghost/templates/post-settings-menu', ['exports'], function (exports) {
               var el4 = dom.createTextNode("\n                ");
               dom.appendChild(el3, el4);
               var el4 = dom.createElement("p");
-              var el5 = dom.createTextNode("建议：");
+              var el5 = dom.createTextNode("Recommended: ");
               dom.appendChild(el4, el5);
               var el5 = dom.createElement("b");
               var el6 = dom.createTextNode("70");
               dom.appendChild(el5, el6);
               dom.appendChild(el4, el5);
-              var el5 = dom.createTextNode(" 个字符以内。你已经输入了 ");
+              var el5 = dom.createTextNode(" characters. You’ve used ");
               dom.appendChild(el4, el5);
               var el5 = dom.createComment("");
-              dom.appendChild(el4, el5);
-              var el5 = dom.createTextNode(" 个字符");
               dom.appendChild(el4, el5);
               dom.appendChild(el3, el4);
               var el4 = dom.createTextNode("\n            ");
@@ -13721,7 +13702,7 @@ define('ghost/templates/post-settings-menu', ['exports'], function (exports) {
               dom.appendChild(el3, el4);
               var el4 = dom.createElement("label");
               dom.setAttribute(el4,"for","meta-description");
-              var el5 = dom.createTextNode("优化博文摘要");
+              var el5 = dom.createTextNode("Meta Description");
               dom.appendChild(el4, el5);
               dom.appendChild(el3, el4);
               var el4 = dom.createTextNode("\n                ");
@@ -13731,17 +13712,15 @@ define('ghost/templates/post-settings-menu', ['exports'], function (exports) {
               var el4 = dom.createTextNode("\n                ");
               dom.appendChild(el3, el4);
               var el4 = dom.createElement("p");
-              var el5 = dom.createTextNode("建议：");
+              var el5 = dom.createTextNode("Recommended: ");
               dom.appendChild(el4, el5);
               var el5 = dom.createElement("b");
               var el6 = dom.createTextNode("156");
               dom.appendChild(el5, el6);
               dom.appendChild(el4, el5);
-              var el5 = dom.createTextNode(" 个字符以内。你已经输入了 ");
+              var el5 = dom.createTextNode(" characters. You’ve used ");
               dom.appendChild(el4, el5);
               var el5 = dom.createComment("");
-              dom.appendChild(el4, el5);
-              var el5 = dom.createTextNode(" 个字符");
               dom.appendChild(el4, el5);
               dom.appendChild(el3, el4);
               var el4 = dom.createTextNode("\n            ");
@@ -13754,7 +13733,7 @@ define('ghost/templates/post-settings-menu', ['exports'], function (exports) {
               var el4 = dom.createTextNode("\n                ");
               dom.appendChild(el3, el4);
               var el4 = dom.createElement("label");
-              var el5 = dom.createTextNode("搜索引擎呈现效果预览");
+              var el5 = dom.createTextNode("Search Engine Result Preview");
               dom.appendChild(el4, el5);
               dom.appendChild(el3, el4);
               var el4 = dom.createTextNode("\n                ");
@@ -13902,7 +13881,7 @@ define('ghost/templates/post-settings-menu', ['exports'], function (exports) {
           var el4 = dom.createTextNode("\n            ");
           dom.appendChild(el3, el4);
           var el4 = dom.createElement("h4");
-          var el5 = dom.createTextNode("博文设置");
+          var el5 = dom.createTextNode("Post Settings");
           dom.appendChild(el4, el5);
           dom.appendChild(el3, el4);
           var el4 = dom.createTextNode("\n            ");
@@ -13911,7 +13890,7 @@ define('ghost/templates/post-settings-menu', ['exports'], function (exports) {
           dom.setAttribute(el4,"class","close icon-x settings-menu-header-action");
           var el5 = dom.createElement("span");
           dom.setAttribute(el5,"class","hidden");
-          var el6 = dom.createTextNode("关闭");
+          var el6 = dom.createTextNode("Close");
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
           dom.appendChild(el3, el4);
@@ -13937,7 +13916,7 @@ define('ghost/templates/post-settings-menu', ['exports'], function (exports) {
           dom.appendChild(el5, el6);
           var el6 = dom.createElement("label");
           dom.setAttribute(el6,"for","url");
-          var el7 = dom.createTextNode("博文地址");
+          var el7 = dom.createTextNode("Post URL");
           dom.appendChild(el6, el7);
           dom.appendChild(el5, el6);
           var el6 = dom.createTextNode("\n");
@@ -13970,7 +13949,7 @@ define('ghost/templates/post-settings-menu', ['exports'], function (exports) {
           dom.appendChild(el5, el6);
           var el6 = dom.createElement("label");
           dom.setAttribute(el6,"for","post-setting-date");
-          var el7 = dom.createTextNode("发布日期");
+          var el7 = dom.createTextNode("Publish Date");
           dom.appendChild(el6, el7);
           dom.appendChild(el5, el6);
           var el6 = dom.createTextNode("\n                ");
@@ -14023,7 +14002,7 @@ define('ghost/templates/post-settings-menu', ['exports'], function (exports) {
           var el7 = dom.createTextNode("\n                    ");
           dom.appendChild(el6, el7);
           var el7 = dom.createElement("p");
-          var el8 = dom.createTextNode("设置为独立页面（不出现在博文列表中）");
+          var el8 = dom.createTextNode("Turn this post into a static page");
           dom.appendChild(el7, el8);
           dom.appendChild(el6, el7);
           var el7 = dom.createTextNode("\n                ");
@@ -14046,7 +14025,7 @@ define('ghost/templates/post-settings-menu', ['exports'], function (exports) {
           var el7 = dom.createTextNode("\n                    ");
           dom.appendChild(el6, el7);
           var el7 = dom.createElement("p");
-          var el8 = dom.createTextNode("推荐此博文（可以设置特殊的展示效果）");
+          var el8 = dom.createTextNode("Feature this post");
           dom.appendChild(el7, el8);
           dom.appendChild(el6, el7);
           var el7 = dom.createTextNode("\n                ");
@@ -14125,7 +14104,7 @@ define('ghost/templates/post-settings-menu', ['exports'], function (exports) {
           var attrMorph1 = dom.createAttrMorph(element16, 'class');
           attribute(env, attrMorph0, element8, "class", concat(env, [subexpr(env, context, "if", [get(env, context, "isViewingSubview"), "settings-menu-pane-out-left", "settings-menu-pane-in"], {}), " settings-menu settings-menu-pane"]));
           element(env, element9, context, "action", ["closeSettingsMenu"], {});
-          inline(env, morph0, context, "gh-uploader", [], {"uploaded": "setCoverImage", "canceled": "clearCoverImage", "description": "为博文设置图片", "image": get(env, context, "model.image"), "uploaderReference": get(env, context, "uploaderReference"), "tagName": "section"});
+          inline(env, morph0, context, "gh-uploader", [], {"uploaded": "setCoverImage", "canceled": "clearCoverImage", "description": "Add post image", "image": get(env, context, "model.image"), "uploaderReference": get(env, context, "uploaderReference"), "tagName": "section"});
           block(env, morph1, context, "if", [get(env, context, "model.isPublished")], {}, child0, child1);
           inline(env, morph2, context, "gh-input", [], {"class": "post-setting-slug", "id": "url", "value": get(env, context, "slugValue"), "name": "post-setting-slug", "focus-out": "updateSlug", "selectOnClick": "true", "stopEnterKeyDownPropagation": "true"});
           inline(env, morph3, context, "gh-url-preview", [], {"slug": get(env, context, "slugValue"), "tagName": "p", "classNames": "description"});
@@ -14345,12 +14324,12 @@ define('ghost/templates/post-tags-input', ['exports'], function (exports) {
         var el2 = dom.createElement("label");
         dom.setAttribute(el2,"class","tag-label icon-tag");
         dom.setAttribute(el2,"for","tags");
-        dom.setAttribute(el2,"title","标签");
+        dom.setAttribute(el2,"title","Tags");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("span");
         dom.setAttribute(el3,"class","sr-only");
-        var el4 = dom.createTextNode("标签");
+        var el4 = dom.createTextNode("Tags");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -14462,7 +14441,7 @@ define('ghost/templates/posts', ['exports'], function (exports) {
           var el0 = dom.createDocumentFragment();
           var el1 = dom.createElement("span");
           dom.setAttribute(el1,"class","hidden");
-          var el2 = dom.createTextNode("新建博文");
+          var el2 = dom.createTextNode("New Post");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           return el0;
@@ -14507,7 +14486,7 @@ define('ghost/templates/posts', ['exports'], function (exports) {
                   dom.appendChild(el0, el1);
                   var el1 = dom.createElement("span");
                   dom.setAttribute(el1,"class","page");
-                  var el2 = dom.createTextNode("独立页面");
+                  var el2 = dom.createTextNode("Page");
                   dom.appendChild(el1, el2);
                   dom.appendChild(el0, el1);
                   var el1 = dom.createTextNode("\n");
@@ -14550,7 +14529,7 @@ define('ghost/templates/posts', ['exports'], function (exports) {
                   dom.appendChild(el0, el1);
                   var el1 = dom.createElement("time");
                   dom.setAttribute(el1,"class","date published");
-                  var el2 = dom.createTextNode("\n                                        发布于 ");
+                  var el2 = dom.createTextNode("\n                                        Published ");
                   dom.appendChild(el1, el2);
                   var el2 = dom.createComment("");
                   dom.appendChild(el1, el2);
@@ -14643,7 +14622,7 @@ define('ghost/templates/posts', ['exports'], function (exports) {
                 dom.appendChild(el0, el1);
                 var el1 = dom.createElement("span");
                 dom.setAttribute(el1,"class","draft");
-                var el2 = dom.createTextNode("草稿");
+                var el2 = dom.createTextNode("Draft");
                 dom.appendChild(el1, el2);
                 dom.appendChild(el0, el1);
                 var el1 = dom.createTextNode("\n");
@@ -14802,7 +14781,7 @@ define('ghost/templates/posts', ['exports'], function (exports) {
             var morph0 = dom.createMorphAt(fragment,0,0,contextualElement);
             dom.insertBoundary(fragment, null);
             dom.insertBoundary(fragment, 0);
-            block(env, morph0, context, "link-to", ["posts.post", get(env, context, "post.model")], {"class": "permalink", "alternateActive": get(env, context, "view.active"), "title": "编辑此博文"}, child0, null);
+            block(env, morph0, context, "link-to", ["posts.post", get(env, context, "post.model")], {"class": "permalink", "alternateActive": get(env, context, "view.active"), "title": "Edit this post"}, child0, null);
             return fragment;
           }
         };
@@ -14904,7 +14883,7 @@ define('ghost/templates/posts', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("small");
-        var el6 = dom.createTextNode("所有博文");
+        var el6 = dom.createTextNode("All Posts");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -14972,7 +14951,7 @@ define('ghost/templates/posts', ['exports'], function (exports) {
         var attrMorph1 = dom.createAttrMorph(element7, 'class');
         element(env, element4, context, "action", ["toggleGlobalMobileNav"], {});
         attribute(env, attrMorph0, element6, "class", concat(env, ["content-list js-content-list ", subexpr(env, context, "if", [get(env, context, "postListFocused"), "keyboard-focused"], {})]));
-        block(env, morph0, context, "link-to", ["editor.new"], {"class": "btn btn-green", "title": "新建博文"}, child0, null);
+        block(env, morph0, context, "link-to", ["editor.new"], {"class": "btn btn-green", "title": "New Post"}, child0, null);
         block(env, morph1, context, "view", ["paginated-scroll-box"], {"tagName": "section", "classNames": "content-list-content js-content-scrollbox"}, child1, null);
         attribute(env, attrMorph1, element7, "class", concat(env, ["content-preview js-content-preview ", subexpr(env, context, "if", [get(env, context, "postContentFocused"), "keyboard-focused"], {})]));
         content(env, morph2, context, "outlet");
@@ -15000,8 +14979,8 @@ define('ghost/templates/posts/index', ['exports'], function (exports) {
             var el1 = dom.createElement("button");
             dom.setAttribute(el1,"type","button");
             dom.setAttribute(el1,"class","btn btn-green btn-lg");
-            dom.setAttribute(el1,"title","新建博文");
-            var el2 = dom.createTextNode("我来写一篇");
+            dom.setAttribute(el1,"title","New Post");
+            var el2 = dom.createTextNode("Write a new Post");
             dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
             return el0;
@@ -15042,7 +15021,7 @@ define('ghost/templates/posts/index', ['exports'], function (exports) {
           var el2 = dom.createTextNode("\n    ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("h3");
-          var el3 = dom.createTextNode("一篇博文都没有！");
+          var el3 = dom.createTextNode("You Haven't Written Any Posts Yet!");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n    ");
@@ -15138,7 +15117,7 @@ define('ghost/templates/posts/post', ['exports'], function (exports) {
         hasRendered: false,
         build: function build(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("返回");
+          var el1 = dom.createTextNode("Back");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -15166,6 +15145,90 @@ define('ghost/templates/posts/post', ['exports'], function (exports) {
       };
     }());
     var child1 = (function() {
+      return {
+        isHTMLBars: true,
+        revision: "Ember@1.11.3",
+        blockParams: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        build: function build(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("                ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("a");
+          var el2 = dom.createTextNode("Published");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        render: function render(context, env, contextualElement) {
+          var dom = env.dom;
+          var hooks = env.hooks, get = hooks.get, concat = hooks.concat, attribute = hooks.attribute;
+          dom.detectNamespace(contextualElement);
+          var fragment;
+          if (env.useFragmentCache && dom.canClone) {
+            if (this.cachedFragment === null) {
+              fragment = this.build(dom);
+              if (this.hasRendered) {
+                this.cachedFragment = fragment;
+              } else {
+                this.hasRendered = true;
+              }
+            }
+            if (this.cachedFragment) {
+              fragment = dom.cloneNode(this.cachedFragment, true);
+            }
+          } else {
+            fragment = this.build(dom);
+          }
+          var element1 = dom.childAt(fragment, [1]);
+          var attrMorph0 = dom.createAttrMorph(element1, 'title');
+          var attrMorph1 = dom.createAttrMorph(element1, 'href');
+          attribute(env, attrMorph0, element1, "title", concat(env, [get(env, context, "model.title")]));
+          attribute(env, attrMorph1, element1, "href", concat(env, [get(env, context, "model.absoluteUrl")]));
+          return fragment;
+        }
+      };
+    }());
+    var child2 = (function() {
+      return {
+        isHTMLBars: true,
+        revision: "Ember@1.11.3",
+        blockParams: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        build: function build(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("                Written\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        render: function render(context, env, contextualElement) {
+          var dom = env.dom;
+          dom.detectNamespace(contextualElement);
+          var fragment;
+          if (env.useFragmentCache && dom.canClone) {
+            if (this.cachedFragment === null) {
+              fragment = this.build(dom);
+              if (this.hasRendered) {
+                this.cachedFragment = fragment;
+              } else {
+                this.hasRendered = true;
+              }
+            }
+            if (this.cachedFragment) {
+              fragment = dom.cloneNode(this.cachedFragment, true);
+            }
+          } else {
+            fragment = this.build(dom);
+          }
+          return fragment;
+        }
+      };
+    }());
+    var child3 = (function() {
       return {
         isHTMLBars: true,
         revision: "Ember@1.11.3",
@@ -15206,7 +15269,7 @@ define('ghost/templates/posts/post', ['exports'], function (exports) {
         }
       };
     }());
-    var child2 = (function() {
+    var child4 = (function() {
       return {
         isHTMLBars: true,
         revision: "Ember@1.11.3",
@@ -15247,90 +15310,6 @@ define('ghost/templates/posts/post', ['exports'], function (exports) {
         }
       };
     }());
-    var child3 = (function() {
-      return {
-        isHTMLBars: true,
-        revision: "Ember@1.11.3",
-        blockParams: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        build: function build(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("                ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createElement("a");
-          var el2 = dom.createTextNode("发布");
-          dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        render: function render(context, env, contextualElement) {
-          var dom = env.dom;
-          var hooks = env.hooks, get = hooks.get, concat = hooks.concat, attribute = hooks.attribute;
-          dom.detectNamespace(contextualElement);
-          var fragment;
-          if (env.useFragmentCache && dom.canClone) {
-            if (this.cachedFragment === null) {
-              fragment = this.build(dom);
-              if (this.hasRendered) {
-                this.cachedFragment = fragment;
-              } else {
-                this.hasRendered = true;
-              }
-            }
-            if (this.cachedFragment) {
-              fragment = dom.cloneNode(this.cachedFragment, true);
-            }
-          } else {
-            fragment = this.build(dom);
-          }
-          var element1 = dom.childAt(fragment, [1]);
-          var attrMorph0 = dom.createAttrMorph(element1, 'title');
-          var attrMorph1 = dom.createAttrMorph(element1, 'href');
-          attribute(env, attrMorph0, element1, "title", concat(env, [get(env, context, "model.title")]));
-          attribute(env, attrMorph1, element1, "href", concat(env, [get(env, context, "model.absoluteUrl")]));
-          return fragment;
-        }
-      };
-    }());
-    var child4 = (function() {
-      return {
-        isHTMLBars: true,
-        revision: "Ember@1.11.3",
-        blockParams: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        build: function build(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("                撰写\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        render: function render(context, env, contextualElement) {
-          var dom = env.dom;
-          dom.detectNamespace(contextualElement);
-          var fragment;
-          if (env.useFragmentCache && dom.canClone) {
-            if (this.cachedFragment === null) {
-              fragment = this.build(dom);
-              if (this.hasRendered) {
-                this.cachedFragment = fragment;
-              } else {
-                this.hasRendered = true;
-              }
-            }
-            if (this.cachedFragment) {
-              fragment = dom.cloneNode(this.cachedFragment, true);
-            }
-          } else {
-            fragment = this.build(dom);
-          }
-          return fragment;
-        }
-      };
-    }());
     var child5 = (function() {
       return {
         isHTMLBars: true,
@@ -15340,7 +15319,7 @@ define('ghost/templates/posts/post', ['exports'], function (exports) {
         hasRendered: false,
         build: function build(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode(" 编辑");
+          var el1 = dom.createTextNode(" Edit");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -15444,14 +15423,14 @@ define('ghost/templates/posts/post', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("h2");
         dom.setAttribute(el2,"class","page-title");
-        var el3 = dom.createTextNode("预览");
+        var el3 = dom.createTextNode("Preview");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n    ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("button");
         dom.setAttribute(el2,"type","button");
-        dom.setAttribute(el2,"title","推荐此博文");
+        dom.setAttribute(el2,"title","Feature this post");
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("span");
@@ -15469,8 +15448,19 @@ define('ghost/templates/posts/post', ['exports'], function (exports) {
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("span");
+        dom.setAttribute(el3,"class","status");
+        var el4 = dom.createTextNode("\n");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("        ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n        ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("span");
         dom.setAttribute(el3,"class","normal");
-        var el4 = dom.createTextNode("由");
+        var el4 = dom.createTextNode("by");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n        ");
@@ -15478,17 +15468,6 @@ define('ghost/templates/posts/post', ['exports'], function (exports) {
         var el3 = dom.createElement("span");
         dom.setAttribute(el3,"class","author");
         var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("span");
-        dom.setAttribute(el3,"class","status");
-        var el4 = dom.createTextNode("\n");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createComment("");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("        ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -15539,16 +15518,16 @@ define('ghost/templates/posts/post', ['exports'], function (exports) {
         var element4 = dom.childAt(element2, [7]);
         var morph0 = dom.createMorphAt(element2,1,1);
         var attrMorph0 = dom.createAttrMorph(element3, 'class');
-        var morph1 = dom.createMorphAt(dom.childAt(element4, [3]),0,0);
-        var morph2 = dom.createMorphAt(dom.childAt(element4, [5]),1,1);
+        var morph1 = dom.createMorphAt(dom.childAt(element4, [1]),1,1);
+        var morph2 = dom.createMorphAt(dom.childAt(element4, [5]),0,0);
         var morph3 = dom.createMorphAt(dom.childAt(element2, [9]),1,1);
         var morph4 = dom.createMorphAt(fragment,2,2,contextualElement);
         dom.insertBoundary(fragment, null);
         block(env, morph0, context, "link-to", ["posts"], {"tagName": "button", "class": "btn btn-default btn-back"}, child0, null);
         attribute(env, attrMorph0, element3, "class", concat(env, [subexpr(env, context, "if", [get(env, context, "model.featured"), "featured", "unfeatured"], {})]));
         element(env, element3, context, "action", ["toggleFeatured"], {});
-        block(env, morph1, context, "if", [get(env, context, "model.author.name")], {}, child1, child2);
-        block(env, morph2, context, "if", [get(env, context, "isPublished")], {}, child3, child4);
+        block(env, morph1, context, "if", [get(env, context, "isPublished")], {}, child1, child2);
+        block(env, morph2, context, "if", [get(env, context, "model.author.name")], {}, child3, child4);
         block(env, morph3, context, "link-to", ["editor.edit", get(env, context, "model")], {"class": "btn btn-default post-edit"}, child5, null);
         block(env, morph4, context, "view", ["content-preview-content-view"], {"tagName": "section"}, child6, null);
         return fragment;
@@ -15606,7 +15585,7 @@ define('ghost/templates/reset', ['exports'], function (exports) {
         var el3 = dom.createElement("button");
         dom.setAttribute(el3,"class","btn btn-blue");
         dom.setAttribute(el3,"type","submit");
-        var el4 = dom.createTextNode("重置密码");
+        var el4 = dom.createTextNode("Reset Password");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -15645,8 +15624,8 @@ define('ghost/templates/reset', ['exports'], function (exports) {
         var morph1 = dom.createMorphAt(dom.childAt(element0, [3]),1,1);
         var attrMorph0 = dom.createAttrMorph(element1, 'disabled');
         element(env, element0, context, "action", ["submit"], {"on": "submit"});
-        inline(env, morph0, context, "input", [], {"value": get(env, context, "newPassword"), "class": "password", "type": "password", "placeholder": "密码", "name": "newpassword", "autofocus": "autofocus"});
-        inline(env, morph1, context, "input", [], {"value": get(env, context, "ne2Password"), "class": "password", "type": "password", "placeholder": "验证密码", "name": "ne2password"});
+        inline(env, morph0, context, "input", [], {"value": get(env, context, "newPassword"), "class": "password", "type": "password", "placeholder": "Password", "name": "newpassword", "autofocus": "autofocus"});
+        inline(env, morph1, context, "input", [], {"value": get(env, context, "ne2Password"), "class": "password", "type": "password", "placeholder": "Confirm Password", "name": "ne2password"});
         attribute(env, attrMorph0, element1, "disabled", get(env, context, "submitting"));
         return fragment;
       }
@@ -15697,7 +15676,7 @@ define('ghost/templates/settings', ['exports'], function (exports) {
             fragment = this.build(dom);
           }
           var morph0 = dom.createMorphAt(fragment,1,1,contextualElement);
-          inline(env, morph0, context, "gh-activating-list-item", [], {"route": "settings.general", "title": "全局设置", "classNames": "settings-nav-general icon-settings"});
+          inline(env, morph0, context, "gh-activating-list-item", [], {"route": "settings.general", "title": "General", "classNames": "settings-nav-general icon-settings"});
           return fragment;
         }
       };
@@ -15740,7 +15719,7 @@ define('ghost/templates/settings', ['exports'], function (exports) {
             fragment = this.build(dom);
           }
           var morph0 = dom.createMorphAt(fragment,1,1,contextualElement);
-          inline(env, morph0, context, "gh-activating-list-item", [], {"route": "settings.users", "title": "用户管理", "classNames": "settings-nav-users icon-users"});
+          inline(env, morph0, context, "gh-activating-list-item", [], {"route": "settings.users", "title": "Users", "classNames": "settings-nav-users icon-users"});
           return fragment;
         }
       };
@@ -15783,7 +15762,7 @@ define('ghost/templates/settings', ['exports'], function (exports) {
             fragment = this.build(dom);
           }
           var morph0 = dom.createMorphAt(fragment,1,1,contextualElement);
-          inline(env, morph0, context, "gh-activating-list-item", [], {"route": "settings.tags", "title": "标签管理", "classNames": "settings-nav-tags icon-tag"});
+          inline(env, morph0, context, "gh-activating-list-item", [], {"route": "settings.tags", "title": "Tags", "classNames": "settings-nav-tags icon-tag"});
           return fragment;
         }
       };
@@ -15826,7 +15805,7 @@ define('ghost/templates/settings', ['exports'], function (exports) {
             fragment = this.build(dom);
           }
           var morph0 = dom.createMorphAt(fragment,1,1,contextualElement);
-          inline(env, morph0, context, "gh-activating-list-item", [], {"route": "settings.navigation", "title": "导航菜单", "classNames": "settings-nav-navigation icon-compass"});
+          inline(env, morph0, context, "gh-activating-list-item", [], {"route": "settings.navigation", "title": "Navigation", "classNames": "settings-nav-navigation icon-compass"});
           return fragment;
         }
       };
@@ -15869,7 +15848,7 @@ define('ghost/templates/settings', ['exports'], function (exports) {
             fragment = this.build(dom);
           }
           var morph0 = dom.createMorphAt(fragment,1,1,contextualElement);
-          inline(env, morph0, context, "gh-activating-list-item", [], {"route": "settings.code-injection", "title": "插入代码", "classNames": "settings-nav-code icon-code"});
+          inline(env, morph0, context, "gh-activating-list-item", [], {"route": "settings.code-injection", "title": "Code Injection", "classNames": "settings-nav-code icon-code"});
           return fragment;
         }
       };
@@ -15955,7 +15934,7 @@ define('ghost/templates/settings', ['exports'], function (exports) {
             fragment = this.build(dom);
           }
           var morph0 = dom.createMorphAt(fragment,1,1,contextualElement);
-          inline(env, morph0, context, "gh-activating-list-item", [], {"route": "settings.labs", "title": "实验室", "classNames": "settings-nav-labs icon-atom"});
+          inline(env, morph0, context, "gh-activating-list-item", [], {"route": "settings.labs", "title": "Labs", "classNames": "settings-nav-labs icon-atom"});
           return fragment;
         }
       };
@@ -15998,7 +15977,7 @@ define('ghost/templates/settings', ['exports'], function (exports) {
             fragment = this.build(dom);
           }
           var morph0 = dom.createMorphAt(fragment,1,1,contextualElement);
-          inline(env, morph0, context, "gh-activating-list-item", [], {"route": "settings.about", "title": "关于我们", "classNames": "settings-nav-about icon-pacman"});
+          inline(env, morph0, context, "gh-activating-list-item", [], {"route": "settings.about", "title": "About", "classNames": "settings-nav-about icon-pacman"});
           return fragment;
         }
       };
@@ -16019,7 +15998,7 @@ define('ghost/templates/settings', ['exports'], function (exports) {
         dom.setAttribute(el2,"class","menu-button js-menu-button");
         var el3 = dom.createElement("span");
         dom.setAttribute(el3,"class","sr-only");
-        var el4 = dom.createTextNode("菜单");
+        var el4 = dom.createTextNode("Menu");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
@@ -16027,7 +16006,7 @@ define('ghost/templates/settings', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("h2");
         dom.setAttribute(el2,"class","page-title");
-        var el3 = dom.createTextNode("设置");
+        var el3 = dom.createTextNode("Settings");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -16076,22 +16055,7 @@ define('ghost/templates/settings', ['exports'], function (exports) {
         dom.appendChild(el3, el4);
         var el4 = dom.createComment("");
         dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n            ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("li");
-        dom.setAttribute(el4,"class","settings-menu-theme-market icon-appearance");
-        var el5 = dom.createTextNode("\n                ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("a");
-        dom.setAttribute(el5,"href","http://www.ghostchina.com/market/");
-        dom.setAttribute(el5,"target","_blank");
-        var el6 = dom.createTextNode("主题市场");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n            ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n        ");
+        var el4 = dom.createTextNode("        ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -16170,7 +16134,7 @@ define('ghost/templates/settings/about', ['exports'], function (exports) {
         hasRendered: false,
         build: function build(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("返回");
+          var el1 = dom.createTextNode("Back");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -16209,7 +16173,7 @@ define('ghost/templates/settings/about', ['exports'], function (exports) {
           var el1 = dom.createTextNode("            ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("p");
-          var el2 = dom.createTextNode("一个简单、纯粹的内容写作和发布平台。");
+          var el2 = dom.createTextNode("A free, open, simple publishing platform");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
@@ -16334,7 +16298,7 @@ define('ghost/templates/settings/about', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("h2");
         dom.setAttribute(el2,"class","page-title");
-        var el3 = dom.createTextNode("关于我们");
+        var el3 = dom.createTextNode("About");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -16399,7 +16363,7 @@ define('ghost/templates/settings/about', ['exports'], function (exports) {
         var el6 = dom.createTextNode("\n                    ");
         dom.appendChild(el5, el6);
         var el6 = dom.createElement("dt");
-        var el7 = dom.createTextNode("当前版本:");
+        var el7 = dom.createTextNode("Version:");
         dom.appendChild(el6, el7);
         dom.appendChild(el5, el6);
         var el6 = dom.createTextNode("\n                    ");
@@ -16412,7 +16376,7 @@ define('ghost/templates/settings/about', ['exports'], function (exports) {
         var el6 = dom.createTextNode("\n                    ");
         dom.appendChild(el5, el6);
         var el6 = dom.createElement("dt");
-        var el7 = dom.createTextNode("运行环境:");
+        var el7 = dom.createTextNode("Environment:");
         dom.appendChild(el6, el7);
         dom.appendChild(el5, el6);
         var el6 = dom.createTextNode("\n                    ");
@@ -16425,7 +16389,7 @@ define('ghost/templates/settings/about', ['exports'], function (exports) {
         var el6 = dom.createTextNode("\n                    ");
         dom.appendChild(el5, el6);
         var el6 = dom.createElement("dt");
-        var el7 = dom.createTextNode("数据库:");
+        var el7 = dom.createTextNode("Database:");
         dom.appendChild(el6, el7);
         dom.appendChild(el5, el6);
         var el6 = dom.createTextNode("\n                    ");
@@ -16438,20 +16402,7 @@ define('ghost/templates/settings/about', ['exports'], function (exports) {
         var el6 = dom.createTextNode("\n                    ");
         dom.appendChild(el5, el6);
         var el6 = dom.createElement("dt");
-        var el7 = dom.createTextNode("邮件服务:");
-        dom.appendChild(el6, el7);
-        dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode("\n                    ");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createElement("dd");
-        dom.setAttribute(el6,"class","about-environment-detail");
-        var el7 = dom.createComment("");
-        dom.appendChild(el6, el7);
-        dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode("\n                    ");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createElement("dt");
-        var el7 = dom.createTextNode("文件存储:");
+        var el7 = dom.createTextNode("Mail:");
         dom.appendChild(el6, el7);
         dom.appendChild(el5, el6);
         var el6 = dom.createTextNode("\n                    ");
@@ -16474,19 +16425,17 @@ define('ghost/templates/settings/about', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("a");
-        dom.setAttribute(el5,"href","http://www.ghostchina.com");
+        dom.setAttribute(el5,"href","http://support.ghost.org");
         dom.setAttribute(el5,"class","btn");
-        dom.setAttribute(el5,"target","_blank");
-        var el6 = dom.createTextNode("中文文档");
+        var el6 = dom.createTextNode("User Documentation");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("a");
-        dom.setAttribute(el5,"href","http://wenda.ghostchina.com/");
+        dom.setAttribute(el5,"href","https://ghost.org/slack/");
         dom.setAttribute(el5,"class","btn");
-        dom.setAttribute(el5,"target","_blank");
-        var el6 = dom.createTextNode("问答社区");
+        var el6 = dom.createTextNode("Get Help With Ghost");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -16505,7 +16454,7 @@ define('ghost/templates/settings/about', ['exports'], function (exports) {
         var el3 = dom.createTextNode("\n        ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("h1");
-        var el4 = dom.createTextNode("主创团队");
+        var el4 = dom.createTextNode("The People Who Made it Possible");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n\n        ");
@@ -16523,7 +16472,7 @@ define('ghost/templates/settings/about', ['exports'], function (exports) {
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("p");
         dom.setAttribute(el3,"class","about-contributors-info");
-        var el4 = dom.createTextNode("Ghost的开发者来自全球各地，这里列出的只是当前版本的主要开发者。");
+        var el4 = dom.createTextNode("Ghost is built by an incredible group of contributors from all over the world. Here are just a few of the people who helped create the version you’re using right now.");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n\n        ");
@@ -16531,63 +16480,7 @@ define('ghost/templates/settings/about', ['exports'], function (exports) {
         var el3 = dom.createElement("a");
         dom.setAttribute(el3,"href","https://ghost.org/about/contribute/");
         dom.setAttribute(el3,"class","about-get-involved btn-blue btn-lg btn");
-        var el4 = dom.createTextNode("你的帮助让我们做得更好");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("h1");
-        dom.setAttribute(el3,"style","margin-top: 45px;");
-        var el4 = dom.createTextNode("Ghost中文化团队");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("p");
-        var el4 = dom.createElement("a");
-        dom.setAttribute(el4,"href","http://www.ghostchina.com");
-        dom.setAttribute(el4,"target","_blank");
-        dom.setAttribute(el4,"title","Ghost中文网");
-        var el5 = dom.createElement("img");
-        dom.setAttribute(el5,"height","70");
-        dom.setAttribute(el5,"alt","logo");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n\n        ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("p");
-        var el4 = dom.createTextNode("Ghost 博客系统中文版由 ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("a");
-        dom.setAttribute(el4,"href","http://www.ghostchina.com");
-        dom.setAttribute(el4,"target","_blank");
-        var el5 = dom.createTextNode("Ghost中文网");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode(" 提供技术支持。");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("br");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n        中文官网：");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("a");
-        dom.setAttribute(el4,"href","http://www.ghostchina.com");
-        dom.setAttribute(el4,"target","_blank");
-        var el5 = dom.createTextNode("www.ghostchina.com");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("br");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n        问答社区：");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("a");
-        dom.setAttribute(el4,"href","http://wenda.ghostchina.com");
-        dom.setAttribute(el4,"target","_blank");
-        var el5 = dom.createTextNode("wenda.ghostchina.com");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n        ");
+        var el4 = dom.createTextNode("Find out how you can get involved");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n\n        ");
@@ -16634,7 +16527,7 @@ define('ghost/templates/settings/about', ['exports'], function (exports) {
       },
       render: function render(context, env, contextualElement) {
         var dom = env.dom;
-        var hooks = env.hooks, block = hooks.block, content = hooks.content, inline = hooks.inline, get = hooks.get, subexpr = hooks.subexpr, concat = hooks.concat, attribute = hooks.attribute;
+        var hooks = env.hooks, block = hooks.block, content = hooks.content, inline = hooks.inline, get = hooks.get;
         dom.detectNamespace(contextualElement);
         var fragment;
         if (env.useFragmentCache && dom.canClone) {
@@ -16655,8 +16548,6 @@ define('ghost/templates/settings/about', ['exports'], function (exports) {
         var element0 = dom.childAt(fragment, [2]);
         var element1 = dom.childAt(element0, [1]);
         var element2 = dom.childAt(element1, [7, 1, 1]);
-        var element3 = dom.childAt(element0, [3]);
-        var element4 = dom.childAt(element3, [11, 0, 0]);
         var morph0 = dom.createMorphAt(dom.childAt(fragment, [0]),1,1);
         var morph1 = dom.createMorphAt(dom.childAt(element1, [1, 3]),1,1);
         var morph2 = dom.createMorphAt(element1,3,3);
@@ -16665,9 +16556,7 @@ define('ghost/templates/settings/about', ['exports'], function (exports) {
         var morph5 = dom.createMorphAt(dom.childAt(element2, [7]),0,0);
         var morph6 = dom.createMorphAt(dom.childAt(element2, [11]),0,0);
         var morph7 = dom.createMorphAt(dom.childAt(element2, [15]),0,0);
-        var morph8 = dom.createMorphAt(dom.childAt(element2, [19]),0,0);
-        var morph9 = dom.createMorphAt(dom.childAt(element3, [3]),1,1);
-        var attrMorph0 = dom.createAttrMorph(element4, 'src');
+        var morph8 = dom.createMorphAt(dom.childAt(element0, [3, 3]),1,1);
         block(env, morph0, context, "link-to", ["settings"], {"class": "btn btn-default btn-back"}, child0, null);
         content(env, morph1, context, "model.version");
         inline(env, morph2, context, "gh-notifications", [], {"location": "settings-about-upgrade", "notify": "updateNotificationChange"});
@@ -16676,9 +16565,7 @@ define('ghost/templates/settings/about', ['exports'], function (exports) {
         content(env, morph5, context, "model.environment");
         content(env, morph6, context, "model.database");
         block(env, morph7, context, "if", [get(env, context, "model.mail")], {}, child2, child3);
-        content(env, morph8, context, "model.storage");
-        inline(env, morph9, context, "partial", ["contributors"], {});
-        attribute(env, attrMorph0, element4, "src", concat(env, [subexpr(env, context, "gh-path", ["admin", "/img"], {}), "/ghostchina.png"]));
+        inline(env, morph8, context, "partial", ["contributors"], {});
         return fragment;
       }
     };
@@ -17008,7 +16895,7 @@ define('ghost/templates/settings/code-injection', ['exports'], function (exports
         hasRendered: false,
         build: function build(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("返回");
+          var el1 = dom.createTextNode("Back");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -17053,7 +16940,7 @@ define('ghost/templates/settings/code-injection', ['exports'], function (exports
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("h2");
         dom.setAttribute(el2,"class","page-title");
-        var el3 = dom.createTextNode("插入代码");
+        var el3 = dom.createTextNode("Code Injection");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n    ");
@@ -17065,7 +16952,7 @@ define('ghost/templates/settings/code-injection', ['exports'], function (exports
         var el3 = dom.createElement("button");
         dom.setAttribute(el3,"type","button");
         dom.setAttribute(el3,"class","btn btn-blue");
-        var el4 = dom.createTextNode("保存");
+        var el4 = dom.createTextNode("Save");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -17089,7 +16976,7 @@ define('ghost/templates/settings/code-injection', ['exports'], function (exports
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("p");
-        var el5 = dom.createTextNode("\n                Ghost 可以帮你在主题模板的页头和页脚插入额外的代码，从而免去直接修改模板文件的麻烦。这一功能允许你快速插入或修改比如“统计代码”和“元数据”等。\n            ");
+        var el5 = dom.createTextNode("\n                Ghost allows you to inject code into the top and bottom of your theme files without editing them. This allows for quick modifications to insert useful things like tracking codes and meta tags.\n            ");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n\n            ");
@@ -17100,13 +16987,19 @@ define('ghost/templates/settings/code-injection', ['exports'], function (exports
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","ghost-head");
-        var el6 = dom.createTextNode("页头");
+        var el6 = dom.createTextNode("Blog Header");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("在这里输入的代码将通过 {{ghost_head}} 助手函数插入到页头位置");
+        var el6 = dom.createTextNode("Code here will be injected into the ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createElement("code");
+        var el7 = dom.createTextNode("{{ghost_head}}");
+        dom.appendChild(el6, el7);
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode(" tag on every page of your blog");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -17124,13 +17017,19 @@ define('ghost/templates/settings/code-injection', ['exports'], function (exports
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","ghost-foot");
-        var el6 = dom.createTextNode("页脚");
+        var el6 = dom.createTextNode("Blog Footer");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("在这里输入的代码将通过 {{ghost_foot}} 助手函数插入到页脚位置");
+        var el6 = dom.createTextNode("Code here will be injected into the ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createElement("code");
+        var el7 = dom.createTextNode("{{ghost_foot}}");
+        dom.appendChild(el6, el7);
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode(" tag on every page of your blog");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -17203,7 +17102,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         hasRendered: false,
         build: function build(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("返回");
+          var el1 = dom.createTextNode("Back");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -17292,7 +17191,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
           var el1 = dom.createElement("button");
           dom.setAttribute(el1,"type","button");
           dom.setAttribute(el1,"class","btn btn-green js-modal-logo");
-          var el2 = dom.createTextNode("上传图片");
+          var el2 = dom.createTextNode("Upload Image");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
@@ -17387,7 +17286,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
           var el1 = dom.createElement("button");
           dom.setAttribute(el1,"type","button");
           dom.setAttribute(el1,"class","btn btn-green js-modal-cover");
-          var el2 = dom.createTextNode("上传图片");
+          var el2 = dom.createTextNode("Upload Image");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
@@ -17440,7 +17339,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
           var el2 = dom.createTextNode("\n                ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("p");
-          var el3 = dom.createTextNode("访问者需要输入上面的密码才能访问你的博客。开启私密博客模式后，所有搜索引擎优化和社交特性都将被禁用。密码以明文形式存储。");
+          var el3 = dom.createTextNode("This password will be needed to access your blog. All search engine optimization and social features are now disabled. This password is stored in plaintext.");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n            ");
@@ -17494,7 +17393,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("h2");
         dom.setAttribute(el2,"class","page-title");
-        var el3 = dom.createTextNode("全局设置");
+        var el3 = dom.createTextNode("General");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n    ");
@@ -17506,7 +17405,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         var el3 = dom.createElement("button");
         dom.setAttribute(el3,"type","button");
         dom.setAttribute(el3,"class","btn btn-blue");
-        var el4 = dom.createTextNode("保存");
+        var el4 = dom.createTextNode("Save");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -17535,7 +17434,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","blog-title");
-        var el6 = dom.createTextNode("博客名称");
+        var el6 = dom.createTextNode("Blog Title");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -17545,7 +17444,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("为你的博客取一个响亮的名字");
+        var el6 = dom.createTextNode("The name of your blog");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -17559,7 +17458,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","blog-description");
-        var el6 = dom.createTextNode("博客简介");
+        var el6 = dom.createTextNode("Blog Description");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -17569,7 +17468,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("\n                    简单介绍一下你的博客\n                    ");
+        var el6 = dom.createTextNode("\n                    Describe what your blog is about\n                    ");
         dom.appendChild(el5, el6);
         var el6 = dom.createComment("");
         dom.appendChild(el5, el6);
@@ -17589,7 +17488,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("label");
-        var el5 = dom.createTextNode("博客 Logo");
+        var el5 = dom.createTextNode("Blog Logo");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n");
@@ -17599,7 +17498,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         var el4 = dom.createTextNode("            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("p");
-        var el5 = dom.createTextNode("上传一个漂亮的 Logo，秀出你的品牌");
+        var el5 = dom.createTextNode("Display a sexy logo for your publication");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n        ");
@@ -17612,7 +17511,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         var el4 = dom.createTextNode("\n            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("label");
-        var el5 = dom.createTextNode("博客封面");
+        var el5 = dom.createTextNode("Blog Cover");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n");
@@ -17622,7 +17521,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         var el4 = dom.createTextNode("            ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("p");
-        var el5 = dom.createTextNode("为你的博客设置一个个性的封面");
+        var el5 = dom.createTextNode("Display a cover image on your site");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n        ");
@@ -17639,7 +17538,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","email-address");
-        var el6 = dom.createTextNode("邮箱地址");
+        var el6 = dom.createTextNode("Email Address");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -17649,7 +17548,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("用来接收 Ghost 博客发出的重要通知");
+        var el6 = dom.createTextNode("Address to use for admin notifications");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -17663,7 +17562,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","postsPerPage");
-        var el6 = dom.createTextNode("每页显示博文数");
+        var el6 = dom.createTextNode("Posts per page");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -17673,7 +17572,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("设置每页显示博文的数量");
+        var el6 = dom.createTextNode("How many posts should be displayed on each page");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -17687,7 +17586,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","permalinks");
-        var el6 = dom.createTextNode("博文地址");
+        var el6 = dom.createTextNode("Dated Permalinks");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -17707,7 +17606,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         var el6 = dom.createTextNode("\n                    ");
         dom.appendChild(el5, el6);
         var el6 = dom.createElement("p");
-        var el7 = dom.createTextNode("在博文地址中加入日期 ( 例如: http://my-ghost-blog.com/2013/09/27/welcome-to-ghost/ )");
+        var el7 = dom.createTextNode("Include the date in your post URLs");
         dom.appendChild(el6, el7);
         dom.appendChild(el5, el6);
         var el6 = dom.createTextNode("\n                ");
@@ -17724,7 +17623,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","activeTheme");
-        var el6 = dom.createTextNode("博客主题");
+        var el6 = dom.createTextNode("Theme");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -17742,7 +17641,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("为你的博客选择一个喜欢的主题");
+        var el6 = dom.createTextNode("Select a theme for your blog");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -17756,7 +17655,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","isPrivate");
-        var el6 = dom.createTextNode("开启私密博客模式");
+        var el6 = dom.createTextNode("Make this blog private");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -17776,7 +17675,7 @@ define('ghost/templates/settings/general', ['exports'], function (exports) {
         var el6 = dom.createTextNode("\n                    ");
         dom.appendChild(el5, el6);
         var el6 = dom.createElement("p");
-        var el7 = dom.createTextNode("设置用密码保护");
+        var el7 = dom.createTextNode("Enable password protection");
         dom.appendChild(el6, el7);
         dom.appendChild(el5, el6);
         var el6 = dom.createTextNode("\n                ");
@@ -17876,7 +17775,7 @@ define('ghost/templates/settings/labs', ['exports'], function (exports) {
         hasRendered: false,
         build: function build(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("返回");
+          var el1 = dom.createTextNode("Back");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -17922,7 +17821,7 @@ define('ghost/templates/settings/labs', ['exports'], function (exports) {
           var el3 = dom.createTextNode("\n                ");
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("label");
-          var el4 = dom.createTextNode("导入数据");
+          var el4 = dom.createTextNode("Import");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
           var el3 = dom.createTextNode("\n                ");
@@ -17936,7 +17835,7 @@ define('ghost/templates/settings/labs', ['exports'], function (exports) {
           var el3 = dom.createTextNode("\n                ");
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("p");
-          var el4 = dom.createTextNode("导入以前备份的博客数据。如果导入的数据中包含用户信息，用户信息将被覆盖，可能导致无法登陆。");
+          var el4 = dom.createTextNode("Import from another Ghost installation. If you import a user, this will replace the current user & log you out.");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
           var el3 = dom.createTextNode("\n            ");
@@ -17996,7 +17895,7 @@ define('ghost/templates/settings/labs', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("h2");
         dom.setAttribute(el2,"class","page-title");
-        var el3 = dom.createTextNode("实验室");
+        var el3 = dom.createTextNode("Labs");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -18010,10 +17909,10 @@ define('ghost/templates/settings/labs', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("p");
         var el3 = dom.createElement("strong");
-        var el4 = dom.createTextNode("重要提示：");
+        var el4 = dom.createTextNode("Important note:");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("“实验室”是新功能的试验田，放在这里的功能都还未达到稳定的状态。这些功能随时会被改变、不保证兼容，甚至消失。");
+        var el3 = dom.createTextNode(" Labs is a testing ground for experimental features which aren't quite ready for primetime. They may change, break or inexplicably disappear at any time.");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n    ");
@@ -18030,7 +17929,7 @@ define('ghost/templates/settings/labs', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
-        var el6 = dom.createTextNode("导出数据");
+        var el6 = dom.createTextNode("Export");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -18038,13 +17937,13 @@ define('ghost/templates/settings/labs', ['exports'], function (exports) {
         var el5 = dom.createElement("button");
         dom.setAttribute(el5,"type","button");
         dom.setAttribute(el5,"class","btn btn-blue");
-        var el6 = dom.createTextNode("导出");
+        var el6 = dom.createTextNode("Export");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("导出博客设置和数据。");
+        var el6 = dom.createTextNode("Export the blog settings and data.");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -18074,7 +17973,7 @@ define('ghost/templates/settings/labs', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
-        var el6 = dom.createTextNode("删除所有博客内容");
+        var el6 = dom.createTextNode("Delete all Content");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -18082,13 +17981,13 @@ define('ghost/templates/settings/labs', ['exports'], function (exports) {
         var el5 = dom.createElement("button");
         dom.setAttribute(el5,"type","button");
         dom.setAttribute(el5,"class","btn btn-red js-delete");
-        var el6 = dom.createTextNode("删除");
+        var el6 = dom.createTextNode("Delete");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("从数据库中删除所有博文和标签数据。");
+        var el6 = dom.createTextNode("Delete all posts and tags from the database.");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -18114,7 +18013,7 @@ define('ghost/templates/settings/labs', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
-        var el6 = dom.createTextNode("发送测试邮件");
+        var el6 = dom.createTextNode("Send a test email");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -18123,13 +18022,13 @@ define('ghost/templates/settings/labs', ['exports'], function (exports) {
         dom.setAttribute(el5,"type","button");
         dom.setAttribute(el5,"id","sendtestmail");
         dom.setAttribute(el5,"class","btn btn-blue");
-        var el6 = dom.createTextNode("发送");
+        var el6 = dom.createTextNode("Send");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("向你的邮箱地址发送测试邮件。");
+        var el6 = dom.createTextNode("Sends a test email to your address.");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -18287,7 +18186,7 @@ define('ghost/templates/settings/navigation', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("h2");
         dom.setAttribute(el2,"class","page-title");
-        var el3 = dom.createTextNode("导航菜单");
+        var el3 = dom.createTextNode("Navigation");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n    ");
@@ -18299,7 +18198,7 @@ define('ghost/templates/settings/navigation', ['exports'], function (exports) {
         var el3 = dom.createElement("button");
         dom.setAttribute(el3,"type","button");
         dom.setAttribute(el3,"class","btn btn-blue");
-        var el4 = dom.createTextNode("保存");
+        var el4 = dom.createTextNode("Save");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -18379,7 +18278,7 @@ define('ghost/templates/settings/tags', ['exports'], function (exports) {
         hasRendered: false,
         build: function build(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("返回");
+          var el1 = dom.createTextNode("Back");
           dom.appendChild(el0, el1);
           return el0;
         },
@@ -18515,7 +18414,7 @@ define('ghost/templates/settings/tags', ['exports'], function (exports) {
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("h2");
         dom.setAttribute(el2,"class","page-title");
-        var el3 = dom.createTextNode("标签管理");
+        var el3 = dom.createTextNode("Tags");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n    ");
@@ -18527,7 +18426,7 @@ define('ghost/templates/settings/tags', ['exports'], function (exports) {
         var el3 = dom.createElement("button");
         dom.setAttribute(el3,"type","button");
         dom.setAttribute(el3,"class","btn btn-green");
-        var el4 = dom.createTextNode("新建标签");
+        var el4 = dom.createTextNode("New Tag");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -18604,13 +18503,13 @@ define('ghost/templates/settings/tags/settings-menu', ['exports'], function (exp
             var el2 = dom.createTextNode("\n                            ");
             dom.appendChild(el1, el2);
             var el2 = dom.createElement("b");
-            var el3 = dom.createTextNode("搜索引擎优化");
+            var el3 = dom.createTextNode("Meta Data");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode("\n                            ");
             dom.appendChild(el1, el2);
             var el2 = dom.createElement("span");
-            var el3 = dom.createTextNode("优化在搜索引擎和社交媒体上的呈现效果，提高访问量。");
+            var el3 = dom.createTextNode("Extra content for SEO and social media.");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode("\n                        ");
@@ -18657,7 +18556,7 @@ define('ghost/templates/settings/tags/settings-menu', ['exports'], function (exp
             var el1 = dom.createElement("button");
             dom.setAttribute(el1,"type","button");
             dom.setAttribute(el1,"class","btn btn-link btn-sm tag-delete-button icon-trash");
-            var el2 = dom.createTextNode("删除标签");
+            var el2 = dom.createTextNode("Delete Tag");
             dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
             var el1 = dom.createTextNode("\n");
@@ -18709,14 +18608,14 @@ define('ghost/templates/settings/tags/settings-menu', ['exports'], function (exp
             dom.setAttribute(el2,"class","back icon-chevron-left settings-menu-header-action");
             var el3 = dom.createElement("span");
             dom.setAttribute(el3,"class","hidden");
-            var el4 = dom.createTextNode("返回");
+            var el4 = dom.createTextNode("Back");
             dom.appendChild(el3, el4);
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode("\n                ");
             dom.appendChild(el1, el2);
             var el2 = dom.createElement("h4");
-            var el3 = dom.createTextNode("搜索引擎优化");
+            var el3 = dom.createTextNode("Meta Data");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode("\n            ");
@@ -18737,7 +18636,7 @@ define('ghost/templates/settings/tags/settings-menu', ['exports'], function (exp
             dom.appendChild(el3, el4);
             var el4 = dom.createElement("label");
             dom.setAttribute(el4,"for","meta-title");
-            var el5 = dom.createTextNode("优化标题");
+            var el5 = dom.createTextNode("Meta Title");
             dom.appendChild(el4, el5);
             dom.appendChild(el3, el4);
             var el4 = dom.createTextNode("\n                    ");
@@ -18747,17 +18646,15 @@ define('ghost/templates/settings/tags/settings-menu', ['exports'], function (exp
             var el4 = dom.createTextNode("\n                    ");
             dom.appendChild(el3, el4);
             var el4 = dom.createElement("p");
-            var el5 = dom.createTextNode("建议：");
+            var el5 = dom.createTextNode("Recommended: ");
             dom.appendChild(el4, el5);
             var el5 = dom.createElement("b");
             var el6 = dom.createTextNode("70");
             dom.appendChild(el5, el6);
             dom.appendChild(el4, el5);
-            var el5 = dom.createTextNode(" 个字符。你已经输入了 ");
+            var el5 = dom.createTextNode(" characters. You’ve used ");
             dom.appendChild(el4, el5);
             var el5 = dom.createComment("");
-            dom.appendChild(el4, el5);
-            var el5 = dom.createTextNode(" 个字符");
             dom.appendChild(el4, el5);
             dom.appendChild(el3, el4);
             var el4 = dom.createTextNode("\n                ");
@@ -18771,7 +18668,7 @@ define('ghost/templates/settings/tags/settings-menu', ['exports'], function (exp
             dom.appendChild(el3, el4);
             var el4 = dom.createElement("label");
             dom.setAttribute(el4,"for","meta-description");
-            var el5 = dom.createTextNode("优化描述");
+            var el5 = dom.createTextNode("Meta Description");
             dom.appendChild(el4, el5);
             dom.appendChild(el3, el4);
             var el4 = dom.createTextNode("\n                    ");
@@ -18781,17 +18678,15 @@ define('ghost/templates/settings/tags/settings-menu', ['exports'], function (exp
             var el4 = dom.createTextNode("\n                    ");
             dom.appendChild(el3, el4);
             var el4 = dom.createElement("p");
-            var el5 = dom.createTextNode("建议：");
+            var el5 = dom.createTextNode("Recommended: ");
             dom.appendChild(el4, el5);
             var el5 = dom.createElement("b");
             var el6 = dom.createTextNode("156");
             dom.appendChild(el5, el6);
             dom.appendChild(el4, el5);
-            var el5 = dom.createTextNode(" 个字符。你已经输入了 ");
+            var el5 = dom.createTextNode(" characters. You’ve used ");
             dom.appendChild(el4, el5);
             var el5 = dom.createComment("");
-            dom.appendChild(el4, el5);
-            var el5 = dom.createTextNode(" 个字符");
             dom.appendChild(el4, el5);
             dom.appendChild(el3, el4);
             var el4 = dom.createTextNode("\n                ");
@@ -18804,7 +18699,7 @@ define('ghost/templates/settings/tags/settings-menu', ['exports'], function (exp
             var el4 = dom.createTextNode("\n                    ");
             dom.appendChild(el3, el4);
             var el4 = dom.createElement("label");
-            var el5 = dom.createTextNode("搜索引擎呈现效果预览");
+            var el5 = dom.createTextNode("Search Engine Result Preview");
             dom.appendChild(el4, el5);
             dom.appendChild(el3, el4);
             var el4 = dom.createTextNode("\n                    ");
@@ -18910,7 +18805,7 @@ define('ghost/templates/settings/tags/settings-menu', ['exports'], function (exp
           var el3 = dom.createTextNode("\n            ");
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("h4");
-          var el4 = dom.createTextNode("标签属性设置");
+          var el4 = dom.createTextNode("Tag Settings");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
           var el3 = dom.createTextNode("\n            ");
@@ -18921,7 +18816,7 @@ define('ghost/templates/settings/tags/settings-menu', ['exports'], function (exp
           dom.appendChild(el3, el4);
           var el4 = dom.createElement("span");
           dom.setAttribute(el4,"class","hidden");
-          var el5 = dom.createTextNode("关闭");
+          var el5 = dom.createTextNode("Close");
           dom.appendChild(el4, el5);
           dom.appendChild(el3, el4);
           var el4 = dom.createTextNode("\n            ");
@@ -18948,7 +18843,7 @@ define('ghost/templates/settings/tags/settings-menu', ['exports'], function (exp
           var el5 = dom.createTextNode("\n                    ");
           dom.appendChild(el4, el5);
           var el5 = dom.createElement("label");
-          var el6 = dom.createTextNode("标签名");
+          var el6 = dom.createTextNode("Name");
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
           var el5 = dom.createTextNode("\n                    ");
@@ -18986,7 +18881,7 @@ define('ghost/templates/settings/tags/settings-menu', ['exports'], function (exp
           var el5 = dom.createTextNode("\n                    ");
           dom.appendChild(el4, el5);
           var el5 = dom.createElement("label");
-          var el6 = dom.createTextNode("描述");
+          var el6 = dom.createTextNode("Description");
           dom.appendChild(el5, el6);
           dom.appendChild(el4, el5);
           var el5 = dom.createTextNode("\n                    ");
@@ -19072,7 +18967,7 @@ define('ghost/templates/settings/tags/settings-menu', ['exports'], function (exp
           var attrMorph1 = dom.createAttrMorph(element11, 'class');
           attribute(env, attrMorph0, element6, "class", concat(env, [subexpr(env, context, "if", [get(env, context, "isViewingSubview"), "settings-menu-pane-out-left", "settings-menu-pane-in"], {}), " settings-menu settings-menu-pane"]));
           element(env, element7, context, "action", ["closeSettingsMenu"], {});
-          inline(env, morph0, context, "gh-uploader", [], {"uploaded": "setCoverImage", "canceled": "clearCoverImage", "description": "为标签设置图片", "image": get(env, context, "activeTag.image"), "uploaderReference": get(env, context, "uploaderReference"), "tagName": "section"});
+          inline(env, morph0, context, "gh-uploader", [], {"uploaded": "setCoverImage", "canceled": "clearCoverImage", "description": "Add tag image", "image": get(env, context, "activeTag.image"), "uploaderReference": get(env, context, "uploaderReference"), "tagName": "section"});
           inline(env, morph1, context, "gh-input", [], {"type": "text", "value": get(env, context, "activeTagNameScratch"), "focus-out": "saveActiveTagName"});
           inline(env, morph2, context, "gh-input", [], {"type": "text", "value": get(env, context, "activeTagSlugScratch"), "focus-out": "saveActiveTagSlug"});
           inline(env, morph3, context, "gh-url-preview", [], {"prefix": "tag", "slug": get(env, context, "activeTagSlugScratch"), "tagName": "p", "classNames": "description"});
@@ -19197,7 +19092,7 @@ define('ghost/templates/settings/users/index', ['exports'], function (exports) {
             hasRendered: false,
             build: function build(dom) {
               var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("返回");
+              var el1 = dom.createTextNode("Back");
               dom.appendChild(el0, el1);
               return el0;
             },
@@ -19276,7 +19171,7 @@ define('ghost/templates/settings/users/index', ['exports'], function (exports) {
             hasRendered: false,
             build: function build(dom) {
               var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("返回");
+              var el1 = dom.createTextNode("Back");
               dom.appendChild(el0, el1);
               return el0;
             },
@@ -19360,7 +19255,7 @@ define('ghost/templates/settings/users/index', ['exports'], function (exports) {
                 dom.appendChild(el0, el1);
                 var el1 = dom.createElement("span");
                 dom.setAttribute(el1,"class","red");
-                var el2 = dom.createTextNode("邀请邮件未能发送 - 请重试");
+                var el2 = dom.createTextNode("Invitation not sent - please try again");
                 dom.appendChild(el1, el2);
                 dom.appendChild(el0, el1);
                 var el1 = dom.createTextNode("\n");
@@ -19403,7 +19298,7 @@ define('ghost/templates/settings/users/index', ['exports'], function (exports) {
                 dom.appendChild(el0, el1);
                 var el1 = dom.createElement("span");
                 dom.setAttribute(el1,"class","description");
-                var el2 = dom.createTextNode("邀请邮件已经发送：");
+                var el2 = dom.createTextNode("Invitation sent: ");
                 dom.appendChild(el1, el2);
                 var el2 = dom.createComment("");
                 dom.appendChild(el1, el2);
@@ -19433,7 +19328,7 @@ define('ghost/templates/settings/users/index', ['exports'], function (exports) {
                   fragment = this.build(dom);
                 }
                 var morph0 = dom.createMorphAt(dom.childAt(fragment, [1]),1,1);
-                content(env, morph0, context, "user.created_at");
+                content(env, morph0, context, "user.model.created_at");
                 return fragment;
               }
             };
@@ -19486,7 +19381,7 @@ define('ghost/templates/settings/users/index', ['exports'], function (exports) {
               var el3 = dom.createElement("a");
               dom.setAttribute(el3,"class","user-list-action");
               dom.setAttribute(el3,"href","#");
-              var el4 = dom.createTextNode("取消邀请 ");
+              var el4 = dom.createTextNode("Revoke");
               dom.appendChild(el3, el4);
               dom.appendChild(el2, el3);
               var el3 = dom.createTextNode("\n                        ");
@@ -19494,7 +19389,7 @@ define('ghost/templates/settings/users/index', ['exports'], function (exports) {
               var el3 = dom.createElement("a");
               dom.setAttribute(el3,"class","user-list-action");
               dom.setAttribute(el3,"href","#");
-              var el4 = dom.createTextNode("重发邮件");
+              var el4 = dom.createTextNode("Resend");
               dom.appendChild(el3, el4);
               dom.appendChild(el2, el3);
               var el3 = dom.createTextNode("\n                    ");
@@ -19558,7 +19453,7 @@ define('ghost/templates/settings/users/index', ['exports'], function (exports) {
             dom.appendChild(el1, el2);
             var el2 = dom.createElement("h4");
             dom.setAttribute(el2,"class","user-list-title");
-            var el3 = dom.createTextNode("已邀请的用户");
+            var el3 = dom.createTextNode("Invited users");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode("\n\n");
@@ -19705,9 +19600,9 @@ define('ghost/templates/settings/users/index', ['exports'], function (exports) {
               dom.appendChild(el1, el2);
               var el2 = dom.createElement("span");
               dom.setAttribute(el2,"class","hidden");
-              var el3 = dom.createComment("");
+              var el3 = dom.createTextNode("Photo of ");
               dom.appendChild(el2, el3);
-              var el3 = dom.createTextNode(" 的头像");
+              var el3 = dom.createComment("");
               dom.appendChild(el2, el3);
               dom.appendChild(el1, el2);
               var el2 = dom.createTextNode("\n                ");
@@ -19736,7 +19631,7 @@ define('ghost/templates/settings/users/index', ['exports'], function (exports) {
               dom.appendChild(el1, el2);
               var el2 = dom.createElement("span");
               dom.setAttribute(el2,"class","description");
-              var el3 = dom.createTextNode("上次登录：");
+              var el3 = dom.createTextNode("Last seen: ");
               dom.appendChild(el2, el3);
               var el3 = dom.createComment("");
               dom.appendChild(el2, el3);
@@ -19782,7 +19677,7 @@ define('ghost/templates/settings/users/index', ['exports'], function (exports) {
               var element1 = dom.childAt(fragment, [1]);
               var element2 = dom.childAt(fragment, [3]);
               var attrMorph0 = dom.createAttrMorph(element1, 'style');
-              var morph0 = dom.createMorphAt(dom.childAt(element1, [1]),0,0);
+              var morph0 = dom.createMorphAt(dom.childAt(element1, [1]),1,1);
               var morph1 = dom.createMorphAt(dom.childAt(element2, [1]),1,1);
               var morph2 = dom.createMorphAt(dom.childAt(element2, [5]),1,1);
               var morph3 = dom.createMorphAt(dom.childAt(fragment, [5]),1,1);
@@ -19855,7 +19750,7 @@ define('ghost/templates/settings/users/index', ['exports'], function (exports) {
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("h2");
           dom.setAttribute(el2,"class","page-title");
-          var el3 = dom.createTextNode("用户列表");
+          var el3 = dom.createTextNode("Users");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n        ");
@@ -19866,7 +19761,7 @@ define('ghost/templates/settings/users/index', ['exports'], function (exports) {
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("button");
           dom.setAttribute(el3,"class","btn btn-green");
-          var el4 = dom.createTextNode("邀请新用户");
+          var el4 = dom.createTextNode("New User");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
           var el3 = dom.createTextNode("\n        ");
@@ -19891,7 +19786,7 @@ define('ghost/templates/settings/users/index', ['exports'], function (exports) {
           dom.appendChild(el2, el3);
           var el3 = dom.createElement("h4");
           dom.setAttribute(el3,"class","user-list-title");
-          var el4 = dom.createTextNode("已接受邀请的用户");
+          var el4 = dom.createTextNode("Active users");
           dom.appendChild(el3, el4);
           dom.appendChild(el2, el3);
           var el3 = dom.createTextNode("\n\n");
@@ -20002,7 +19897,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
             var el1 = dom.createElement("i");
             dom.setAttribute(el1,"class","icon-chevron-left");
             dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("用户列表");
+            var el1 = dom.createTextNode("Users");
             dom.appendChild(el0, el1);
             return el0;
           },
@@ -20090,7 +19985,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
             dom.appendChild(el0, el1);
             var el1 = dom.createElement("span");
             dom.setAttribute(el1,"class","hidden");
-            var el2 = dom.createTextNode("用户设置");
+            var el2 = dom.createTextNode("User Settings");
             dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
             var el1 = dom.createTextNode("\n");
@@ -20234,7 +20129,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("label");
           dom.setAttribute(el2,"for","user-role");
-          var el3 = dom.createTextNode("角色/权限");
+          var el3 = dom.createTextNode("Role");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n                ");
@@ -20244,7 +20139,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
           var el2 = dom.createTextNode("\n                ");
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("p");
-          var el3 = dom.createTextNode("为这个用赋予多少权限？");
+          var el3 = dom.createTextNode("What permissions should this user have?");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n            ");
@@ -20297,7 +20192,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
           dom.appendChild(el1, el2);
           var el2 = dom.createElement("label");
           dom.setAttribute(el2,"for","user-password-old");
-          var el3 = dom.createTextNode("原密码");
+          var el3 = dom.createTextNode("Old Password");
           dom.appendChild(el2, el3);
           dom.appendChild(el1, el2);
           var el2 = dom.createTextNode("\n                ");
@@ -20370,7 +20265,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("button");
         dom.setAttribute(el3,"class","btn btn-blue");
-        var el4 = dom.createTextNode("保存");
+        var el4 = dom.createTextNode("Save");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -20391,7 +20286,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("button");
         dom.setAttribute(el3,"class","btn btn-default user-cover-edit js-modal-cover");
-        var el4 = dom.createTextNode("更换封面");
+        var el4 = dom.createTextNode("Change Cover");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
@@ -20434,7 +20329,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         dom.setAttribute(el6,"class","hidden");
         var el7 = dom.createComment("");
         dom.appendChild(el6, el7);
-        var el7 = dom.createTextNode(" 的头像");
+        var el7 = dom.createTextNode("\"s Picture");
         dom.appendChild(el6, el7);
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
@@ -20443,7 +20338,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         var el5 = dom.createElement("button");
         dom.setAttribute(el5,"type","button");
         dom.setAttribute(el5,"class","edit-user-image js-modal-image");
-        var el6 = dom.createTextNode("编辑头像");
+        var el6 = dom.createTextNode("Edit Picture");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -20457,7 +20352,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","user-name");
-        var el6 = dom.createTextNode("姓名");
+        var el6 = dom.createTextNode("Full Name");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -20467,7 +20362,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("建议用真实姓名，让所有人认识你");
+        var el6 = dom.createTextNode("Use your real name so people can recognise you");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -20488,7 +20383,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","user-slug");
-        var el6 = dom.createTextNode("个性网址");
+        var el6 = dom.createTextNode("Slug");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -20516,7 +20411,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","user-email");
-        var el6 = dom.createTextNode("邮箱");
+        var el6 = dom.createTextNode("Email");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -20526,7 +20421,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("用于接收重要通知");
+        var el6 = dom.createTextNode("Used for notifications");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -20544,7 +20439,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","user-location");
-        var el6 = dom.createTextNode("所在地");
+        var el6 = dom.createTextNode("Location");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -20554,7 +20449,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("你所在的位置");
+        var el6 = dom.createTextNode("Where in the world do you live?");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -20568,7 +20463,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","user-website");
-        var el6 = dom.createTextNode("个人网站");
+        var el6 = dom.createTextNode("Website");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -20578,7 +20473,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("你的个人网站、Twitter、Facebook、微博等");
+        var el6 = dom.createTextNode("Have a website or blog other than this one? Link it!");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -20592,7 +20487,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","user-bio");
-        var el6 = dom.createTextNode("个人简介");
+        var el6 = dom.createTextNode("Bio");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -20602,7 +20497,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("\n                    关于你的一切，不要超过200字\n                    ");
+        var el6 = dom.createTextNode("\n                    Write about you, in 200 characters or less.\n                    ");
         dom.appendChild(el5, el6);
         var el6 = dom.createComment("");
         dom.appendChild(el5, el6);
@@ -20634,7 +20529,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","user-password-new");
-        var el6 = dom.createTextNode("新密码");
+        var el6 = dom.createTextNode("New Password");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -20652,7 +20547,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","user-new-password-verification");
-        var el6 = dom.createTextNode("验证新密码");
+        var el6 = dom.createTextNode("Verify Password");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -20671,7 +20566,7 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         var el5 = dom.createElement("button");
         dom.setAttribute(el5,"type","button");
         dom.setAttribute(el5,"class","btn btn-red button-change-password");
-        var el6 = dom.createTextNode("修改密码");
+        var el6 = dom.createTextNode("Change Password");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -20755,11 +20650,11 @@ define('ghost/templates/settings/users/user', ['exports'], function (exports) {
         attribute(env, attrMorph1, element10, "style", get(env, context, "userImageBackground"));
         content(env, morph3, context, "user.name");
         element(env, element11, context, "action", ["openModal", "upload", get(env, context, "user"), "image"], {});
-        inline(env, morph4, context, "input", [], {"value": get(env, context, "user.name"), "id": "user-name", "class": "user-name", "placeholder": "姓名", "autocorrect": "off"});
-        inline(env, morph5, context, "gh-input", [], {"class": "user-name", "id": "user-slug", "value": get(env, context, "slugValue"), "name": "user", "focus-out": "updateSlug", "placeholder": "个性网址", "selectOnClick": "true", "autocorrect": "off"});
+        inline(env, morph4, context, "input", [], {"value": get(env, context, "user.name"), "id": "user-name", "class": "user-name", "placeholder": "Full Name", "autocorrect": "off"});
+        inline(env, morph5, context, "gh-input", [], {"class": "user-name", "id": "user-slug", "value": get(env, context, "slugValue"), "name": "user", "focus-out": "updateSlug", "placeholder": "Slug", "selectOnClick": "true", "autocorrect": "off"});
         content(env, morph6, context, "gh-blog-url");
         content(env, morph7, context, "slugValue");
-        inline(env, morph8, context, "input", [], {"type": "email", "value": get(env, context, "user.email"), "id": "user-email", "placeholder": "邮箱", "autocapitalize": "off", "autocorrect": "off", "autocomplete": "off"});
+        inline(env, morph8, context, "input", [], {"type": "email", "value": get(env, context, "user.email"), "id": "user-email", "placeholder": "Email Address", "autocapitalize": "off", "autocorrect": "off", "autocomplete": "off"});
         block(env, morph9, context, "if", [get(env, context, "view.rolesDropdownIsVisible")], {}, child2, null);
         inline(env, morph10, context, "input", [], {"type": "text", "value": get(env, context, "user.location"), "id": "user-location"});
         inline(env, morph11, context, "input", [], {"type": "url", "value": get(env, context, "user.website"), "id": "user-website", "autocapitalize": "off", "autocorrect": "off", "autocomplete": "off"});
@@ -20821,13 +20716,13 @@ define('ghost/templates/setup', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("h1");
-        var el6 = dom.createTextNode("欢迎使用 Ghost 博客系统");
+        var el6 = dom.createTextNode("Welcome to your new Ghost blog");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("h2");
-        var el6 = dom.createTextNode("请为你的博客设置一些参数吧。");
+        var el6 = dom.createTextNode("Let's get a few things set up so you can get started.");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -20841,7 +20736,7 @@ define('ghost/templates/setup', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","blog-title");
-        var el6 = dom.createTextNode("博客名称");
+        var el6 = dom.createTextNode("Blog Title");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -20851,7 +20746,7 @@ define('ghost/templates/setup', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("为你的博客取一个响亮的名字");
+        var el6 = dom.createTextNode("What would you like to call your blog?");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -20865,7 +20760,7 @@ define('ghost/templates/setup', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","name");
-        var el6 = dom.createTextNode("姓名");
+        var el6 = dom.createTextNode("Full Name");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -20875,7 +20770,7 @@ define('ghost/templates/setup', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("你所创作的博文都将署此姓名");
+        var el6 = dom.createTextNode("The name that you will sign your posts with");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -20889,7 +20784,7 @@ define('ghost/templates/setup', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","email");
-        var el6 = dom.createTextNode("邮箱");
+        var el6 = dom.createTextNode("Email Address");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -20899,7 +20794,7 @@ define('ghost/templates/setup', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("用于接收重要通知");
+        var el6 = dom.createTextNode("Used for important notifications");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -20913,7 +20808,7 @@ define('ghost/templates/setup', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","password");
-        var el6 = dom.createTextNode("密码");
+        var el6 = dom.createTextNode("Password");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -20923,7 +20818,7 @@ define('ghost/templates/setup', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("至少8个字符");
+        var el6 = dom.createTextNode("Must be at least 8 characters");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -20937,7 +20832,7 @@ define('ghost/templates/setup', ['exports'], function (exports) {
         var el5 = dom.createElement("button");
         dom.setAttribute(el5,"type","submit");
         dom.setAttribute(el5,"class","btn btn-green btn-lg");
-        var el6 = dom.createTextNode("Ok，进入博客吧！");
+        var el6 = dom.createTextNode("Ok, Let's Do This");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -21058,7 +20953,7 @@ define('ghost/templates/signin', ['exports'], function (exports) {
         var el3 = dom.createElement("button");
         dom.setAttribute(el3,"class","btn btn-blue");
         dom.setAttribute(el3,"type","submit");
-        var el4 = dom.createTextNode("登录");
+        var el4 = dom.createTextNode("Log in");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n        ");
@@ -21069,7 +20964,7 @@ define('ghost/templates/signin', ['exports'], function (exports) {
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("button");
         dom.setAttribute(el4,"class","forgotten-link btn btn-link");
-        var el5 = dom.createTextNode("忘记密码？");
+        var el5 = dom.createTextNode("Forgotten password?");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n        ");
@@ -21112,8 +21007,8 @@ define('ghost/templates/signin', ['exports'], function (exports) {
         var morph1 = dom.createMorphAt(dom.childAt(element0, [3, 1]),1,1);
         var attrMorph0 = dom.createAttrMorph(element1, 'disabled');
         element(env, element0, context, "action", ["validateAndAuthenticate"], {"on": "submit"});
-        inline(env, morph0, context, "gh-trim-focus-input", [], {"class": "email", "type": "email", "placeholder": "邮箱地址", "name": "identification", "autocapitalize": "off", "autocorrect": "off", "value": get(env, context, "model.identification")});
-        inline(env, morph1, context, "input", [], {"class": "password", "type": "password", "placeholder": "密码", "name": "password", "value": get(env, context, "model.password")});
+        inline(env, morph0, context, "gh-trim-focus-input", [], {"class": "email", "type": "email", "placeholder": "Email Address", "name": "identification", "autocapitalize": "off", "autocorrect": "off", "value": get(env, context, "model.identification")});
+        inline(env, morph1, context, "input", [], {"class": "password", "type": "password", "placeholder": "Password", "name": "password", "value": get(env, context, "model.password")});
         attribute(env, attrMorph0, element1, "disabled", get(env, context, "submitting"));
         element(env, element1, context, "action", ["validateAndAuthenticate"], {});
         element(env, element2, context, "action", ["forgotten"], {});
@@ -21169,13 +21064,13 @@ define('ghost/templates/signup', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("h1");
-        var el6 = dom.createTextNode("欢迎使用 Ghost 博客系统");
+        var el6 = dom.createTextNode("Welcome to Ghost");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("h2");
-        var el6 = dom.createTextNode("创建账户并开始创作吧！");
+        var el6 = dom.createTextNode("Create your account to start publishing");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -21189,7 +21084,7 @@ define('ghost/templates/signup', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","email");
-        var el6 = dom.createTextNode("邮箱");
+        var el6 = dom.createTextNode("Email Address");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -21199,7 +21094,7 @@ define('ghost/templates/signup', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("用于接收重要通知");
+        var el6 = dom.createTextNode("Used for important notifications");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -21213,7 +21108,7 @@ define('ghost/templates/signup', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","name");
-        var el6 = dom.createTextNode("姓名");
+        var el6 = dom.createTextNode("Full Name");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -21223,7 +21118,7 @@ define('ghost/templates/signup', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("你所创作的博文都将署此姓名");
+        var el6 = dom.createTextNode("The name that you will sign your posts with");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -21237,7 +21132,7 @@ define('ghost/templates/signup', ['exports'], function (exports) {
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("label");
         dom.setAttribute(el5,"for","password");
-        var el6 = dom.createTextNode("密码");
+        var el6 = dom.createTextNode("Password");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n                ");
@@ -21247,7 +21142,7 @@ define('ghost/templates/signup', ['exports'], function (exports) {
         var el5 = dom.createTextNode("\n                ");
         dom.appendChild(el4, el5);
         var el5 = dom.createElement("p");
-        var el6 = dom.createTextNode("至少8个字符");
+        var el6 = dom.createTextNode("Must be at least 8 characters");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -21261,7 +21156,7 @@ define('ghost/templates/signup', ['exports'], function (exports) {
         var el5 = dom.createElement("button");
         dom.setAttribute(el5,"type","submit");
         dom.setAttribute(el5,"class","btn btn-green btn-lg");
-        var el6 = dom.createTextNode("创建账户");
+        var el6 = dom.createTextNode("Create Account");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n            ");
@@ -22758,7 +22653,12 @@ define('ghost/utils/config-parser', ['exports'], function (exports) {
         } else if (isNumeric(val)) {
             return +val;
         } else if (val.indexOf("{") === 0) {
-            return JSON.parse(val);
+            try {
+                return JSON.parse(val);
+            } catch (e) {
+                /*jshint unused:false */
+                return val;
+            }
         } else {
             return val;
         }
@@ -22803,7 +22703,7 @@ define('ghost/utils/date-formatting', ['exports'], function (exports) {
 
     parseDateFormats = ["DD MMM YY @ HH:mm", "DD MMM YY HH:mm", "D MMM YY @ HH:mm", "D MMM YY HH:mm", "DD MMM YYYY @ HH:mm", "DD MMM YYYY HH:mm", "D MMM YYYY @ HH:mm", "D MMM YYYY HH:mm", "DD/MM/YY @ HH:mm", "DD/MM/YY HH:mm", "DD/MM/YYYY @ HH:mm", "DD/MM/YYYY HH:mm", "DD-MM-YY @ HH:mm", "DD-MM-YY HH:mm", "DD-MM-YYYY @ HH:mm", "DD-MM-YYYY HH:mm", "YYYY-MM-DD @ HH:mm", "YYYY-MM-DD HH:mm", "DD MMM @ HH:mm", "DD MMM HH:mm", "D MMM @ HH:mm", "D MMM HH:mm"];
 
-    displayDateFormat = "YYYY-MM-DD @ HH:mm";
+    displayDateFormat = "DD MMM YY @ HH:mm";
 
     // Add missing timestamps
     verifyTimeStamp = function (dateString) {
@@ -23405,7 +23305,7 @@ define('ghost/utils/word-count', ['exports'], function (exports) {
         s = s.replace(/\n+/gi, " ");
         s = s.replace(/[ ]{2,}/gi, " "); // convert 2 or more spaces to 1
 
-        return s.length;
+        return s.split(" ").length;
     }
 
     exports['default'] = wordCount;
@@ -23422,7 +23322,7 @@ define('ghost/validators/forgotten', ['exports', 'ember'], function (exports, Em
 
             if (!validator.isEmail(data.email)) {
                 validationErrors.push({
-                    message: "邮箱地址无效"
+                    message: "Invalid email address"
                 });
             }
 
@@ -23444,19 +23344,19 @@ define('ghost/validators/new-user', ['exports', 'ember'], function (exports, Emb
 
             if (!validator.isLength(data.name, 1)) {
                 validationErrors.push({
-                    message: "请输入姓名。"
+                    message: "Please enter a name."
                 });
             }
 
             if (!validator.isEmail(data.email)) {
                 validationErrors.push({
-                    message: "邮箱地址无效。"
+                    message: "Invalid Email."
                 });
             }
 
             if (!validator.isLength(data.password, 8)) {
                 validationErrors.push({
-                    message: "密码至少8个字符。"
+                    message: "Password must be at least 8 characters long."
                 });
             }
 
@@ -23478,19 +23378,19 @@ define('ghost/validators/post', ['exports', 'ember'], function (exports, Ember) 
 
             if (validator.empty(data.title)) {
                 validationErrors.push({
-                    message: "必须为博文输入标题。"
+                    message: "You must specify a title for the post."
                 });
             }
 
             if (!validator.isLength(data.meta_title, 0, 150)) {
                 validationErrors.push({
-                    message: "优化标题不能超过150个字符。"
+                    message: "Meta Title cannot be longer than 150 characters."
                 });
             }
 
             if (!validator.isLength(data.meta_description, 0, 200)) {
                 validationErrors.push({
-                    message: "优化页面描述不能超过200个字符。"
+                    message: "Meta Description cannot be longer than 200 characters."
                 });
             }
 
@@ -23513,13 +23413,13 @@ define('ghost/validators/reset', ['exports', 'ember'], function (exports, Ember)
 
             if (!validator.equals(p1, p2)) {
                 validationErrors.push({
-                    message: "两次输入的密码不匹配。"
+                    message: "The two new passwords don't match."
                 });
             }
 
             if (!validator.isLength(p1, 8)) {
                 validationErrors.push({
-                    message: "密码太短。"
+                    message: "The password is not long enough."
                 });
             }
             return validationErrors;
@@ -23544,31 +23444,31 @@ define('ghost/validators/setting', ['exports', 'ember'], function (exports, Embe
                 password = model.get("password");
 
             if (!validator.isLength(title, 0, 150)) {
-                validationErrors.push({ message: "标题太长" });
+                validationErrors.push({ message: "Title is too long" });
             }
 
             if (!validator.isLength(description, 0, 200)) {
-                validationErrors.push({ message: "描述信息太长" });
+                validationErrors.push({ message: "Description is too long" });
             }
 
             if (!validator.isEmail(email) || !validator.isLength(email, 0, 254)) {
-                validationErrors.push({ message: "请输入正确的邮箱地址" });
+                validationErrors.push({ message: "Supply a valid email address" });
             }
 
             if (isPrivate && password === "") {
-                validationErrors.push({ message: "必须填写密码" });
+                validationErrors.push({ message: "Password must be supplied" });
             }
 
             if (postsPerPage > 1000) {
-                validationErrors.push({ message: "每页最多展示博文数量是 1000" });
+                validationErrors.push({ message: "The maximum number of posts per page is 1000" });
             }
 
             if (postsPerPage < 1) {
-                validationErrors.push({ message: "每页最少展示博文数量是 1" });
+                validationErrors.push({ message: "The minimum number of posts per page is 1" });
             }
 
             if (!validator.isInt(postsPerPage)) {
-                validationErrors.push({ message: "请为每页展示的博文数量输入一个数字" });
+                validationErrors.push({ message: "Posts per page must be a number" });
             }
 
             return validationErrors;
@@ -23589,7 +23489,7 @@ define('ghost/validators/setup', ['exports', 'ghost/validators/new-user'], funct
 
             if (!validator.isLength(data.blogTitle, 1)) {
                 validationErrors.push({
-                    message: "请输入博客名称。"
+                    message: "Please enter a blog title."
                 });
             }
 
@@ -23610,11 +23510,11 @@ define('ghost/validators/signin', ['exports', 'ember'], function (exports, Ember
                 validationErrors = [];
 
             if (!validator.isEmail(data.identification)) {
-                validationErrors.push("邮箱地址无效");
+                validationErrors.push("Invalid Email");
             }
 
             if (!validator.isLength(data.password || "", 1)) {
-                validationErrors.push("请输入密码");
+                validationErrors.push("Please enter a password");
             }
 
             return validationErrors;
@@ -23642,19 +23542,19 @@ define('ghost/validators/tag-settings', ['exports', 'ember'], function (exports,
 
             if (validator.empty(data.name)) {
                 validationErrors.push({
-                    message: "未设置标签名。"
+                    message: "You must specify a name for the tag."
                 });
             }
 
             if (!validator.isLength(data.meta_title, 0, 150)) {
                 validationErrors.push({
-                    message: "优化标题不能超过 150 个字符。"
+                    message: "Meta Title cannot be longer than 150 characters."
                 });
             }
 
             if (!validator.isLength(data.meta_description, 0, 200)) {
                 validationErrors.push({
-                    message: "优化描述不能超过 200 个字符。"
+                    message: "Meta Description cannot be longer than 200 characters."
                 });
             }
 
@@ -23687,11 +23587,11 @@ define('ghost/validators/user', ['exports', 'ember'], function (exports, Ember) 
                     roles = model.get("roles");
 
                 if (!validator.isEmail(email)) {
-                    validationErrors.push({ message: "请输入有效的邮箱地址" });
+                    validationErrors.push({ message: "Please supply a valid email address" });
                 }
 
                 if (roles.length < 1) {
-                    validationErrors.push({ message: "请为用户选择角色/权限" });
+                    validationErrors.push({ message: "Please select a role" });
                 }
 
                 return validationErrors;
@@ -23706,23 +23606,23 @@ define('ghost/validators/user', ['exports', 'ember'], function (exports, Ember) 
                     website = model.get("website");
 
                 if (!validator.isLength(name, 0, 150)) {
-                    validationErrors.push({ message: "姓名太长" });
+                    validationErrors.push({ message: "Name is too long" });
                 }
 
                 if (!validator.isLength(bio, 0, 200)) {
-                    validationErrors.push({ message: "个人简介太长" });
+                    validationErrors.push({ message: "Bio is too long" });
                 }
 
                 if (!validator.isEmail(email)) {
-                    validationErrors.push({ message: "请输入有效的邮箱地址" });
+                    validationErrors.push({ message: "Please supply a valid email address" });
                 }
 
                 if (!validator.isLength(location, 0, 150)) {
-                    validationErrors.push({ message: "所在地太长" });
+                    validationErrors.push({ message: "Location is too long" });
                 }
 
                 if (!Ember['default'].isEmpty(website) && (!validator.isURL(website, { require_protocol: false }) || !validator.isLength(website, 0, 2000))) {
-                    validationErrors.push({ message: "个人网站不是有效的网址" });
+                    validationErrors.push({ message: "Website is not a valid url" });
                 }
 
                 return validationErrors;
@@ -23855,15 +23755,15 @@ define('ghost/views/editor-save-button', ['exports', 'ember'], function (exports
         }),
 
         publishText: Ember['default'].computed("controller.model.isPublished", "controller.postOrPage", function () {
-            return this.get("controller.model.isPublished") ? "更新" + this.get("controller.postOrPage") : "立即发布";
+            return this.get("controller.model.isPublished") ? "Update " + this.get("controller.postOrPage") : "Publish Now";
         }),
 
         draftText: Ember['default'].computed("controller.model.isPublished", function () {
-            return this.get("controller.model.isPublished") ? "撤销发布" : "保存草稿";
+            return this.get("controller.model.isPublished") ? "Unpublish" : "Save Draft";
         }),
 
         deleteText: Ember['default'].computed("controller.postOrPage", function () {
-            return "删除" + this.get("controller.postOrPage");
+            return "Delete " + this.get("controller.postOrPage");
         }),
 
         saveText: Ember['default'].computed("controller.willPublish", "publishText", "draftText", function () {
@@ -24493,7 +24393,7 @@ catch(err) {
 if (runningTests) {
   require("ghost/tests/test-helper");
 } else {
-  require("ghost/app")["default"].create({"LOG_ACTIVE_GENERATION":true,"LOG_TRANSITIONS":true,"LOG_TRANSITIONS_INTERNAL":true,"LOG_VIEW_LOOKUPS":true,"name":"ghost","version":"0.0.0.aa8275eb"});
+  require("ghost/app")["default"].create({"LOG_ACTIVE_GENERATION":true,"LOG_TRANSITIONS":true,"LOG_TRANSITIONS_INTERNAL":true,"LOG_VIEW_LOOKUPS":true,"name":"ghost","version":"0.6.4"});
 }
 
 /* jshint ignore:end */

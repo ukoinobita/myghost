@@ -1051,7 +1051,7 @@ button {
         .floatingheader .button.button-back {
           display: inline-block; } }
   .floatingheader small {
-    font-size: 12px; }
+    font-size: 0.85em; }
   .floatingheader a, .floatingheader button {
     color: #aaa9a2; }
     .floatingheader a:hover, .floatingheader button:hover {
@@ -1282,7 +1282,7 @@ textarea {
   display: inline-block;
   margin-bottom: 0;
   padding: 9px 14px;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   line-height: 1.428571429;
   font-weight: 300;
   text-align: center;
@@ -1448,7 +1448,7 @@ textarea {
 
 .btn-sm {
   padding: 7px 10px;
-  font-size: 1.2rem;
+  font-size: 1rem;
   line-height: 1.5;
   border-radius: 2px; }
 
@@ -1605,7 +1605,7 @@ table, .table {
     line-height: 1.375; }
   .nav-list-item span {
     display: block;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #7d878a;
     line-height: 1.375; }
 
@@ -1637,6 +1637,7 @@ table, .table {
   float: left;
   height: 60px;
   padding-right: 10px;
+  font-size: 1.1rem;
   letter-spacing: 1px;
   font-weight: 200;
   line-height: 1.1em; }
@@ -3762,8 +3763,7 @@ body.settings-menu-expanded .content-cover {
   .post-preview-header .post-published-by {
     float: left;
     margin-top: 7px;
-    margin-left: 3px;
-    font-size: 1.3rem; } }
+    margin-left: 3px; } }
 
 .no-posts-box {
   position: relative;
@@ -4872,7 +4872,7 @@ a.user-list-item {
   display: inline-block;
   padding: 6px 8px;
   color: rgba(0, 0, 0, 0.5);
-  font-size: 12px;
+  font-size: 9px;
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -5140,7 +5140,7 @@ a.user-list-item {
   .about-help .btn, .about-help .modal-footer .reject-button-class, .modal-footer .about-help .reject-button-class {
     width: 100%;
     display: block;
-    font-size: 1.3rem;
+    font-size: 1rem;
     padding-top: 9px;
     padding-bottom: 9px;
     min-height: 32px;
@@ -5232,7 +5232,7 @@ a.user-list-item {
   max-width: 620px; }
 
 .about-get-involved {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   width: 100%;
   display: inline-block;
   max-width: 290px;

@@ -39,7 +39,6 @@ coreHelpers.title = require('./title');
 coreHelpers.url = require('./url');
 coreHelpers.tag_cloud = require('./tag_cloud');
 coreHelpers.disqus = require('./disqus');
-
 // Specialist helpers for certain templates
 coreHelpers.input_password = require('./input_password');
 coreHelpers.page_url = require('./page_url');

@@ -26,14 +26,14 @@ var express     = require('express'),
 
 function doFirstRun() {
     var firstRunMessage = [
-        '欢迎使用 Ghost 博客系统。',
-        '当前博客的运行环境为 <strong>',
+        'Welcome to Ghost.',
+        'You\'re running under the <strong>',
         process.env.NODE_ENV,
-        '</strong>。',
+        '</strong>environment.',
 
-        '博客网址被设置为',
+        'Your URL is set to',
         '<strong>' + config.url + '</strong>.',
-        '详情请参考 <a href="http://www.ghostchina.com/" target="_blank">Ghost中文文档</a>。'
+        'See <a href="http://support.ghost.org/" target="_blank">http://support.ghost.org</a> for instructions.'
     ];
 
     return api.notifications.add({notifications: [{
@@ -116,9 +116,9 @@ function initNotifications() {
         api.notifications.add({notifications: [{
             type: 'info',
             message: [
-                'Ghost 将尝试直接发送邮件。',
-                '建议为 Ghost 系统设置一个邮件服务。',
-                '请参考 <a href=\'http://www.ghostchina.com/mail-configuration-on-self-hosted-version-of-ghost/\' target=\'_blank\'>Ghost 邮件系统设置详解</a> 了解更多信息'
+                'Ghost is attempting to use a direct method to send e-mail.',
+                'It is recommended that you explicitly configure an e-mail service.',
+                'See <a href=\'http://support.ghost.org/mail\' target=\'_blank\'>http://support.ghost.org/mail</a> for instructions'
             ].join(' ')
         }]}, {context: {internal: true}});
     }
@@ -126,8 +126,8 @@ function initNotifications() {
         api.notifications.add({notifications: [{
             type: 'warn',
             message: [
-                'Ghost 目前无法发送邮件。',
-                '请参考 <a href=\'http://www.ghostchina.com/mail-configuration-on-self-hosted-version-of-ghost/\' target=\'_blank\'>Ghost 邮件系统设置详解</a> 了解更多信息'
+                'Ghost is currently unable to send e-mail.',
+                'See <a href=\'http://support.ghost.org/mail\' target=\'_blank\'>http://support.ghost.org/mail</a> for instructions'
             ].join(' ')
         }]}, {context: {internal: true}});
     }
