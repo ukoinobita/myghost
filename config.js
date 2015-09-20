@@ -11,7 +11,17 @@ config = {
     // Configure your URL and mail settings here
     production: {
         url: process.env.GHOST_ROOT_URL,
-        mail: {},
+        mail: {
+            transport:'SMTP',
+            options:{
+                service:'Gmail',
+                auth:{
+                    user:process.env.MAIL,
+                    pass:process.env.PASSWORD
+                }
+            }
+            
+        },
         database: {
             client: 'mysql',
             connection: {
@@ -31,9 +41,6 @@ config = {
             port: '2368'
         },
        
-        privacy: {
-            useGoogleFonts: false
-        },
         
 //        fileStorage: false
         storage: {
@@ -43,8 +50,7 @@ config = {
             SECRET_KEY: process.env.QINIU_SK,
             root: '/images/',
             prefix: process.env.QINIU_PREFIX
-        },
-        disqus:process.env.DISQUS_SHORTNAME
+        }
     },
 
     // ### Development **(default)**
