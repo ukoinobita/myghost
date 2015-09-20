@@ -1,0 +1,80 @@
+{{!< default}}
+
+{{! This is a page template. A page outputs content just like any other post, and has all the same
+    attributes by default, but you can also customise it to behave differently if you prefer. }}
+
+
+<h2>Subjects</h2>
+
+<section class="subjects">
+    <div class="subjects-after"></div>
+    <div class="subjects-before" style="visibility:hidden" >
+    {{#foreach posts}}
+            {{#has tag="subject" }}
+               
+ 
+                <div class="subject-item">
+                    <i class="fa fa-caret-right"></i><a class="item-title" href="{{url}}">{{{title}}}</a>
+                    <section id="post-time" class="post-meta">
+                        <span class="post-time">
+                            <i class='fa fa-calendar'></i>
+                            <time datetime="{{date format="YYYY-MM-DD"}}" class="timeago">{{date timeago="true"}}</time>
+                            <time datetime="{{date format="YYYY-MM-DD"}}" class="fulldate">{{date format="MMMM Do, YYYY"}}</time>
+                        </span>
+                    </section><br/>
+                    <section id="post-tags" class="post-meta" >
+                        <span id="tags">
+                        {{#foreach tags}}
+                            <span class="tag">
+                                <a href="{{url}}">
+                                <i class='fa fa-tag'></i>
+                                <span id="tag-name">{{name}}</span>
+                                 <span id="tag-id" style="visibility:hidden">{{id}}</span>
+                                </a>
+                            </span> 
+                        {{/foreach}}
+                        </span>
+                    </section>
+                   <hr/> 
+                 </div>
+             {{/has}}
+    {{/foreach}} 
+    </div>
+</section>
+
+
+
+<script>
+    $(document).ready(function(){
+        var pattern = new RegExp(/^\[.*\]/);
+        $(".subjects-before").find(".subject-item").each(function(i,item){
+            $(item).find(".tag").each(function(i,tagItem){
+                var id = $($(tagItem).find("#tag-id").get(0)).html();
+                var tagNameItem = $(tagItem).find("#tag-name").get(0);
+                var tagName = $(tagNameItem).html();
+                
+                if(pattern.test(tagName)){
+                    var found = 0;
+                    $(".subjects-after").find(".subject-collect").each(function(i,sItem){
+                        if(found==1)return;
+                        var subjectId = $($(sItem).find("#tag-id").get(0)).html();
+                        if(subjectId == id){
+                            $(sItem).append(item);
+                            found=1;
+                        }
+                    });
+                    if(found==0){
+                        var collect = $('<div class="subject-collect"></div>');
+                        $(collect).append($('<i id="collect-icon" class="fa fa-book fa-2x"></i>'))
+                        $(collect).append($('<span id="tag-id" style="visibility:hidden">'+id+'</span>'))
+                        $(collect).append($('<a class="collect-name" href="'+$(tagNameItem).attr("href")+'"><h3>'+tagName+'</h3></a>'));
+                        $(collect).append(item);
+                        $(".subjects-after").append(collect);
+                    };
+                };
+            });
+        });
+    });
+</script>
+
+

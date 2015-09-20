@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {{! Document Settings }}
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    {{! Page Meta }}
+    <title>{{meta_title}}</title>
+    <meta name="description" content="{{meta_description}}" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://7xlv0v.com1.z0.glb.clouddn.com/images/favicon.png">
+
+    {{! Styles'n'Scripts }}
+    <link rel="stylesheet" type="text/css" href="{{asset "css/screen.css"}}" />
+<link href='http://fonts.useso.com/css?family=Open+Sans:400,700&subset=latin,latin-ext' rel='stylesheet'>
+    {{! Ghost outputs important style and meta data with this tag }}
+    {{ghost_head}}
+<link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/highlight.js/8.0/styles/solarized_dark.min.css" rel="stylesheet">
+
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <!--{{> baidu-analytics}}-->
+</head>
+
+<body class="{{body_class}}">
+
+    <div id="sidebar" {{#if @blog.cover}}style="background-image: url({{@blog.cover}})"{{/if}}>
+        <div id="sidebar-content" class="inner">
+            {{#if @blog.logo}}<a class="blog-logo" href="{{@blog.url}}"><img src="{{@blog.logo}}" alt="Blog Logo" /></a>{{/if}}
+            <h2 class="blog-title"><a href="{{@blog.url}}">{{@blog.title}}</a></h2>
+            <h3 class="blog-description">{{@blog.description}}</h3>
+        
+            <!--
+            <form id="search">
+                <input id="search-field" placeholder="Search"/>
+                <input type="submit" value="search">
+            </form>
+-->
+           
+            <a id="sidebar-rss" class="fa fa-rss-square fa-2x" href="{{@blog.url}}/rss/" title = "Subscribe via RSS" ></a>
+            <div id="sidebar-links">
+                
+                <!--<ul id="sidebar-internal">-->
+                    <!-- For 'About' and other pages -->
+                <!--
+                    {{#foreach navigation}}
+                    <li class="internal-link"><a href="{{url absolute="true"}}">{{label}}</a></li>
+                {{/foreach}}
+                </ul>
+-->
+                {{navigation}}
+                <ul id="sidebar-external">
+                    {{> sidebar-external}}
+                </ul>
+                <!--
+                <ul id="subscription-links">
+                    <li><a target="_blank" href="{{@blog.url}}/rss/"><i class="fa fa-rss"></i> Subscribe via RSS</a></li>
+                </ul>
+                -->
+               
+            
+            </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <main>
+        <div class="main-inner">
+            <section id="results"></section>
+            {{{body}}}
+        </div>
+        
+        <hr/>     
+        
+        <footer class="site-footer">
+            <section class="copyright">{{> copyright}}</section>
+            <section class="poweredby">Proudly published with <a class="icon-ghost" href="https://ghost.org">Ghost</a></section>
+            <section class="theme-credits"><a href="https://github.com/dlecina/StayPuft">StayPuft theme</a> by David Lecina</section>
+        </footer>
+
+    </main>
+    
+    <div id="back-to-top"><a href = "#top" title="Top" class="fa fa-arrow-circle-up fa-3x"></a></div>
+
+    {{! Ghost outputs important scripts and data with this tag }}
+    {{ghost_foot}}
+    <script src="http://cdn.bootcss.com/fitvids/1.1.0/jquery.fitvids.js"></script>
+    <script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+      <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!--<script src="{{asset "js/jquery.ghostHunter.min.js"}}"></script>
+   -->
+
+    <script type="text/javascript" src="{{asset "js/index.js"}}"></script>
+  </body>
+
+</html>
