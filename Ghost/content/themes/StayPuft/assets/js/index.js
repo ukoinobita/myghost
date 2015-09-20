@@ -97,7 +97,7 @@
     };
 })(jQuery, 'smartresize');
 
-
+/*
         hljs.tabReplace = '    ';// TAB键显示 4个空格
         hljs.initHighlightingOnLoad();
     
@@ -105,16 +105,7 @@
         MathJax.Hub.Config({  
             tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
      });
-  /*
-        $("#search-field").ghostHunter({
-            rss : "{{@blog.url}}/rss/",
-            results : "#results",
-            onKeyUp : true,
-            zeroResultsInfo : false
-     
-       });
-       */
-        //在文章中查找title并填充到div anchor-content中
+         //在文章中查找title并填充到div anchor-content中
         $(document).ready(function(){
             $(".post-content").find("h2,h3,h4,h5,h6").each(function(i,item){
                 var tag = $(item).get(0).localName;
@@ -160,4 +151,4 @@
             });
             
         });
-
+*/
